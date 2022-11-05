@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "rootDir": "./scripts",
+        "outDir": "./dist",
+        "target": "es2016",
+        "module": "ES2015",
+        "moduleResolution": "node",
+        "lib": [
+            "es6",
+            "dom",
+            "es2016"
+        ]
+    }
+}
