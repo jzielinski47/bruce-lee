@@ -1,15 +1,5 @@
-export interface SpritePositionIndex {
-    x: number;
-    y: number;
-}
-
-export interface SpriteDimensions2D {
-    width: number
-    height: number
-}
-
-export interface SceneInspector {
-    position: SpritePositionIndex;
-    dimensions: SpriteDimensions2D;
-    imageSrc?: string
+export interface Transform {
+    position: { x: number, y: number };
+    velocity?: { x: number, y: number };
+    scale: { width: number, height: number };
 }
