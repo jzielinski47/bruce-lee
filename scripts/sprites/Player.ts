@@ -28,6 +28,7 @@ export class Player {
 
     update() {
         this.render()
+
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
 
@@ -39,11 +40,13 @@ export class Player {
 
         // Left Collider {}
         if (this.position.x + this.velocity.x <= scenes[currentScene].left) {
+            console.log('left')
             this.velocity.x = 0;
         }
 
         // Right Collider {}
-        if (this.position.x + this.velocity.x >= scenes[currentScene].right) {
+        if (this.position.x + this.scale.width + this.velocity.x >= canvas.width + scenes[currentScene].right) {
+            console.log('right')
             this.velocity.x = 0;
         }
 
