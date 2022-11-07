@@ -1,9 +1,12 @@
 import { scenes } from "./scenes.js";
+import { sprites } from "./sprites.js";
 import { Player } from "./sprites/Player.js";
 import { Scene } from "./sprites/Scene.js";
 
 export const canvas: HTMLCanvasElement = document.querySelector('#canvas');
 export const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+
+export let currentScene: number = 0
 
 canvas.width = 320
 canvas.height = 190
@@ -18,19 +21,18 @@ const player = new Player({
     position: { x: 30, y: 0 },
     velocity: { x: 0, y: 0 },
     scale: { width: 16, height: 22 }
-}, { texture: './assets/sprites/bruce-lee.png' },)
+}, sprites.brucelee)
 
 const scene = new Scene({
     position: { x: 0, y: 0 },
     scale: { width: canvas.width, height: canvas.height }
-}, scenes[0])
+})
 
 
 function update() {
 
     window.requestAnimationFrame(update)
     scene.update() // Background update
-
 
     // Player Update actions
     player.update()

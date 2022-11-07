@@ -1,4 +1,4 @@
-import { ctx, canvas, gravityScale } from "../main.js";
+import { ctx, canvas, gravityScale, currentScene } from "../main.js";
 import { SceneInterface, SpriteInterface, Transform } from "../types/types";
 import { Scene } from "./Scene.js";
 
@@ -38,5 +38,6 @@ export class Player {
             this.velocity.y += this.gravity;
         }
 
+        console.log(currentScene)
     }
 }

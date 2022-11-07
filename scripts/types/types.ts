@@ -12,3 +12,8 @@ export interface SceneInterface {
     id: number;
     texture: string;
 }
+
+export interface Sprites {
+    brucelee: SpriteInterface;
+    
+}
