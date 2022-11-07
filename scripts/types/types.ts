@@ -11,9 +11,13 @@ export interface SpriteInterface {
 export interface SceneInterface {
     id: number;
     texture: string;
+    surface: number;
+
+    left?: number;
+    right?: number;
 }
 
 export interface Sprites {
     brucelee: SpriteInterface;
-    
+
 }

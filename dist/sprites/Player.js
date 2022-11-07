@@ -1,4 +1,5 @@
 import { ctx, canvas, gravityScale, currentScene } from "../main.js";
+import { scenes } from "../scenes.js";
 export class Player {
     constructor(transform, sprite) {
         this.scale = transform.scale;
@@ -9,20 +10,25 @@ export class Player {
         this.sprite.src = sprite.texture;
     }
     render() {
-        // ctx.fillStyle = 'blue'
-        // ctx.fillRect(this.position.x, this.position.y, this.scale.width, this.scale.height)
         ctx.drawImage(this.sprite, this.position.x, this.position.y, this.scale.width, this.scale.height);
     }
     update() {
         this.render();
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
-        if (this.position.y + this.scale.height + this.velocity.y >= canvas.height - 10) {
+        if (this.position.y + this.scale.height + this.velocity.y >= canvas.height - scenes[currentScene].surface) {
             this.velocity.y = 0;
         }
         else {
             this.velocity.y += this.gravity;
         }
-        console.log(currentScene);
+        // Left Collider {}
+        if (this.position.x + this.velocity.x <= scenes[currentScene].left) {
+            this.velocity.x = 0;
+        }
+        // Right Collider {}
+        if (this.position.x + this.velocity.x >= scenes[currentScene].right) {
+            this.velocity.x = 0;
+        }
     }
 }
