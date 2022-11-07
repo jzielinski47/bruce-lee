@@ -9,9 +9,6 @@ export interface SpriteInterface {
 }
 
 export interface SceneInterface {
-    background: string;
-    surfaceHeight: number;
-
-    borderLeft?: number;
-    borderRight?: number;
+    id: number;
+    texture: string;
 }

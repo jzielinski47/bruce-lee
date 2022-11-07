@@ -1,3 +1,4 @@
+import { scenes } from "./scenes.js";
 import { Player } from "./sprites/Player.js";
 import { Scene } from "./sprites/Scene.js";
 export const canvas = document.querySelector('#canvas');
@@ -16,7 +17,7 @@ const player = new Player({
 const scene = new Scene({
     position: { x: 0, y: 0 },
     scale: { width: canvas.width, height: canvas.height }
-}, './assets/map/levels/map_level_1.png');
+}, scenes[0]);
 function update() {
     window.requestAnimationFrame(update);
     scene.update(); // Background update
