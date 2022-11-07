@@ -12,7 +12,7 @@ const player = new Player({
     position: { x: 30, y: 0 },
     velocity: { x: 0, y: 0 },
     scale: { width: 16, height: 22 }
-}, './assets/sprites/bruce-lee.png');
+}, { texture: './assets/sprites/bruce-lee.png' });
 const scene = new Scene({
     position: { x: 0, y: 0 },
     scale: { width: canvas.width, height: canvas.height }

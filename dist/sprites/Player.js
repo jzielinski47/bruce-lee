@@ -6,7 +6,7 @@ export class Player {
         this.velocity = transform.velocity;
         this.gravity = gravityScale;
         this.sprite = new Image();
-        this.sprite.src = sprite;
+        this.sprite.src = sprite.texture;
     }
     render() {
         // ctx.fillStyle = 'blue'

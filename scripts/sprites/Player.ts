@@ -1,5 +1,6 @@
 import { ctx, canvas, gravityScale } from "../main.js";
-import { Transform } from "../types/types";
+import { SceneInterface, SpriteInterface, Transform } from "../types/types";
+import { Scene } from "./Scene.js";
 
 export class Player {
 
@@ -9,7 +10,7 @@ export class Player {
     sprite: HTMLImageElement;
     gravity: number;
 
-    constructor(transform: Transform, sprite: string) {
+    constructor(transform: Transform, sprite: SpriteInterface) {
         this.scale = transform.scale;
         this.position = transform.position;
         this.velocity = transform.velocity;
@@ -17,7 +18,7 @@ export class Player {
         this.gravity = gravityScale;
 
         this.sprite = new Image()
-        this.sprite.src = sprite
+        this.sprite.src = sprite.texture;
     }
 
     render() {
@@ -36,5 +37,6 @@ export class Player {
         } else {
             this.velocity.y += this.gravity;
         }
+
     }
 }
