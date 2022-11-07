@@ -1,4 +1,4 @@
-import { canvas } from "./main";
+import { canvas } from "./main.js";
 import { SceneInterface } from "./types/types";
 
 export const scenes: SceneInterface[] = [

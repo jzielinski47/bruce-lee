@@ -1,3 +1,4 @@
+import { scenes } from "./scenes.js";
 import { sprites } from "./sprites.js";
 import { Player } from "./sprites/Player.js";
 import { Scene } from "./sprites/Scene.js";
@@ -25,7 +26,7 @@ const player = new Player({
 const scene = new Scene({
     position: { x: 0, y: 0 },
     scale: { width: canvas.width, height: canvas.height }
-})
+}, scenes[currentScene])
 
 function update() {
 
