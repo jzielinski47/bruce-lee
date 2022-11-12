@@ -1,17 +1,20 @@
-import { SceneInterface, Transform } from "../types/types"
-import { ctx, canvas, currentScene } from "../main.js";
+import { ctx } from "../setup";
+import { Material, Setup, Transform } from "../types/types";
 
 export class Scene {
 
     position: { x: number; y: number }
     scale: { width: number; height: number }
     image: HTMLImageElement
+    texture: string;
 
-    constructor(transform: Transform, scene: SceneInterface) {
+    constructor(transform: Transform, material: Material) {
         this.position = transform.position
         this.scale = transform.scale
         this.image = new Image()
-        this.image.src = scene.texture;
+        this.image.src = material.texture;
+
+        this.texture = material.texture
     }
 
     render() {
