@@ -1,4 +1,4 @@
-import { gravityScale } from "..";
+import { gravityScale, player } from "..";
 import { colliders } from "../scenes";
 import { canvas, ctx } from "../setup";
 import { Setup, SpriteInterface, Transform } from "../types/types";
@@ -39,6 +39,8 @@ export class Player implements SpriteInterface {
         this.applyGravity()
         this.verticalCollisionDetection()
 
+        console.log(player.velocity.y)
+
     }
 
     horizontalCollisionDetection = () => {
@@ -54,7 +56,7 @@ export class Player implements SpriteInterface {
                     this.position.x = collider.right + 0.01
                 }
 
-                console.log('col -h')
+                // console.log('col -h')
 
             }
         })
@@ -70,7 +72,7 @@ export class Player implements SpriteInterface {
             if (onCollison(this, collider)) {
                 if (this.velocity.y > 0) {
                     this.velocity.y = 0
-                    this.position.y = collider.top - this.scale.height - 0.2
+                    this.position.y = collider.top - this.scale.height - 0.1
                 }
 
                 if (this.velocity.y < 0) {
@@ -78,11 +80,11 @@ export class Player implements SpriteInterface {
                     this.position.y = collider.bottom + 0.01
                 }
 
-                console.log('col -v')
+                // console.log('col -v')
 
             }
         })
     }
 
-    jump = () => this.velocity.y = -2
+    jump = () => { if (this.velocity.y === 0) this.velocity.y = -this.jumpHeight }
 }
