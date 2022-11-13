@@ -41,7 +41,7 @@ export class Player implements SpriteInterface {
         this.applyGravity()
         this.verticalCollisionDetection()
 
-        console.log(player.velocity.y)
+        // console.log(player.velocity.y)
 
     }
 
