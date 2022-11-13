@@ -13,3 +13,4 @@ export const colliders = {
         { id: 8, left: canvas.width - 68, right: canvas.width, top: 82, bottom: 96 }
     ]
 }
+

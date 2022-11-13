@@ -1,5 +1,5 @@
 import { gravityScale } from "..";
-import { colliders } from "../colliders";
+import { colliders } from "../scenes";
 import { canvas, ctx } from "../setup";
 import { Setup, SpriteInterface, Transform } from "../types/types";
 import { onCollison } from "../utils";
