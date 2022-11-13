@@ -9,9 +9,11 @@ export class Player implements SpriteInterface {
     scale: { width: number; height: number; };
     position: { x: number; y: number; };
     velocity: { x: number; y: number; };
+
+    jumpHeight: number;
     gravity: number;
+
     sprite: HTMLImageElement;
-    sides: { bottom: number; };
 
     constructor(transform: Transform) {
         this.scale = transform.scale;
@@ -22,9 +24,7 @@ export class Player implements SpriteInterface {
         this.sprite = new Image()
         this.sprite.src = '../assets/sprites/brucelee/bruce-lee.png';
 
-        this.sides = {
-            bottom: this.position.y + this.scale.height
-        }
+        this.jumpHeight = 2.5
     }
 
     render = () => {
@@ -38,9 +38,6 @@ export class Player implements SpriteInterface {
         this.horizontalCollisionDetection()
         this.applyGravity()
         this.verticalCollisionDetection()
-
-        // if (this.velocity.x < 0) this.sprite.style.transform = 'scaleX(-1)';
-
 
     }
 
@@ -57,8 +54,8 @@ export class Player implements SpriteInterface {
                     this.position.x = collider.right + 0.01
                 }
 
-                console.log('col')
-                // if (this.velocity.x > 0) this.velocity.x = 0
+                console.log('col -h')
+
             }
         })
     }
@@ -81,9 +78,11 @@ export class Player implements SpriteInterface {
                     this.position.y = collider.bottom + 0.01
                 }
 
-                console.log('col')
-                // if (this.velocity.x > 0) this.velocity.x = 0
+                console.log('col -v')
+
             }
         })
     }
+
+    jump = () => this.velocity.y = -2
 }
