@@ -28,6 +28,8 @@ export class Player implements SpriteInterface {
     }
 
     render = () => {
+        // ctx.fillStyle = 'green'
+        // ctx.fillRect(this.position.x, this.position.y, this.scale.width, this.scale.height)
         ctx.drawImage(this.sprite, this.position.x, this.position.y, this.scale.width, this.scale.height)
     }
 
@@ -86,5 +88,5 @@ export class Player implements SpriteInterface {
         })
     }
 
-    jump = () => { if (this.velocity.y === 0) this.velocity.y = -this.jumpHeight }
+    jump = () => { if (this.velocity.y === 0 || this.velocity.y === this.gravity) this.velocity.y = -this.jumpHeight }
 }
