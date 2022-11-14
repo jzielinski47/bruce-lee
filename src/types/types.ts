@@ -18,3 +18,17 @@ export interface Setup {
 export interface Material {
     texture: string;
 }
+
+export interface Level {
+    id: number;
+    sprite: string;
+    colliders: Collider[];
+    lanterns: { id: number; x: number; y: number; taken: boolean; }[]
+}
+
+export interface Collider {
+    left: number;
+    right: number;
+    top: number;
+    bottom: number;
+}

@@ -1,10 +1,11 @@
 import { gravityScale, player } from "..";
-import { colliders } from "../scenes";
+import { levels } from "../scenes";
 import { canvas, ctx } from "../setup";
 import { Setup, SpriteInterface, Transform } from "../types/types";
 import { onCollison } from "../utils";
+import { Sprite } from "./Sprite";
 
-export class Player implements SpriteInterface {
+export class Player extends Sprite implements SpriteInterface {
 
     scale: { width: number; height: number; };
     position: { x: number; y: number; };
@@ -15,7 +16,8 @@ export class Player implements SpriteInterface {
 
     sprite: HTMLImageElement;
 
-    constructor(transform: Transform) {
+    constructor(transform: Transform, frameRate) {
+        super(transform, { texture: '../assets/sprites/brucelee/bruce-lee.png' }, frameRate)
         this.scale = transform.scale;
         this.position = transform.position;
         this.velocity = transform.velocity;
@@ -24,11 +26,7 @@ export class Player implements SpriteInterface {
         this.jumpHeight = 2.5
 
         this.sprite = new Image()
-        this.sprite.src = '../assets/sprites/brucelee/bruce-lee.png';
-    }
-
-    render = () => {
-        ctx.drawImage(this.sprite, this.position.x, this.position.y, this.scale.width, this.scale.height)
+        this.sprite.src = '../assets/sprites/brucelee/brucelee-anim.png';
     }
 
     update() {
@@ -42,7 +40,7 @@ export class Player implements SpriteInterface {
     }
 
     horizontalCollisionDetection = () => {
-        colliders.level0.map(collider => {
+        levels[0].colliders.map(collider => {
             if (onCollison(this, collider)) {
                 if (this.velocity.x > 0) {
                     this.velocity.x = 0
@@ -63,7 +61,7 @@ export class Player implements SpriteInterface {
     }
 
     verticalCollisionDetection = () => {
-        colliders.level0.map(collider => {
+        levels[0].colliders.map(collider => {
             if (onCollison(this, collider)) {
                 if (this.velocity.y > 0) {
                     this.velocity.y = 0

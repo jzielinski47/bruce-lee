@@ -9,9 +9,9 @@ canvas.height = settings.height
 const bar: HTMLDivElement = document.querySelector('#bar')
 bar.style.width = settings.width + 'px';
 
-const score = '026800'
+const score = '000000'
 const top = '000000'
-const falls = '01'
+const falls = '00'
 
 const data = ['1UP', score, 'TOP', top, 'FALLS', falls]
 data.map(el => {

@@ -1,16 +1,27 @@
 import { canvas } from "./setup";
 
-export const colliders = {
-    level0: [
-        { id: 0, left: 0, right: 8, top: canvas.height - 72, bottom: canvas.height },
-        { id: 1, left: canvas.width - 8, right: canvas.width, top: canvas.height - 46, bottom: canvas.height },
-        { id: 2, left: 0, right: canvas.width, top: canvas.height - 10, bottom: canvas.height },
-        { id: 3, left: 204, right: canvas.width, top: canvas.height - 60, bottom: canvas.height - 46 },
-        { id: 4, left: 0, right: 32, top: canvas.height - 76, bottom: canvas.height - 68 },
-        { id: 5, left: 0, right: 136, top: 86, bottom: 90 },
-        { id: 6, left: 176, right: 208, top: 86, bottom: 90 },
-        { id: 7, left: 10, right: 30, top: 58, bottom: 90 },
-        { id: 8, left: canvas.width - 68, right: canvas.width, top: 82, bottom: 96 }
-    ]
-}
+export const levels = [
+    {
+        id: 0, sprite: '../assets/map/level_0.png', colliders: [
+            { id: 0, left: 0, right: canvas.width, top: canvas.height - 6, bottom: canvas.height }, // floor on level 0
+            { id: 1, left: 0, right: 8, top: canvas.height - 68, bottom: canvas.height }, // left collider
+            { id: 2, left: 0, right: 32, top: canvas.height - 72, bottom: canvas.height - 64 }, // left platform (bottom)
+            { id: 3, left: canvas.width - 8, right: canvas.width, top: canvas.height - 52, bottom: canvas.height }, // right collider
+            { id: 4, left: canvas.width - 118, right: canvas.width, top: canvas.height - 56, bottom: canvas.height - 42 }, // right platform (bottom)
+            { id: 5, left: 0, right: 145, top: 76, bottom: 80 }, // top platform (left)
+            { id: 6, left: 168, right: 208, top: 76, bottom: 80 }, // top platform (middle)
+            { id: 7, left: canvas.width - 70, right: canvas.width, top: 72, bottom: 86 }, // top platform (right)
+            { id: 8, left: 10, right: 30, top: 48, bottom: 80 }, // (ten dziwny lampion duzy),
+            { id: 9, left: 0, right: canvas.width, top: 0, bottom: 0 }, // top 
+            { id: 9, left: 0, right: 0, top: 0, bottom: canvas.height }, // left 
+        ], lanterns: {
+            
+        }
+    }
+]
+
+
+
+
+
 

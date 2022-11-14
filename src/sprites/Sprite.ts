@@ -1,20 +1,24 @@
 import { ctx } from "../setup";
 import { Material, Setup, Transform } from "../types/types";
 
-export class Scene {
+export class Sprite {
 
     position: { x: number; y: number }
     scale: { width: number; height: number }
     image: HTMLImageElement
-    texture: string;
+    frameRate: number;
 
-    constructor(transform: Transform, material: Material) {
+    constructor(transform: Transform, material: Material, frameRate: number = 1) {
         this.position = transform.position
         this.scale = transform.scale
-        this.image = new Image()
-        this.image.src = material.texture;
 
-        this.texture = material.texture
+        this.image = new Image()
+        this.image.onload = () => {
+            this.scale.width = this.image.width
+            this.scale.height = this.image.height
+        }
+
+        this.image.src = material.texture;
     }
 
     render() {
