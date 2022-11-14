@@ -1,4 +1,10 @@
+@font-face {
+    font-family: 'atari';
+    src: url('./assets/fonts/PressStart2P.ttf');
+}
+
 * {
+    font-family: 'atari', sans-serif;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -14,10 +20,15 @@ body {
 
 body {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
 
+}
+
+.game {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 #canvas {
@@ -25,6 +36,16 @@ body {
 }
 
 #bar {
+    display: flex;
+    flex-direction: row;
     background-color: #d8d8d8;
-    height: 18px;
+
+    height: 12px;
+    font-size: 6px;
+    font-weight: 900;
+
+    gap: 10px;
+
+    justify-content: center;
+    align-items: center;
 }
