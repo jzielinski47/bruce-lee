@@ -1,6 +1,6 @@
 export interface Transform {
-    scale: { width: number; height: number; };
     position: { x: number; y: number; };
+    scale: { width: number; height: number; };
     velocity?: { x: number; y: number; };
 }
 

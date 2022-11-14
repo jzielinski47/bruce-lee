@@ -28,7 +28,7 @@ export class Sprite {
         this.currentFrame = 0
 
         this.elapsedFrames = 0
-        this.frameBuffer = 4
+        this.frameBuffer = 8
     }
 
     render() {

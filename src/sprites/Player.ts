@@ -17,7 +17,7 @@ export class Player extends Sprite implements SpriteInterface {
     sprite: HTMLImageElement;
 
     constructor(transform: Transform, frameRate) {
-        super(transform, { texture: '../assets/sprites/brucelee/brucelee-anim.png' }, frameRate)
+        super(transform, { texture: '../assets/sprites/brucelee/walk.png' }, frameRate)
         this.scale = transform.scale;
         this.position = transform.position;
         this.velocity = transform.velocity;
