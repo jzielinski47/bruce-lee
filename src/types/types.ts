@@ -32,3 +32,19 @@ export interface Collider {
     top: number;
     bottom: number;
 }
+
+export interface Anim {
+    frameRate: number;
+    frameBuffer: number;
+    loop: boolean;
+    imageSrc: string;
+}
+export interface Animations {
+    idle: Anim;
+    walkLeft: Anim;
+    walkRight: Anim;
+    jump?: Anim;
+    jumpLeft?: Anim;
+    jumpRight?: Anim;
+    climb?: Anim;
+}

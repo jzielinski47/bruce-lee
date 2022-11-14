@@ -1,5 +1,5 @@
 import { ctx } from "../setup";
-import { Material, Setup, Transform } from "../types/types";
+import { Animations, Material, Setup, Transform } from "../types/types";
 
 export class Sprite {
 
@@ -10,8 +10,9 @@ export class Sprite {
     currentFrame: number;
     elapsedFrames: number;
     frameBuffer: number;
+    animations: Animations;
 
-    constructor(transform: Transform, material: Material, frameRate: number = 1) {
+    constructor(transform: Transform, material: Material, frameRate: number = 1, animations: Animations) {
         this.position = transform.position
         this.scale = transform.scale
 
@@ -24,11 +25,20 @@ export class Sprite {
         this.image.src = material.texture;
 
         // animation
+        this.animations = animations
         this.frameRate = frameRate
         this.currentFrame = 0
-
         this.elapsedFrames = 0
         this.frameBuffer = 8
+
+        if (this.animations) {
+            for (let key in this.animations) {
+                const image = new Image()
+                image.src = this.animations[key].imageSrc
+                this.animations[key].image = image
+            }
+        }
+
     }
 
     render() {
@@ -38,8 +48,8 @@ export class Sprite {
         }
 
         ctx.drawImage(this.image, cropbox.position.x, cropbox.position.y, cropbox.width, cropbox.height, this.position.x, this.position.y, this.scale.width, this.scale.height)
-
         this.anim()
+
         // ctx.drawImage(this.image, this.position.x, this.position.y)
         // ctx.drawImage(this.image, this.position.x, this.position.y, this.scale.width, this.scale.height)
     }

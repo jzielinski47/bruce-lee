@@ -1,7 +1,7 @@
 import { gravityScale, player } from "..";
 import { levels } from "../scenes";
 import { canvas, ctx } from "../setup";
-import { Setup, SpriteInterface, Transform } from "../types/types";
+import { Anim, Animations, Setup, SpriteInterface, Transform } from "../types/types";
 import { onCollison } from "../utils";
 import { Sprite } from "./Sprite";
 
@@ -16,8 +16,8 @@ export class Player extends Sprite implements SpriteInterface {
 
     sprite: HTMLImageElement;
 
-    constructor(transform: Transform, frameRate) {
-        super(transform, { texture: '../assets/sprites/brucelee/walk.png' }, frameRate)
+    constructor(transform: Transform, animations: Animations) {
+        super(transform, { texture: '../assets/sprites/brucelee/idle.png' }, 1, animations)
         this.scale = transform.scale;
         this.position = transform.position;
         this.velocity = transform.velocity;
@@ -70,11 +70,24 @@ export class Player extends Sprite implements SpriteInterface {
 
                 if (this.velocity.y < 0) {
                     this.velocity.y = 0
-                    this.position.y = collider.bottom + 0.01
+                    this.position.y = collider.bottom + 0.1
                 }
             }
         })
     }
 
-    jump = () => { if (this.velocity.y === 0 || this.velocity.y === this.gravity) this.velocity.y = -this.jumpHeight }
+    jump = () => {
+        if (this.velocity.y === 0 || this.velocity.y === this.gravity) {
+            this.velocity.y = -this.jumpHeight
+        }
+
+    }
+
+    switchSprite = (sprite: string) => {
+        if (this.image === this.animations[sprite].image) return
+        this.currentFrame = 0
+        this.image = this.animations[sprite].image
+        this.frameRate = this.animations[sprite].frameRate
+        this.frameBuffer = this.animations[sprite].frameBuffer
+    }
 }
