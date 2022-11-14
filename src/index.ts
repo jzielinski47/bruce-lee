@@ -12,8 +12,8 @@ export let currentScene = 0
 export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0, y: 0 }, scale: { width: 15, height: 22 } },
     {
         idle: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/idle.png' },
-        walkLeft: { frameRate: 2, frameBuffer: 8, loop: true, imageSrc: '../assets/sprites/brucelee/walk.png' },
-        walkRight: { frameRate: 2, frameBuffer: 8, loop: true, imageSrc: '../assets/sprites/brucelee/walk.png' }
+        walkLeft: { frameRate: 2, frameBuffer: 8, loop: true, imageSrc: '../assets/sprites/brucelee/walkLeft.png' },
+        walkRight: { frameRate: 2, frameBuffer: 8, loop: true, imageSrc: '../assets/sprites/brucelee/walkRight.png' }
     })
 
 const scene = new Background({ position: { x: 0, y: 0 }, scale: { width: canvas.width, height: canvas.height } }, { texture: '../assets/map/level_0.png' })
@@ -27,7 +27,7 @@ function update() {
     // drawColliders()
     player.velocity.x = 0
     if (input.a.pressed && lastKey === 'a') { player.velocity.x = -velocity; player.switchSprite('walkLeft') }
-    else if (input.d.pressed && lastKey === 'd') player.velocity.x = velocity
+    else if (input.d.pressed && lastKey === 'd') { player.velocity.x = velocity; player.switchSprite('walkRight') }
 
 }
 
