@@ -14,11 +14,15 @@ export const levels = [
             { id: 8, left: 10, right: 30, top: 48, bottom: 80 }, // (ten dziwny lampion duzy),
             { id: 9, left: 0, right: canvas.width, top: 0, bottom: 0 }, // top 
             { id: 9, left: 0, right: 0, top: 0, bottom: canvas.height }, // left 
-        ], lanterns: {
+        ], lanterns: [
 
-        }
+        ], triggers: [
+            { id: 0, left: 144, right: canvas.width - 152, top: 80, bottom: canvas.height - 34, mode: 'ladder' } // drabina
+        ]
     }
 ]
+
+
 
 export const drawColliders = () => {
     levels[0].colliders.map(col => {
