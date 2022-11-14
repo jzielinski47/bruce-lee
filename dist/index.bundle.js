@@ -46,7 +46,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"canvas\": () => (/* binding */ canvas),\n/* harmony export */   \"ctx\": () => (/* binding */ ctx)\n/* harmony export */ });\nconst canvas = document.querySelector('#canvas');\r\nconst ctx = canvas.getContext('2d');\r\nconst settings = { width: 320, height: 190 };\r\ncanvas.width = settings.width;\r\ncanvas.height = settings.height;\r\nconst bar = document.querySelector('#bar');\r\nbar.style.width = settings.width + 'px';\r\n\n\n//# sourceURL=webpack://bruce-lee/./src/setup.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"canvas\": () => (/* binding */ canvas),\n/* harmony export */   \"ctx\": () => (/* binding */ ctx)\n/* harmony export */ });\nconst canvas = document.querySelector('#canvas');\r\nconst ctx = canvas.getContext('2d');\r\nconst settings = { width: 320, height: 176 };\r\ncanvas.width = settings.width;\r\ncanvas.height = settings.height;\r\nconst bar = document.querySelector('#bar');\r\nbar.style.width = settings.width + 'px';\r\n\n\n//# sourceURL=webpack://bruce-lee/./src/setup.ts?");
 
 /***/ }),
 

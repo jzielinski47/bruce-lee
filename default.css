@@ -14,8 +14,10 @@ body {
 
 body {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+
 }
 
 #canvas {
@@ -24,5 +26,5 @@ body {
 
 #bar {
     background-color: #d8d8d8;
-    height: 9px;
+    height: 18px;
 }
