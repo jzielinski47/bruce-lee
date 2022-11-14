@@ -21,15 +21,13 @@ export class Player implements SpriteInterface {
         this.velocity = transform.velocity;
 
         this.gravity = gravityScale;
+        this.jumpHeight = 2.5
+
         this.sprite = new Image()
         this.sprite.src = '../assets/sprites/brucelee/bruce-lee.png';
-
-        this.jumpHeight = 2.5
     }
 
     render = () => {
-        // ctx.fillStyle = 'green'
-        // ctx.fillRect(this.position.x, this.position.y, this.scale.width, this.scale.height)
         ctx.drawImage(this.sprite, this.position.x, this.position.y, this.scale.width, this.scale.height)
     }
 
@@ -40,8 +38,6 @@ export class Player implements SpriteInterface {
         this.horizontalCollisionDetection()
         this.applyGravity()
         this.verticalCollisionDetection()
-
-        // console.log(player.velocity.y)
 
     }
 
@@ -57,9 +53,6 @@ export class Player implements SpriteInterface {
                     this.velocity.x = 0
                     this.position.x = collider.right + 0.01
                 }
-
-                // console.log('col -h')
-
             }
         })
     }
@@ -81,9 +74,6 @@ export class Player implements SpriteInterface {
                     this.velocity.y = 0
                     this.position.y = collider.bottom + 0.01
                 }
-
-                // console.log('col -v')
-
             }
         })
     }

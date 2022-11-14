@@ -21,3 +21,8 @@ body {
 #canvas {
     /* height: 80%; */
 }
+
+#bar {
+    background-color: #d8d8d8;
+    height: 9px;
+}
