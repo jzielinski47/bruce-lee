@@ -8,8 +8,8 @@ export const levels = [
             { id: 2, left: 0, right: 32, top: canvas.height - 72, bottom: canvas.height - 64 }, // left platform (bottom)
             { id: 3, left: canvas.width - 8, right: canvas.width, top: canvas.height - 52, bottom: canvas.height }, // right collider
             { id: 4, left: canvas.width - 118, right: canvas.width, top: canvas.height - 56, bottom: canvas.height - 40 }, // right platform (bottom)
-            { id: 5, left: 0, right: 145, top: 76, bottom: 80 }, // top platform (left)
-            { id: 6, left: 168, right: 208, top: 76, bottom: 80 }, // top platform (middle)
+            { id: 5, left: 0, right: 136, top: 76, bottom: 80 }, // top platform (left)
+            { id: 6, left: 176, right: 208, top: 76, bottom: 80 }, // top platform (middle)
             { id: 7, left: canvas.width - 70, right: canvas.width, top: 72, bottom: 86 }, // top platform (right)
             { id: 8, left: 10, right: 30, top: 48, bottom: 80 }, // (ten dziwny lampion duzy),
             { id: 9, left: 0, right: canvas.width, top: 0, bottom: 0 }, // top 

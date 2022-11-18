@@ -28,7 +28,7 @@ export class Player extends Sprite implements SpriteInterface {
 
         this.gravity = gravityScale;
         this.jumpHeight = 2.5
-        this.climbSpeed = 1.8
+        this.climbSpeed = 3
 
         this.sprite = new Image()
         this.sprite.src = '../assets/sprites/brucelee/brucelee-anim.png';
@@ -58,10 +58,7 @@ export class Player extends Sprite implements SpriteInterface {
         // this.drawHitbox()
         this.verticalCollisionDetection()
 
-        console.log(this.velocity.y);
-
-
-
+        console.log('velocity', this.velocity.y)
 
     }
 
@@ -86,7 +83,6 @@ export class Player extends Sprite implements SpriteInterface {
     applyGravity() {
         this.position.y += this.velocity.y;
         this.velocity.y += this.gravity;
-        console.log('gravity')
     }
 
     verticalCollisionDetection = () => {
@@ -125,21 +121,22 @@ export class Player extends Sprite implements SpriteInterface {
     }
 
     jump = () => {
-        if (this.velocity.y === 0 || this.velocity.y === this.gravity) {
+        if ((this.velocity.y === 0 || this.velocity.y === this.gravity) && !this.triggers.onLadder) {
             this.velocity.y = -this.jumpHeight
-        } else if (this.triggers.onLadder) {
+        }
+        if (this.triggers.onLadder) {
             this.velocity.y = -this.climbSpeed
-            console.warn('s')
+            console.error(this.velocity.y)
         }
     }
 
     down = () => {
-        if (this.velocity.y === 0 || this.velocity.y === this.gravity) {
-            // this.velocity.y = this.jumpHeight
-        } else if (this.triggers.onLadder) {
-            this.velocity.y = +this.climbSpeed
-            console.warn('d')
+        if (this.triggers.onLadder) {
+            this.velocity.y = this.climbSpeed
+            console.error(this.velocity.y)
         }
+        console.log('down');
+
     }
 
     switchSprite = (sprite: string) => {
@@ -157,14 +154,14 @@ export class Player extends Sprite implements SpriteInterface {
 
     applyLadderMovement = () => {
 
-        if (this.velocity.y < -this.gravity) {
+        if (this.velocity.y < 0) {
+            console.warn(this.velocity.y)
             this.position.y += this.velocity.y;
-            this.velocity.y += this.climbSpeed
+            this.velocity.y = 0
+        } else if (this.velocity.y > this.gravity) {
+            console.warn(this.velocity.y)
+            this.position.y += this.velocity.y;
+            this.velocity.y = 0
         }
-
-
-        // this.velocity.y -= this.gravity;
-        // this.velocity.y -= this.climbSpeed
-        console.log('ladder', this.velocity.y)
     }
 }
