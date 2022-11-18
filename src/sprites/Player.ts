@@ -129,7 +129,7 @@ export class Player extends Sprite implements SpriteInterface {
             this.velocity.y = -this.jumpHeight
         } else if (this.triggers.onLadder) {
             this.velocity.y = -this.climbSpeed
-            console.warn('a')
+            console.warn('s')
         }
     }
 
@@ -138,7 +138,7 @@ export class Player extends Sprite implements SpriteInterface {
             // this.velocity.y = this.jumpHeight
         } else if (this.triggers.onLadder) {
             this.velocity.y = +this.climbSpeed
-            console.warn('a')
+            console.warn('d')
         }
     }
 
