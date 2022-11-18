@@ -13,6 +13,7 @@ window.onkeydown = e => {
         case "a": case "ArrowLeft": input.a.pressed = true; lastKey = 'a'; break;
         case "d": case "ArrowRight": input.d.pressed = true; lastKey = 'd'; break;
         case "w": case "ArrowUp": player.jump(); break;
+        case "s": case "ArrowDown": player.down(); break;
     }
 }
 

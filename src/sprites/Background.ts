@@ -1,3 +1,5 @@
+import { currentScene } from "..";
+import { levels } from "../scenes";
 import { ctx } from "../setup";
 import { Animations, Material, Setup, Transform } from "../types/types";
 
@@ -12,7 +14,7 @@ export class Background {
     frameBuffer: number;
     animations: Animations;
 
-    constructor(transform: Transform, material: Material) {
+    constructor(transform: Transform) {
         this.position = transform.position
         this.scale = transform.scale
 
@@ -22,16 +24,12 @@ export class Background {
             this.scale.height = this.image.height
         }
 
-        this.image.src = material.texture;
+        this.image.src = levels[currentScene].sprite;
 
     }
 
     render() {
-
         ctx.drawImage(this.image, this.position.x, this.position.y, this.scale.width, this.scale.height)
-
-        // ctx.drawImage(this.image, this.position.x, this.position.y)
-        // ctx.drawImage(this.image, this.position.x, this.position.y, this.scale.width, this.scale.height)
     }
 
     update() {

@@ -1,4 +1,4 @@
-import { gravityScale, player } from "..";
+import { currentScene, gravityScale, player } from "..";
 import { levels } from "../scenes";
 import { canvas, ctx } from "../setup";
 import { Anim, Animations, Setup, SpriteInterface, Transform } from "../types/types";
@@ -12,10 +12,13 @@ export class Player extends Sprite implements SpriteInterface {
     velocity: { x: number; y: number; };
 
     jumpHeight: number;
+    climbSpeed: number;
     gravity: number;
 
     sprite: HTMLImageElement;
     hitbox: Transform;
+
+    triggers: { onLadder: boolean; };
 
     constructor(transform: Transform, animations: Animations) {
         super(transform, { texture: '../assets/sprites/brucelee/idle.png' }, 1, animations)
@@ -24,33 +27,46 @@ export class Player extends Sprite implements SpriteInterface {
         this.velocity = transform.velocity;
 
         this.gravity = gravityScale;
-        this.jumpHeight = 2.2
+        this.jumpHeight = 2.5
+        this.climbSpeed = 1.8
 
         this.sprite = new Image()
         this.sprite.src = '../assets/sprites/brucelee/brucelee-anim.png';
+
+        this.triggers = {
+            onLadder: false,
+        };
     }
 
     update() {
         this.render()
 
         this.position.x += this.velocity.x;
-
         if (this.velocity.x === 0) this.switchSprite('idle')
 
         this.updateHitbox()
+
+        this.triggers.onLadder = false
+        this.onTriggerEnter()
+
+        this.updateHitbox()
         this.horizontalCollisionDetection()
-        this.applyGravity()
+
+        if (this.triggers.onLadder) { this.applyLadderMovement() } else { this.applyGravity() }
 
         this.updateHitbox()
         // this.drawHitbox()
         this.verticalCollisionDetection()
-        this.onTriggerEnter()
-        console.log(this.velocity.x)
+
+        console.log(this.velocity.y);
+
+
+
 
     }
 
     horizontalCollisionDetection = () => {
-        levels[0].colliders.map(collider => {
+        levels[currentScene].colliders.map(collider => {
             if (onCollison(this.hitbox, collider)) {
                 if (this.velocity.x > 0) {
                     // this.velocity.x = 0
@@ -70,10 +86,11 @@ export class Player extends Sprite implements SpriteInterface {
     applyGravity() {
         this.position.y += this.velocity.y;
         this.velocity.y += this.gravity;
+        console.log('gravity')
     }
 
     verticalCollisionDetection = () => {
-        levels[0].colliders.map(collider => {
+        levels[currentScene].colliders.map(collider => {
             if (onCollison(this.hitbox, collider)) {
                 if (this.velocity.y > 0) {
                     this.velocity.y = 0
@@ -91,10 +108,10 @@ export class Player extends Sprite implements SpriteInterface {
     }
 
     onTriggerEnter = () => {
-        levels[0].triggers.map(trigger => {
+        levels[currentScene].triggers.map(trigger => {
             if (onCollison(this.hitbox, trigger)) {
                 switch (trigger.mode) {
-                    case 'ladder': this.velocity.y -= 2; break;
+                    case 'ladder': this.triggers.onLadder = true; break;
                 }
             }
         })
@@ -110,8 +127,19 @@ export class Player extends Sprite implements SpriteInterface {
     jump = () => {
         if (this.velocity.y === 0 || this.velocity.y === this.gravity) {
             this.velocity.y = -this.jumpHeight
+        } else if (this.triggers.onLadder) {
+            this.velocity.y = -this.climbSpeed
+            console.warn('a')
         }
+    }
 
+    down = () => {
+        if (this.velocity.y === 0 || this.velocity.y === this.gravity) {
+            // this.velocity.y = this.jumpHeight
+        } else if (this.triggers.onLadder) {
+            this.velocity.y = +this.climbSpeed
+            console.warn('a')
+        }
     }
 
     switchSprite = (sprite: string) => {
@@ -125,5 +153,18 @@ export class Player extends Sprite implements SpriteInterface {
     drawHitbox = () => {
         ctx.fillStyle = 'rgba(255,0,0,0.5)'
         ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.scale.width, this.hitbox.scale.height)
+    }
+
+    applyLadderMovement = () => {
+
+        if (this.velocity.y < -this.gravity) {
+            this.position.y += this.velocity.y;
+            this.velocity.y += this.climbSpeed
+        }
+
+
+        // this.velocity.y -= this.gravity;
+        // this.velocity.y -= this.climbSpeed
+        console.log('ladder', this.velocity.y)
     }
 }
