@@ -34,5 +34,7 @@ export class Background {
 
     update() {
         this.render()
+        this.image.src = levels[currentScene].sprite;
+        // console.error(currentScene)
     }
 }

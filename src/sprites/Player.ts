@@ -1,4 +1,4 @@
-import { currentScene, gravityScale, player } from "..";
+import { currentScene, gravityScale, player, setCurrentScene } from "..";
 import { lastKey } from "../inputListener";
 import { levels } from "../scenes";
 import { canvas, ctx } from "../setup";
@@ -23,6 +23,9 @@ export class Player extends Sprite implements SpriteInterface {
     facingRight: boolean;
     climbAnimVariant: number;
     climbCooldown: number;
+    levelToLoad: number;
+    updateLevel: boolean;
+    lastPos: { x: number; y: number; };
 
     constructor(transform: Transform, animations: Animations) {
         super(transform, { texture: '../assets/sprites/brucelee/idleRight.png' }, 1, animations)
@@ -32,8 +35,8 @@ export class Player extends Sprite implements SpriteInterface {
 
         this.gravity = gravityScale;
         // this.jumpHeight = 2.5
-        this.jumpHeight = 2.5
-        this.climbSpeed = 5
+        this.jumpHeight = 1.8
+        this.climbSpeed = 4
 
         this.sprite = new Image()
         this.sprite.src = '../assets/sprites/brucelee/brucelee-anim.png';
@@ -44,6 +47,11 @@ export class Player extends Sprite implements SpriteInterface {
 
         this.climbAnimVariant = 1
         this.climbCooldown = 1000
+
+        this.levelToLoad = currentScene
+        this.updateLevel = false
+
+        this.lastPos = { x: this.position.x, y: this.position.y }
     }
 
     update() {
@@ -68,7 +76,7 @@ export class Player extends Sprite implements SpriteInterface {
         // this.drawHitbox()
         this.verticalCollisionDetection()
 
-        console.log('velocity', this.velocity.y)
+        // console.log('velocity', this.velocity.y)       
 
     }
 
@@ -114,13 +122,20 @@ export class Player extends Sprite implements SpriteInterface {
     }
 
     onTriggerEnter = () => {
-        levels[currentScene].triggers.map(trigger => {
-            if (onCollison(this.hitbox, trigger)) {
-                switch (trigger.mode) {
-                    case 'ladder': this.triggers.onLadder = true; break;
+        if (levels[currentScene].triggers) {
+            levels[currentScene].triggers.map(trigger => {
+                if (onCollison(this.hitbox, trigger)) {
+                    switch (trigger.mode) {
+                        case 'ladder': this.triggers.onLadder = true; break;
+                        case 'loader':
+                            this.levelToLoad = trigger.level;
+                            this.updateLevel = true;
+                            if (trigger.dir === 'r') { this.position.x = 0; this.position.y += 2 }
+                            console.log(this.levelToLoad, this.updateLevel); break;
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 
     updateHitbox = () => {
@@ -138,7 +153,7 @@ export class Player extends Sprite implements SpriteInterface {
         if (this.triggers.onLadder) {
             if (this.velocity.y === 0) {
                 this.velocity.y = -this.climbSpeed
-                console.error(this.velocity.y)
+                // console.error(this.velocity.y)
                 this.climbAnimVariant = (this.climbAnimVariant === 1) ? 2 : 1
             }
         }
@@ -147,10 +162,10 @@ export class Player extends Sprite implements SpriteInterface {
     down = () => {
         if (this.triggers.onLadder) {
             this.velocity.y = this.climbSpeed
-            console.error(this.velocity.y)
+            // console.error(this.velocity.y)
             this.climbAnimVariant = (this.climbAnimVariant === 1) ? 2 : 1
         }
-        console.log('down');
+        // console.log('down');
 
     }
 
@@ -170,13 +185,14 @@ export class Player extends Sprite implements SpriteInterface {
     applyLadderMovement = () => {
 
         if (this.velocity.y < 0) {
-            console.warn(this.velocity.y)
+            // console.warn(this.velocity.y)
             this.position.y += this.velocity.y;
             this.velocity.y = 0
         } else if (this.velocity.y > this.gravity) {
-            console.warn(this.velocity.y)
+            // console.warn(this.velocity.y)
             this.position.y += this.velocity.y;
             this.velocity.y = 0
         }
     }
+
 }
