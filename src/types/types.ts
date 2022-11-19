@@ -40,10 +40,12 @@ export interface Anim {
     imageSrc: string;
 }
 export interface Animations {
-    idle: Anim;
+    idleRight: Anim;
+    idleLeft: Anim;
     walkLeft: Anim;
     walkRight: Anim;
     jump?: Anim;
+    inAir?: Anim;
     jumpLeft?: Anim;
     jumpRight?: Anim;
     climb?: Anim;

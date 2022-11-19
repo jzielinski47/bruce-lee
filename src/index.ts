@@ -10,9 +10,11 @@ export let currentScene = 0
 
 export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0, y: 0 }, scale: { width: 15, height: 22 } },
     {
-        idle: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/idle.png' },
-        walkLeft: { frameRate: 2, frameBuffer: 8, loop: true, imageSrc: '../assets/sprites/brucelee/walkLeft.png' },
-        walkRight: { frameRate: 2, frameBuffer: 8, loop: true, imageSrc: '../assets/sprites/brucelee/walkRight.png' }
+        idleRight: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/idleRight.png' },
+        idleLeft: { frameRate: 1, frameBuffer: 2, loop: false, imageSrc: '../assets/sprites/brucelee/idleLeft.png' },
+        walkLeft: { frameRate: 2, frameBuffer: 8, loop: false, imageSrc: '../assets/sprites/brucelee/walkLeft.png' },
+        walkRight: { frameRate: 2, frameBuffer: 8, loop: false, imageSrc: '../assets/sprites/brucelee/walkRight.png' },
+        jump: { frameRate: 3, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/jump.png' }
     })
 
 const scene = new Background({ position: { x: 0, y: 0 }, scale: { width: canvas.width, height: canvas.height } })

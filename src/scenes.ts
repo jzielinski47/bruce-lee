@@ -17,7 +17,7 @@ export const levels = [
         ], lanterns: [
 
         ], triggers: [
-            { id: 0, left: 144, right: canvas.width - 152, top: 80, bottom: canvas.height - 34, mode: 'ladder' } // drabina
+            { id: 0, left: 144, right: canvas.width - 152, top: 80, bottom: canvas.height - 36, mode: 'ladder' } // drabina
         ]
     }
 ]

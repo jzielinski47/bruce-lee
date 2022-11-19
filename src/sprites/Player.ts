@@ -1,4 +1,5 @@
 import { currentScene, gravityScale, player } from "..";
+import { lastKey } from "../inputListener";
 import { levels } from "../scenes";
 import { canvas, ctx } from "../setup";
 import { Anim, Animations, Setup, SpriteInterface, Transform } from "../types/types";
@@ -19,9 +20,10 @@ export class Player extends Sprite implements SpriteInterface {
     hitbox: Transform;
 
     triggers: { onLadder: boolean; };
+    facingRight: boolean;
 
     constructor(transform: Transform, animations: Animations) {
-        super(transform, { texture: '../assets/sprites/brucelee/idle.png' }, 1, animations)
+        super(transform, { texture: '../assets/sprites/brucelee/idleRight.png' }, 1, animations)
         this.scale = transform.scale;
         this.position = transform.position;
         this.velocity = transform.velocity;
@@ -42,7 +44,8 @@ export class Player extends Sprite implements SpriteInterface {
         this.render()
 
         this.position.x += this.velocity.x;
-        if (this.velocity.x === 0) this.switchSprite('idle')
+        if (this.velocity.x === 0 && lastKey === 'd') { this.switchSprite('idleRight') }
+        if (this.velocity.x === 0 && lastKey === 'a') { this.switchSprite('idleLeft') }
 
         this.updateHitbox()
 
@@ -127,7 +130,7 @@ export class Player extends Sprite implements SpriteInterface {
         if (this.triggers.onLadder) {
             this.velocity.y = -this.climbSpeed
             console.error(this.velocity.y)
-        }
+        }       
     }
 
     down = () => {
