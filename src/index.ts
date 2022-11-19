@@ -28,13 +28,13 @@ const scene = new Background({ position: { x: 0, y: 0 }, scale: { width: canvas.
 function update() {
     window.requestAnimationFrame(update)
 
-    console.log(player.updateLevel)
-    if (player.updateLevel) { currentScene = player.levelToLoad; }
+    // console.log(player.updateLevel)
+    if (player.updateLevel) { currentScene = player.levelToLoad; console.warn('change'); player.updateLevel = false; }
 
     scene.update()
     player.update()
 
-    drawColliders()
+    // drawColliders()
     player.velocity.x = 0
     if (input.a.pressed && lastKey === 'a') { player.velocity.x = -velocity; player.switchSprite('walkLeft') }
     else if (input.d.pressed && lastKey === 'd') { player.velocity.x = velocity; player.switchSprite('walkRight') }

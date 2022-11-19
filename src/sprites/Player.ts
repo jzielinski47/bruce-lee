@@ -77,6 +77,8 @@ export class Player extends Sprite implements SpriteInterface {
         this.verticalCollisionDetection()
 
         // console.log('velocity', this.velocity.y)       
+        console.log('pos', this.position.x, this.position.y);
+
 
     }
 
@@ -130,8 +132,12 @@ export class Player extends Sprite implements SpriteInterface {
                         case 'loader':
                             this.levelToLoad = trigger.level;
                             this.updateLevel = true;
-                            if (trigger.dir === 'r') { this.position.x = 0; this.position.y += 2 }
-                            console.log(this.levelToLoad, this.updateLevel); break;
+                            switch (trigger.dir) {
+                                case 'r': this.position.x = 10; this.position.y -= 2; break;
+                                case 'l': this.position.x = canvas.width - 8; this.position.y -= 2; break;
+                            }
+
+                            break;
                     }
                 }
             })
