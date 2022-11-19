@@ -22,6 +22,7 @@ export class Player extends Sprite implements SpriteInterface {
     triggers: { onLadder: boolean; };
     facingRight: boolean;
     climbAnimVariant: number;
+    climbCooldown: number;
 
     constructor(transform: Transform, animations: Animations) {
         super(transform, { texture: '../assets/sprites/brucelee/idleRight.png' }, 1, animations)
@@ -32,7 +33,7 @@ export class Player extends Sprite implements SpriteInterface {
         this.gravity = gravityScale;
         // this.jumpHeight = 2.5
         this.jumpHeight = 2.5
-        this.climbSpeed = 8
+        this.climbSpeed = 5
 
         this.sprite = new Image()
         this.sprite.src = '../assets/sprites/brucelee/brucelee-anim.png';
@@ -42,6 +43,7 @@ export class Player extends Sprite implements SpriteInterface {
         };
 
         this.climbAnimVariant = 1
+        this.climbCooldown = 1000
     }
 
     update() {
@@ -132,10 +134,13 @@ export class Player extends Sprite implements SpriteInterface {
         if ((this.velocity.y === 0 || this.velocity.y === this.gravity) && !this.triggers.onLadder) {
             this.velocity.y = -this.jumpHeight
         }
+        // this.velocity.y = -this.jumpHeight // flying
         if (this.triggers.onLadder) {
-            this.velocity.y = -this.climbSpeed
-            console.error(this.velocity.y)
-            this.climbAnimVariant = (this.climbAnimVariant === 1) ? 2 : 1
+            if (this.velocity.y === 0) {
+                this.velocity.y = -this.climbSpeed
+                console.error(this.velocity.y)
+                this.climbAnimVariant = (this.climbAnimVariant === 1) ? 2 : 1
+            }
         }
     }
 
@@ -150,8 +155,8 @@ export class Player extends Sprite implements SpriteInterface {
     }
 
     switchSprite = (sprite: string) => {
-        if (this.image === this.animations[sprite].image) return
-        this.currentFrame = 0
+        if (this.image === this.animations[sprite].image || !this.loaded) return
+        // this.currentFrame = 0
         this.image = this.animations[sprite].image
         this.frameRate = this.animations[sprite].frameRate
         this.frameBuffer = this.animations[sprite].frameBuffer

@@ -11,15 +11,17 @@ export class Sprite {
     elapsedFrames: number;
     frameBuffer: number;
     animations: Animations;
+    loaded: boolean;
 
     constructor(transform: Transform, material: Material, frameRate: number = 1, animations: Animations) {
         this.position = transform.position
         this.scale = transform.scale
-
+        this.loaded = false
         this.image = new Image()
         this.image.onload = () => {
             this.scale.width = this.image.width / frameRate
             this.scale.height = this.image.height
+            this.loaded = true
         }
 
         this.image.src = material.texture;
@@ -30,6 +32,8 @@ export class Sprite {
         this.currentFrame = 0
         this.elapsedFrames = 0
         this.frameBuffer = 8
+
+
 
         if (this.animations) {
             for (let key in this.animations) {
