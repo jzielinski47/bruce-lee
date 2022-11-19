@@ -21,6 +21,7 @@ export class Player extends Sprite implements SpriteInterface {
 
     triggers: { onLadder: boolean; };
     facingRight: boolean;
+    climbAnimVariant: number;
 
     constructor(transform: Transform, animations: Animations) {
         super(transform, { texture: '../assets/sprites/brucelee/idleRight.png' }, 1, animations)
@@ -29,8 +30,9 @@ export class Player extends Sprite implements SpriteInterface {
         this.velocity = transform.velocity;
 
         this.gravity = gravityScale;
+        // this.jumpHeight = 2.5
         this.jumpHeight = 2.5
-        this.climbSpeed = 3
+        this.climbSpeed = 8
 
         this.sprite = new Image()
         this.sprite.src = '../assets/sprites/brucelee/brucelee-anim.png';
@@ -38,14 +40,17 @@ export class Player extends Sprite implements SpriteInterface {
         this.triggers = {
             onLadder: false,
         };
+
+        this.climbAnimVariant = 1
     }
 
     update() {
         this.render()
 
         this.position.x += this.velocity.x;
-        if (this.velocity.x === 0 && lastKey === 'd') { this.switchSprite('idleRight') }
-        if (this.velocity.x === 0 && lastKey === 'a') { this.switchSprite('idleLeft') }
+
+        if (player.velocity.x === 0 && lastKey === 'd') { this.switchSprite('idleRight') }
+        if (player.velocity.x === 0 && lastKey === 'a') { this.switchSprite('idleLeft') }
 
         this.updateHitbox()
 
@@ -130,13 +135,15 @@ export class Player extends Sprite implements SpriteInterface {
         if (this.triggers.onLadder) {
             this.velocity.y = -this.climbSpeed
             console.error(this.velocity.y)
-        }       
+            this.climbAnimVariant = (this.climbAnimVariant === 1) ? 2 : 1
+        }
     }
 
     down = () => {
         if (this.triggers.onLadder) {
             this.velocity.y = this.climbSpeed
             console.error(this.velocity.y)
+            this.climbAnimVariant = (this.climbAnimVariant === 1) ? 2 : 1
         }
         console.log('down');
 

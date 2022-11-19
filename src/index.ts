@@ -14,7 +14,10 @@ export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0
         idleLeft: { frameRate: 1, frameBuffer: 2, loop: false, imageSrc: '../assets/sprites/brucelee/idleLeft.png' },
         walkLeft: { frameRate: 2, frameBuffer: 8, loop: false, imageSrc: '../assets/sprites/brucelee/walkLeft.png' },
         walkRight: { frameRate: 2, frameBuffer: 8, loop: false, imageSrc: '../assets/sprites/brucelee/walkRight.png' },
-        jump: { frameRate: 3, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/jump.png' }
+        jump: { frameRate: 3, frameBuffer: 9, loop: true, imageSrc: '../assets/sprites/brucelee/jump.png' },
+        fall: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/fall.png' },
+        climb1: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/climb1.png' },
+        climb2: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/climb2.png' },
     })
 
 const scene = new Background({ position: { x: 0, y: 0 }, scale: { width: canvas.width, height: canvas.height } })
@@ -29,6 +32,14 @@ function update() {
     player.velocity.x = 0
     if (input.a.pressed && lastKey === 'a') { player.velocity.x = -velocity; player.switchSprite('walkLeft') }
     else if (input.d.pressed && lastKey === 'd') { player.velocity.x = velocity; player.switchSprite('walkRight') }
+
+    if (player.velocity.y < 0 && !input.a.pressed && !input.d.pressed) { player.switchSprite('fall') }
+    else if (player.velocity.y > gravityScale) player.switchSprite('fall')
+
+    if (player.triggers.onLadder && player.climbAnimVariant === 1) { player.switchSprite('climb2'); }
+    else if (player.triggers.onLadder && player.climbAnimVariant === 2) { player.switchSprite('climb1'); }
+
+
 
 }
 

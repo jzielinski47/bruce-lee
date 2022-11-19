@@ -48,5 +48,7 @@ export interface Animations {
     inAir?: Anim;
     jumpLeft?: Anim;
     jumpRight?: Anim;
-    climb?: Anim;
+    climb1?: Anim;
+    climb2?: Anim;
+    fall?: Anim;
 }
