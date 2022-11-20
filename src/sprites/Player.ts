@@ -162,7 +162,7 @@ export class Player extends Sprite implements SpriteInterface {
 
         levels[currentScene].lanterns.map(lantern => {
             if (onCollison(this.hitbox, lantern)) {
-                if (lantern.collected === false) {
+                if (!lantern.collected) {
                     console.log('collected ' + lantern.name + ' ' + lantern.id)
                 }
                 lantern.collected = true
