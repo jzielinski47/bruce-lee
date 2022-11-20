@@ -80,6 +80,7 @@ export const levels = [
     {
         id: 3, sprite: '../assets/map/level_3.png', colliders: [
             { id: 0, name: 'platform', x: 32, y: 56, width: 236, height: 6 },
+            { id: 0, name: 'platform', x: 8, y: 104, width: 204, height: 6 },
             { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
         ], lanterns: [], triggers: []
     }
