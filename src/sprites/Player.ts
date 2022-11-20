@@ -145,32 +145,14 @@ export class Player extends Sprite implements SpriteInterface {
 
                             this.velocity.x = 0; this.velocity.y = 0;
                             switch (trigger.dir) {
-                                case 'r': this.position.x = 0.1; this.position.y -= this.gravity / 2; break;
-                                case 'l': this.position.x = canvas.width - this.scale.width - 0.1; this.position.y -= this.gravity / 2; break;
+                                case 'right': this.position.x = 0.1; this.position.y -= this.gravity / 2; break;
+                                case 'left': this.position.x = canvas.width - this.scale.width - 0.1; this.position.y -= this.gravity / 2; break;
+                                case 'down': this.position.x = (trigger.hatch.x + (trigger.hatch.width / 2) - (this.scale.width / 2)); this.position.y = 0;
                             }
 
                             break;
                         case 'door':
-                            if (!trigger.opened) {
-                                if (this.velocity.x > 0) {
-                                    const offset = this.hitbox.position.x - this.position.x + this.hitbox.scale.width
-                                    this.position.x = trigger.left - offset - 0.01
-                                }
-                                if (this.velocity.x < -0) {
-                                    const offset = this.hitbox.position.x - this.position.x
-                                    this.position.x = trigger.right - offset + 0.01
-                                }
-                                if (this.velocity.y > 0) {
-                                    this.velocity.y = 0
-                                    const offset = this.hitbox.position.y - this.position.y + this.hitbox.scale.height
-                                    this.position.y = trigger.top - offset - 0.1
-                                }
-                                if (this.velocity.y < 0) {
-                                    this.velocity.y = 0
-                                    const offset = this.hitbox.position.y - this.position.y
-                                    this.position.y = trigger.bottom - offset + 0.1
-                                }
-                            }
+
                             break;
                     }
                 }
