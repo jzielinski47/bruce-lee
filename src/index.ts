@@ -3,6 +3,7 @@ import { ctx, canvas } from "./setup";
 import { Player } from "./sprites/Player";
 import { Background } from "./sprites/Background";
 import { drawColliders, levels } from "./scenes";
+import { Latnern } from "./sprites/Lantern";
 
 export const gravityScale = 0.1;
 export const velocity: number = 1.3;
@@ -16,14 +17,21 @@ export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0
         walkLeft: { frameRate: 2, frameBuffer: 8, loop: false, imageSrc: '../assets/sprites/brucelee/walkLeft.png' },
         walkRight: { frameRate: 2, frameBuffer: 8, loop: false, imageSrc: '../assets/sprites/brucelee/walkRight.png' },
         jump: { frameRate: 3, frameBuffer: 8, loop: true, imageSrc: '../assets/sprites/brucelee/jump.png' },
-        jumpLeft: { frameRate: 2, frameBuffer: 12, loop: true, imageSrc: '../assets/sprites/brucelee/jumpLeft.png' },
-        jumpRight: { frameRate: 2, frameBuffer: 12, loop: true, imageSrc: '../assets/sprites/brucelee/jumpRight.png' },
+        jumpLeft: { frameRate: 2, frameBuffer: 30, loop: true, imageSrc: '../assets/sprites/brucelee/jumpLeft.png' },
+        jumpRight: { frameRate: 2, frameBuffer: 30, loop: true, imageSrc: '../assets/sprites/brucelee/jumpRight.png' },
         fall: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/fall.png' },
         climb1: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/climb1.png' },
         climb2: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/climb2.png' },
     })
 
 const scene = new Background({ position: { x: 0, y: 0 }, scale: { width: canvas.width, height: canvas.height } })
+
+let lanterns = []
+
+levels[currentScene].lanterns.map(lantern => {
+    const lanternObject = new Latnern({ position: { x: lantern.position.x, y: lantern.position.y }, scale: { width: 6, height: 10 } })
+    lanterns.push(lanternObject)
+})
 
 function update() {
     window.requestAnimationFrame(update)
@@ -33,6 +41,11 @@ function update() {
 
     scene.update()
     player.update()
+
+    lanterns.map(lantern => lantern.update())
+
+
+
 
     drawColliders(currentScene)
     player.velocity.x = 0

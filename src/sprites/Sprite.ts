@@ -39,6 +39,8 @@ export class Sprite {
             for (let key in this.animations) {
                 const image = new Image()
                 image.src = this.animations[key].imageSrc
+                this.frameRate = this.animations[key].frameRate
+                this.frameBuffer = this.animations[key].frameBuffer
                 this.animations[key].image = image
             }
         }

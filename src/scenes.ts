@@ -14,10 +14,10 @@ export const levels = [
             { id: 6, name: 'platform', x: 176, y: 76, width: 32, height: 4 },
             { id: 7, name: 'platform', x: canvas.width - 70, y: 72, width: 70, height: 16 },
             { id: 8, name: 'prop', x: 10, y: 48, width: 20, height: 32 },
-            { id: 9, name: 'border-top', left: 0, y: 0, width: canvas.width, height: 0 },
-            { id: 10, name: 'border-left', left: 0, y: 0, width: 0, height: canvas.height }
+            { id: 9, name: 'border-top', x: 0, y: 0, width: canvas.width, height: 0 },
+            { id: 10, name: 'border-left', x: 0, y: 0, width: 0, height: canvas.height }
         ], lanterns: [
-
+            { id: 0, name: 'lantern', position: { x: 18, y: 134 } }
         ], triggers: [
             { id: 0, name: 'ladder', x: 144, y: 80, width: 24, height: 58, mode: 'ladder' },
             { id: 1, name: 'loader', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 1, dir: 'right' }
