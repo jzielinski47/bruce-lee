@@ -25,19 +25,17 @@ export const levels = [
     },
     {
         id: 1, sprite: '../assets/map/level_1.png', colliders: [
-            { id: 0, left: 0, right: 150, top: canvas.height - 6, bottom: canvas.height }, // floor 1 on level 1
-            { id: 1, left: 170, right: canvas.width, top: canvas.height - 6, bottom: canvas.height }, // floor 2 on level 1
-            { id: 2, left: 0, right: 8, top: canvas.height - 42, bottom: canvas.height }, // left collider
-            { id: 3, left: 0, right: 124, top: canvas.height - 56, bottom: canvas.height - 42 }, // left platform (bottom)    
-            { id: 4, left: 0, right: 78, top: 72, bottom: 86 }, // left platform (top)      
-            { id: 4, left: canvas.width - 78, right: canvas.width, top: 72, bottom: 86 }, // right platform (top)
-            { id: 4, left: 112 + 8, right: 144, top: 76, bottom: 80 }, // middle platform (top-left)
-            { id: 4, left: 176, right: canvas.width - 112 - 8, top: 76, bottom: 80 }, // middle platform (top-right)
-            { id: 4, left: canvas.width - 124, right: canvas.width, top: 120, bottom: canvas.height - 42 }, // right platform (bottom)
-            { id: 0, left: canvas.width - 16, right: canvas.width - 8, top: 86, bottom: 120 }, // right collider (top)
-            { id: 0, left: canvas.width - 16, right: canvas.width - 8, top: 134, bottom: canvas.height - 6 }, // right collider (bottom)
-            { id: 0, left: 0, right: 0, top: 0, bottom: 0 },
-            // { id: 4, left: 0, right: canvas.width, top: 0, bottom: 0 }, // top 
+            { id: 0, name: 'floor', x: 0, y: canvas.height - 6, width: 150, height: 6 },
+            { id: 1, name: 'floor', x: 170, y: canvas.height - 6, width: canvas.width - 170, height: 6 },
+            { id: 2, name: 'fence', x: 0, y: canvas.height - 42, width: 8, height: 36 },
+            { id: 3, name: 'fence', x: canvas.width - 16, y: canvas.height - 42, width: 8, height: 36 },
+            { id: 4, name: 'fence', x: 304, y: 86, width: 8, height: 36 },
+            { id: 5, name: 'platform', x: 0, y: 120, width: 126, height: 14 },
+            { id: 6, name: 'platform', x: 194, y: 120, width: 126, height: 14 },
+            { id: 7, name: 'platform', x: 0, y: 72, width: 78, height: 14 },
+            { id: 8, name: 'platform', x: 120, y: 76, width: 24, height: 4 },
+            { id: 9, name: 'platform', x: 176, y: 76, width: 24, height: 4 },
+            { id: 7, name: 'platform', x: 242, y: 72, width: 78, height: 14 },
 
         ], lanterns: [
 
@@ -73,10 +71,10 @@ export const levels = [
 
 
 
-export const drawColliders = () => {
-    levels[0].triggers.map(col => {
-        ctx.fillStyle = 'rgba(255,0,0,0.5)'
-        ctx.fillRect(col.x, col.y, col.x + col.width, col.y + col.height)
+export const drawColliders = (num) => {
+    levels[num].colliders.map(col => {
+        ctx.fillStyle = 'rgba(0,255,0,0.5)'
+        ctx.fillRect(col.x, col.y, col.width, col.height)
     })
 }
 
