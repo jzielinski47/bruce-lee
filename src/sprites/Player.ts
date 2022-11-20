@@ -57,14 +57,10 @@ export class Player extends Sprite implements SpriteInterface {
     update() {
         this.render()
 
-
-
         this.position.x += this.velocity.x;
 
         if (player.velocity.x === 0 && lastKey === 'd') { this.switchSprite('idleRight') }
         if (player.velocity.x === 0 && lastKey === 'a') { this.switchSprite('idleLeft') }
-
-
 
         this.updateHitbox()
 
@@ -79,11 +75,8 @@ export class Player extends Sprite implements SpriteInterface {
 
         this.updateHitbox()
         // this.drawHitbox()
-        console.log('pos1', this.position.x, this.position.y);
-        this.verticalCollisionDetection()
 
-        // console.log('velocity', this.velocity.y)       
-        console.log('pos', this.position.x, this.position.y);
+        this.verticalCollisionDetection()
 
 
     }
@@ -94,14 +87,15 @@ export class Player extends Sprite implements SpriteInterface {
                 if (this.velocity.x > 0) {
                     // this.velocity.x = 0
                     const offset = this.hitbox.position.x - this.position.x + this.hitbox.scale.width
-                    this.position.x = collider.left - offset - 0.01
+                    this.position.x = collider.x - offset - 0.01
                 }
 
                 if (this.velocity.x < -0) {
                     // this.velocity.x = 0
                     const offset = this.hitbox.position.x - this.position.x
-                    this.position.x = collider.right - offset + 0.01
+                    this.position.x = (collider.x + collider.width) - offset + 0.01
                 }
+                console.log('player collides with ' + collider.name)
             }
         })
     }
@@ -118,18 +112,21 @@ export class Player extends Sprite implements SpriteInterface {
                     if (this.velocity.y > 0) {
                         this.velocity.y = 0
                         const offset = this.hitbox.position.y - this.position.y + this.hitbox.scale.height
-                        this.position.y = collider.top - offset - 0.1
+                        this.position.y = collider.y - offset - 0.1
                     }
 
                     if (this.velocity.y < 0) {
                         this.velocity.y = 0
                         const offset = this.hitbox.position.y - this.position.y
-                        this.position.y = collider.bottom - offset + 0.1
+                        this.position.y = (collider.y + collider.height) - offset + 0.1
                     }
+                    console.log('player collides with ' + collider.name)
                 }
             }
 
         })
+
+
     }
 
     onTriggerEnter = () => {

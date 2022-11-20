@@ -19,7 +19,7 @@ export const levels = [
         ], lanterns: [
 
         ], triggers: [
-            { id: 0, name: 'ladder', x: 144, y: 80, width: 8, height: 58, mode: 'ladder' },
+            { id: 0, name: 'ladder', x: 144, y: 80, width: 24, height: 58, mode: 'ladder' },
             { id: 1, name: 'loader', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 1, dir: 'right' }
         ]
     },
@@ -74,9 +74,9 @@ export const levels = [
 
 
 export const drawColliders = () => {
-    levels[0].colliders.map(col => {
+    levels[0].triggers.map(col => {
         ctx.fillStyle = 'rgba(255,0,0,0.5)'
-        ctx.fillRect(col.left, col.top, col.right, col.bottom)
+        ctx.fillRect(col.x, col.y, col.x + col.width, col.y + col.height)
     })
 }
 
