@@ -150,6 +150,28 @@ export class Player extends Sprite implements SpriteInterface {
                             }
 
                             break;
+                        case 'door':
+                            if (!trigger.opened) {
+                                if (this.velocity.x > 0) {
+                                    const offset = this.hitbox.position.x - this.position.x + this.hitbox.scale.width
+                                    this.position.x = trigger.left - offset - 0.01
+                                }
+                                if (this.velocity.x < -0) {
+                                    const offset = this.hitbox.position.x - this.position.x
+                                    this.position.x = trigger.right - offset + 0.01
+                                }
+                                if (this.velocity.y > 0) {
+                                    this.velocity.y = 0
+                                    const offset = this.hitbox.position.y - this.position.y + this.hitbox.scale.height
+                                    this.position.y = trigger.top - offset - 0.1
+                                }
+                                if (this.velocity.y < 0) {
+                                    this.velocity.y = 0
+                                    const offset = this.hitbox.position.y - this.position.y
+                                    this.position.y = trigger.bottom - offset + 0.1
+                                }
+                            }
+                            break;
                     }
                 }
             })
