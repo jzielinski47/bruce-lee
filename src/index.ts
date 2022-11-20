@@ -6,7 +6,7 @@ import { drawColliders, levels } from "./scenes";
 
 export const gravityScale = 0.1;
 export const velocity: number = 1.3;
-export let currentScene = 0
+export let currentScene = 3
 export const setCurrentScene = (num: number) => currentScene = num
 
 export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0, y: 0 }, scale: { width: 15, height: 22 } },
@@ -41,7 +41,7 @@ function update() {
 
     if (player.velocity.y < 0 && input.a.pressed && lastKey === 'a') { player.switchSprite('jumpLeft') }
     else if (player.velocity.y < 0 && input.d.pressed && lastKey === 'd') { player.switchSprite('jumpRight') }
-    else if (player.velocity.y < 0) { player.switchSprite('fall') }
+    else if (player.velocity.y < 0) { player.switchSprite('jump') }
     else if (player.velocity.y > gravityScale + 0.3) { player.switchSprite('fall') }
 
     if (player.triggers.onLadder && player.climbAnimVariant === 1) { player.switchSprite('climb2'); }
