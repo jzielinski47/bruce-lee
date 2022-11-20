@@ -101,8 +101,11 @@ export const drawColliders = (num) => {
     })
 
     levels[num].lanterns.map(col => {
-        ctx.fillStyle = 'rgba(255,0,0,0.5)'
-        ctx.fillRect(col.x, col.y, col.width, col.height)
+        if (!col.collected) {
+            ctx.fillStyle = 'rgba(255,0,0,0.5)'
+            ctx.fillRect(col.x, col.y, col.width, col.height)
+        }
+
     })
 }
 

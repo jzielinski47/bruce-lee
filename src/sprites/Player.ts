@@ -4,6 +4,7 @@ import { levels } from "../scenes";
 import { canvas, ctx } from "../setup";
 import { Anim, Animations, Setup, SpriteInterface, Transform } from "../types/types";
 import { onCollison } from "../utils";
+import { Latnern } from "./Lantern";
 import { Sprite } from "./Sprite";
 
 export class Player extends Sprite implements SpriteInterface {
@@ -159,11 +160,14 @@ export class Player extends Sprite implements SpriteInterface {
 
     checkForLaterns = () => {
 
-        levels[currentScene].lanterns.map(lattern => {
-            if (onCollison(this.hitbox, lattern)) {
-                lattern.collected = true
-                console.log('collected ' + lattern.name + ' ' + lattern.id)
+        levels[currentScene].lanterns.map(lantern => {
+            if (onCollison(this.hitbox, lantern)) {
+                if (lantern.collected === false) {
+                    console.log('collected ' + lantern.name + ' ' + lantern.id)
+                }
+                lantern.collected = true
             }
+
             // console.log(lattern)
         })
     }
