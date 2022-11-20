@@ -39,6 +39,7 @@ export interface Anim {
     loop: boolean;
     imageSrc: string;
 }
+
 export interface Animations {
     idle?: Anim;
     idleRight?: Anim;
@@ -52,4 +53,10 @@ export interface Animations {
     climb1?: Anim;
     climb2?: Anim;
     fall?: Anim;
+}
+
+export interface Stats {
+    score: number;
+    top: number;
+    falls: number;
 }

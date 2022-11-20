@@ -66,7 +66,7 @@ export class Player extends Sprite implements SpriteInterface {
 
         this.triggers.onLadder = false
         this.onTriggerEnter()
-
+        this.checkForLaterns()
 
         this.updateHitbox()
         this.horizontalCollisionDetection()
@@ -155,6 +155,17 @@ export class Player extends Sprite implements SpriteInterface {
                 }
             })
         }
+    }
+
+    checkForLaterns = () => {
+
+        levels[currentScene].lanterns.map(lattern => {
+            if (onCollison(this.hitbox, lattern)) {
+                lattern.collected = true
+                console.log('collected ' + lattern.name + ' ' + lattern.id)
+            }
+            // console.log(lattern)
+        })
     }
 
     updateHitbox = () => {

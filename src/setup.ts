@@ -1,3 +1,5 @@
+import { Stats } from "./types/types";
+
 export const canvas: HTMLCanvasElement = document.querySelector('#canvas')
 export const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
 
@@ -9,16 +11,24 @@ canvas.height = settings.height
 const bar: HTMLDivElement = document.querySelector('#bar')
 bar.style.width = settings.width + 'px';
 
-const score: number = 420
-const top: number = 69
-const falls: number = 4
+export const stats: Stats = { score: 420, top: 69, falls: 4 }
 
-const data = ['1UP', resetZeros(score, 6), 'TOP', resetZeros(top, 6), 'FALLS', resetZeros(falls, 2)]
+let data = ['1UP', resetZeros(stats.score, 6), 'TOP', resetZeros(stats.top, 6), 'FALLS', resetZeros(stats.falls, 2)]
 data.map(el => {
     const div = document.createElement('div')
     div.innerHTML = el
     bar.append(div)
 })
+
+export function updateStats() {
+    bar.innerHTML = ''
+    let data = ['1UP', resetZeros(stats.score, 6), 'TOP', resetZeros(stats.top, 6), 'FALLS', resetZeros(stats.falls, 2)]
+    data.map(el => {
+        const div = document.createElement('div')
+        div.innerHTML = el
+        bar.append(div)
+    })
+}
 
 function resetZeros(num: number, max: number) {
     let string: string = ''

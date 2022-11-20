@@ -25,24 +25,24 @@ export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0
     })
 
 const scene = new Background({ position: { x: 0, y: 0 }, scale: { width: canvas.width, height: canvas.height } })
-
-let lanterns = []
+export const mem = { lanterns: [] }
 
 levels[currentScene].lanterns.map(lantern => {
-    const lanternObject = new Latnern({ position: { x: lantern.position.x, y: lantern.position.y }, scale: { width: 6, height: 10 } })
-    lanterns.push(lanternObject)
+    const lanternObject = new Latnern(lantern.id, { position: { x: lantern.x, y: lantern.y }, scale: { width: 6, height: 10 } })
+    mem.lanterns.push(lanternObject)
 })
 
 function update() {
     window.requestAnimationFrame(update)
 
     // console.log(player.updateLevel)
-    if (player.updateLevel) { currentScene = player.levelToLoad; console.warn('change'); player.updateLevel = false; }
+    if (player.updateLevel) resetScene()
+
 
     scene.update()
     player.update()
 
-    lanterns.map(lantern => lantern.update())
+    mem.lanterns.map(lantern => lantern.update())
 
 
 
@@ -62,6 +62,17 @@ function update() {
 
 
 
+}
+
+function resetScene() {
+    currentScene = player.levelToLoad;
+    console.warn('change');
+    player.updateLevel = false;
+    mem.lanterns = []
+    levels[currentScene].lanterns.map(lantern => {
+        const lanternObject = new Latnern(lantern.id, { position: { x: lantern.x, y: lantern.y }, scale: { width: 6, height: 10 } })
+        mem.lanterns.push(lanternObject)
+    })
 }
 
 update()
