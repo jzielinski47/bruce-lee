@@ -14,7 +14,7 @@ export const levels = [
             { id: 6, left: 176, right: 208, top: 76, bottom: 80 }, // top platform (middle)
             { id: 7, left: canvas.width - 70, right: canvas.width, top: 72, bottom: 86 }, // top platform (right)
             { id: 8, left: 10, right: 30, top: 48, bottom: 80 }, // (ten dziwny lampion duzy),
-            { id: 9, left: 0, right: canvas.width, top: 0, bottom: 0 }, // top 
+            // { id: 9, left: 0, right: canvas.width, top: 0, bottom: 0 }, // top 
             { id: 10, left: 0, right: 0, top: 0, bottom: canvas.height }, // left 
         ], lanterns: [
 
@@ -31,7 +31,13 @@ export const levels = [
             { id: 3, left: 0, right: 124, top: canvas.height - 56, bottom: canvas.height - 42 }, // left platform (bottom)    
             { id: 4, left: 0, right: 78, top: 72, bottom: 86 }, // left platform (top)      
             { id: 4, left: canvas.width - 78, right: canvas.width, top: 72, bottom: 86 }, // right platform (top)
-            { id: 4, left: 0, right: canvas.width, top: 0, bottom: 0 }, // top 
+            { id: 4, left: 112 + 8, right: 144, top: 76, bottom: 80 }, // middle platform (top-left)
+            { id: 4, left: 176, right: canvas.width - 112 - 8, top: 76, bottom: 80 }, // middle platform (top-right)
+            { id: 4, left: canvas.width - 124, right: canvas.width, top: 120, bottom: canvas.height - 42 }, // right platform (bottom)
+            { id: 0, left: canvas.width - 16, right: canvas.width - 8, top: 86, bottom: 120 }, // right collider (top)
+            { id: 0, left: canvas.width - 16, right: canvas.width - 8, top: 134, bottom: canvas.height - 6 }, // right collider (bottom)
+            { id: 0, left: 0, right: 0, top: 0, bottom: 0 },
+            // { id: 4, left: 0, right: canvas.width, top: 0, bottom: 0 }, // top 
 
 
         ], lanterns: [
@@ -39,7 +45,17 @@ export const levels = [
         ], triggers: [
             { id: 0, left: 152, right: 168, top: canvas.height - 64, bottom: canvas.height - 36, mode: 'ladder' },
             { id: 1, left: 152, right: 168, top: 80, bottom: 86, mode: 'ladder' },
-            // { id: 2, left: 0, right: 0, top: 0, bottom: canvas.height, mode: 'loader', level: 0, dir: 'l' }, // left 
+            { id: 2, left: 0, right: 0, top: 0, bottom: canvas.height, mode: 'loader', level: 0, dir: 'l' }, // left 
+            { id: 1, left: canvas.width, right: canvas.width, top: 0, bottom: canvas.height, mode: 'loader', level: 0, dir: 'r' }
+        ]
+    },
+    {
+        id: 2, sprite: '../assets/map/level_2.png', colliders: [
+            { id: 0, left: 0, right: 152, top: canvas.height - 6, bottom: canvas.height }, // floor 1 on level 1
+        ], lanterns: [
+
+        ], triggers: [
+
         ]
     }
 ]

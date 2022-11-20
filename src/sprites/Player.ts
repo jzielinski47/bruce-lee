@@ -57,15 +57,20 @@ export class Player extends Sprite implements SpriteInterface {
     update() {
         this.render()
 
+
+
         this.position.x += this.velocity.x;
 
         if (player.velocity.x === 0 && lastKey === 'd') { this.switchSprite('idleRight') }
         if (player.velocity.x === 0 && lastKey === 'a') { this.switchSprite('idleLeft') }
 
+
+
         this.updateHitbox()
 
         this.triggers.onLadder = false
         this.onTriggerEnter()
+
 
         this.updateHitbox()
         this.horizontalCollisionDetection()
@@ -74,6 +79,7 @@ export class Player extends Sprite implements SpriteInterface {
 
         this.updateHitbox()
         // this.drawHitbox()
+        console.log('pos1', this.position.x, this.position.y);
         this.verticalCollisionDetection()
 
         // console.log('velocity', this.velocity.y)       
@@ -107,19 +113,22 @@ export class Player extends Sprite implements SpriteInterface {
 
     verticalCollisionDetection = () => {
         levels[currentScene].colliders.map(collider => {
-            if (onCollison(this.hitbox, collider)) {
-                if (this.velocity.y > 0) {
-                    this.velocity.y = 0
-                    const offset = this.hitbox.position.y - this.position.y + this.hitbox.scale.height
-                    this.position.y = collider.top - offset - 0.1
-                }
+            if (!this.updateLevel) {
+                if (onCollison(this.hitbox, collider)) {
+                    if (this.velocity.y > 0) {
+                        this.velocity.y = 0
+                        const offset = this.hitbox.position.y - this.position.y + this.hitbox.scale.height
+                        this.position.y = collider.top - offset - 0.1
+                    }
 
-                if (this.velocity.y < 0) {
-                    this.velocity.y = 0
-                    const offset = this.hitbox.position.y - this.position.y
-                    this.position.y = collider.bottom - offset + 0.1
+                    if (this.velocity.y < 0) {
+                        this.velocity.y = 0
+                        const offset = this.hitbox.position.y - this.position.y
+                        this.position.y = collider.bottom - offset + 0.1
+                    }
                 }
             }
+
         })
     }
 
@@ -130,11 +139,14 @@ export class Player extends Sprite implements SpriteInterface {
                     switch (trigger.mode) {
                         case 'ladder': this.triggers.onLadder = true; break;
                         case 'loader':
+
                             this.levelToLoad = trigger.level;
                             this.updateLevel = true;
+
+                            this.velocity.x = 0; this.velocity.y = 0;
                             switch (trigger.dir) {
-                                case 'r': this.position.x = 10; this.position.y -= 2; break;
-                                case 'l': this.position.x = canvas.width - 8; this.position.y -= 2; break;
+                                case 'r': this.position.x = 0.1; this.position.y -= this.gravity / 2; break;
+                                case 'l': this.position.x = canvas.width - this.scale.width - 0.1; this.position.y -= this.gravity / 2; break;
                             }
 
                             break;
