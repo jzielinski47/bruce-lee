@@ -7,20 +7,20 @@ export const levels = [
         id: 0, sprite: '../assets/map/level_0.png', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 6, width: canvas.width, height: 6 },
             { id: 1, name: 'fence', x: 0, y: canvas.height - 68, width: 8, height: 68 },
-            { id: 2, name: 'platform', x: 0, y: canvas.height - 72, width: 32, height: 4 },
-            { id: 3, name: 'platform', x: canvas.width - 8, y: canvas.height - 52, right: canvas.width, bottom: canvas.height },
-            { id: 4, x: canvas.width - 118, y: canvas.height - 56, right: canvas.width, bottom: canvas.height - 40 },
-            { id: 5, x: 0, y: 76, right: 136, bottom: 80 },
-            { id: 6, x: 176, y: 76, right: 208, bottom: 80 },
-            { id: 7, x: canvas.width - 70, y: 72, right: canvas.width, bottom: 86 },
-            { id: 8, x: 10, y: 48, right: 30, bottom: 80 },
-
-            { id: 10, left: 0, y: 0, right: 0, bottom: canvas.height },
+            { id: 2, name: 'fence', x: canvas.width - 8, y: canvas.height - 42, width: 8, height: 36 },
+            { id: 3, name: 'platform', x: 0, y: canvas.height - 72, width: 32, height: 8 },
+            { id: 4, name: 'platform', x: canvas.width - 118, y: canvas.height - 56, width: 118, height: 14 },
+            { id: 5, name: 'platform', x: 0, y: 76, width: 136, height: 4 },
+            { id: 6, name: 'platform', x: 176, y: 76, width: 32, height: 4 },
+            { id: 7, name: 'platform', x: canvas.width - 70, y: 72, width: 70, height: 16 },
+            { id: 8, name: 'prop', x: 10, y: 48, width: 20, height: 32 },
+            { id: 9, name: 'border-top', left: 0, y: 0, width: canvas.width, height: 0 },
+            { id: 10, name: 'border-left', left: 0, y: 0, width: 0, height: canvas.height }
         ], lanterns: [
 
         ], triggers: [
-            { id: 0, left: 144, right: canvas.width - 152, top: 80, bottom: canvas.height - 36, mode: 'ladder' }, // drabina
-            { id: 1, left: canvas.width, right: canvas.width, top: 0, bottom: canvas.height, mode: 'loader', level: 1, dir: 'right' }
+            { id: 0, name: 'ladder', x: 144, y: 80, width: 8, height: 58, mode: 'ladder' },
+            { id: 1, name: 'loader', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 1, dir: 'right' }
         ]
     },
     {
