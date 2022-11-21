@@ -17,7 +17,12 @@ export const levels = [
             { id: 9, name: 'border-top', x: 0, y: 0, width: canvas.width, height: 0 },
             { id: 10, name: 'border-left', x: 0, y: 0, width: 0, height: canvas.height }
         ], lanterns: [
-            { id: 0, name: 'lantern', x: 18, y: 134, width: 6, height: 10, collected: false }
+            { id: 0, name: 'lantern', x: 18, y: 134, width: 6, height: 10, collected: false },
+            { id: 1, name: 'lantern', x: 202, y: 134, width: 6, height: 10, collected: false },
+            { id: 2, name: 'lantern', x: 232, y: 134, width: 6, height: 10, collected: false },
+            { id: 3, name: 'lantern', x: 304, y: 134, width: 6, height: 10, collected: false },
+            { id: 4, name: 'lantern', x: 304, y: 86, width: 6, height: 10, collected: false },
+            { id: 5, name: 'lantern', x: 250, y: 86, width: 6, height: 10, collected: false }
         ], triggers: [
             { id: 0, name: 'ladder', x: 144, y: 80, width: 24, height: 58, mode: 'ladder' },
             { id: 1, name: 'loader', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 1, dir: 'right' }

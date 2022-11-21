@@ -11,7 +11,7 @@ canvas.height = settings.height
 const bar: HTMLDivElement = document.querySelector('#bar')
 bar.style.width = settings.width + 'px';
 
-export const stats: Stats = { score: 420, top: 69, falls: 4 }
+export const stats: Stats = { score: 0, top: 0, falls: 0 }
 
 let data = ['1UP', resetZeros(stats.score, 6), 'TOP', resetZeros(stats.top, 6), 'FALLS', resetZeros(stats.falls, 2)]
 data.map(el => {
