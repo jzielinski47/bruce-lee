@@ -100,8 +100,11 @@ export const levels = [
     {
         id: 3, sprite: '../assets/map/level_3.png', colliders: [
             { id: 0, name: 'platform', x: 32, y: 56, width: 236, height: 6 },
-            { id: 0, name: 'platform', x: 8, y: 104, width: 204, height: 6 },
-            { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
+            { id: 1, name: 'platform', x: 8, y: 104, width: 204, height: 6 },
+            { id: 2, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
+            { id: 3, name: 'fence', x: 0, y: 0, width: 8, height: 134 },
+            { id: 3, name: 'fence', x: 8, y: 0, width: 40, height: 14 },
+            { id: 3, name: 'fence', x: 96, y: 0, width: 168, height: 14 },
         ], lanterns: [], triggers: []
     }
 

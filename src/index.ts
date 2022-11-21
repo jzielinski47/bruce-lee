@@ -7,7 +7,7 @@ import { Latnern } from "./sprites/Lantern";
 
 export const gravityScale = 0.1;
 export const velocity: number = 1.3;
-export let currentScene = 0
+export let currentScene = 3
 export const setCurrentScene = (num: number) => currentScene = num
 
 export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0, y: 0 }, scale: { width: 15, height: 22 } },
@@ -44,7 +44,7 @@ function update() {
 
 
 
-    // drawColliders(currentScene)
+    drawColliders(currentScene)
     player.velocity.x = 0
     if (input.a.pressed && lastKey === 'a') { player.velocity.x = -velocity; player.switchSprite('walkLeft') }
     else if (input.d.pressed && lastKey === 'd') { player.velocity.x = velocity; player.switchSprite('walkRight') }
