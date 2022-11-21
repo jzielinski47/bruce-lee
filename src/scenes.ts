@@ -41,9 +41,13 @@ export const levels = [
             { id: 8, name: 'platform', x: 120, y: 76, width: 24, height: 4 },
             { id: 9, name: 'platform', x: 176, y: 76, width: 24, height: 4 },
             { id: 7, name: 'platform', x: 242, y: 72, width: 78, height: 14 },
-
         ], lanterns: [
-
+            { id: 0, name: 'lantern', x: 48, y: 134, width: 6, height: 10, collected: false },
+            { id: 1, name: 'lantern', x: 120, y: 134, width: 6, height: 10, collected: false },
+            { id: 2, name: 'lantern', x: 72, y: 86, width: 6, height: 10, collected: false },
+            { id: 3, name: 'lantern', x: 242, y: 86, width: 6, height: 10, collected: false },
+            { id: 4, name: 'lantern', x: 194, y: 134, width: 6, height: 10, collected: false },
+            { id: 5, name: 'lantern', x: 256, y: 134, width: 6, height: 10, collected: false },
         ], triggers: [
             { id: 0, name: 'ladder', x: 152, y: 80, width: 16, height: 8, mode: 'ladder' },
             { id: 1, name: 'ladder', x: 152, y: 114, width: 16, height: 26, mode: 'ladder' },
@@ -76,6 +80,17 @@ export const levels = [
 
 
         ], lanterns: [
+            { id: 0, name: 'lantern', x: 40, y: 86, width: 6, height: 10, collected: false },
+            { id: 1, name: 'lantern', x: 72, y: 86, width: 6, height: 10, collected: false },
+            { id: 2, name: 'lantern', x: 40, y: 134, width: 6, height: 10, collected: false },
+            { id: 3, name: 'lantern', x: 74, y: 134, width: 6, height: 10, collected: false },
+            { id: 4, name: 'lantern', x: 120, y: 134, width: 6, height: 10, collected: false },
+            { id: 5, name: 'lantern', x: 178, y: 86, width: 6, height: 10, collected: false },
+            { id: 6, name: 'lantern', x: 208, y: 86, width: 6, height: 10, collected: false },
+            { id: 7, name: 'lantern', x: 242, y: 86, width: 6, height: 10, collected: false },
+            { id: 8, name: 'lantern', x: 170, y: 134, width: 6, height: 10, collected: false },
+            { id: 9, name: 'lantern', x: 216, y: 134, width: 6, height: 10, collected: false },
+
 
         ], triggers: [
             { id: 0, name: 'ladder', x: 136, y: 78, width: 24, height: 60, mode: 'ladder' },
