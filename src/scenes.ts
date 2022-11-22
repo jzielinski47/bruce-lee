@@ -99,14 +99,37 @@ export const levels = [
     },
     {
         id: 3, sprite: '../assets/map/level_3.png', colliders: [
-            { id: 0, name: 'platform', x: 32, y: 56, width: 236, height: 6 },
-            { id: 1, name: 'platform', x: 8, y: 104, width: 204, height: 6 },
             { id: 2, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
+            { id: 1, name: 'platform', x: 0, y: 8, width: 52, height: 6 },
+            { id: 1, name: 'platform', x: 92, y: 8, width: 176, height: 6 },
+            { id: 1, name: 'platform', x: 300, y: 8, width: 20, height: 6 },
+            { id: 0, name: 'platform', x: 32, y: 56, width: 236, height: 6 },
+            { id: 1, name: 'platform', x: 300, y: 56, width: 20, height: 6 },
+            { id: 1, name: 'platform', x: 8, y: 104, width: 204, height: 6 },
+            { id: 1, name: 'platform', x: 244, y: 104, width: 24, height: 6 },
+            { id: 1, name: 'platform', x: 300, y: 104, width: 24, height: 6 },
             { id: 2, name: 'fence', x: 0, y: 16, width: 8, height: 112 },
+            { id: 2, name: 'fence', x: 8, y: 0, width: 8, height: 12 },
+            { id: 2, name: 'fence', x: 40, y: 0, width: 8, height: 12 },
+            { id: 2, name: 'fence', x: 96, y: 0, width: 8, height: 12 },
+            { id: 2, name: 'fence', x: 224, y: 0, width: 8, height: 12 },
+            { id: 2, name: 'fence', x: 256, y: 0, width: 8, height: 12 },
+            { id: 2, name: 'fence', x: 304, y: 0, width: 8, height: 12 },
+            { id: 2, name: 'fence', x: 228, y: 16, width: 32, height: 6 },
+            { id: 2, name: 'fence', x: 240, y: 22, width: 8, height: 38 },
+            { id: 2, name: 'fence', x: 240, y: 112, width: 8, height: 16 },
+            { id: 2, name: 'fence', x: 248, y: 112, width: 8, height: 60 },
+            { id: 2, name: 'fence', x: 256, y: 64, width: 8, height: 44 },
+            { id: 2, name: 'fence', x: 208, y: 112, width: 8, height: 16 },
+            { id: 2, name: 'fence', x: 200, y: 112, width: 8, height: 16 },
+            { id: 2, name: 'fence', x: 192, y: 112, width: 8, height: 22 },
+            { id: 2, name: 'fence', x: 8, y: 112, width: 8, height: 22 },
+
 
 
         ], lanterns: [], triggers: [
-            { id: 0, name: 'door', x: 200, y: 128, width: 12, height: 44, mode: 'door' },
+            { id: 0, name: 'water', x: 272, y: 16, width: 24, height: 160, mode: 'water', dir: 'up' }
+            // { id: 0, name: 'door', x: 200, y: 128, width: 12, height: 44, mode: 'door' },
         ]
     }
 
