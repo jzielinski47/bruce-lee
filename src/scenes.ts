@@ -138,7 +138,10 @@ export const levels = [
         ], triggers: [
             { id: 0, name: 'water', x: 272, y: 16, width: 24, height: 160, mode: 'water', dir: 'up' },
             { id: 1, name: 'trap', x: 8, y: 58, width: 24, height: 6, mode: 'trap' },
-            { id: 2, name: 'trap', x: 216, y: 122, width: 24, height: 6, mode: 'trap' }
+            { id: 2, name: 'trap', x: 216, y: 122, width: 24, height: 6, mode: 'trap' },
+
+            { id: 3, name: 'loader', dir: 'left', x: 0, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 0 },
+            { id: 4, name: 'loader', dir: 'right', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 2 },
             // { id: 0, name: 'door', x: 200, y: 128, width: 12, height: 44, mode: 'door' },
         ]
     }

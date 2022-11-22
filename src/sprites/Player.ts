@@ -1,7 +1,7 @@
 import { currentScene, gravityScale, player, setCurrentScene } from "..";
 import { lastKey } from "../inputListener";
 import { levels } from "../scenes";
-import { canvas, ctx } from "../setup";
+import { canvas, ctx, stats } from "../setup";
 import { Anim, Animations, Setup, SpriteInterface, Transform } from "../types/types";
 import { onCollison } from "../utils";
 import { Latnern } from "./Lantern";
@@ -27,6 +27,7 @@ export class Player extends Sprite implements SpriteInterface {
     levelToLoad: number;
     updateLevel: boolean;
     lastPos: { x: number; y: number; };
+    health: number;
 
     constructor(transform: Transform, animations: Animations) {
         super(transform, { texture: '../assets/sprites/brucelee/idleRight.png' }, 1, animations)
@@ -53,6 +54,8 @@ export class Player extends Sprite implements SpriteInterface {
         this.updateLevel = false
 
         this.lastPos = { x: this.position.x, y: this.position.y }
+
+        this.health = 100
     }
 
     update() {
@@ -76,6 +79,7 @@ export class Player extends Sprite implements SpriteInterface {
 
         this.updateHitbox()
         // this.drawHitbox()
+        if (player.health <= 0) stats.score = 0;
 
         this.verticalCollisionDetection()
 

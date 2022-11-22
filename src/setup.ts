@@ -22,6 +22,7 @@ data.map(el => {
 
 export function updateStats() {
     bar.innerHTML = ''
+    stats.top = stats.score
     let data = ['1UP', resetZeros(stats.score, 6), 'TOP', resetZeros(stats.top, 6), 'FALLS', resetZeros(stats.falls, 2)]
     data.map(el => {
         const div = document.createElement('div')
