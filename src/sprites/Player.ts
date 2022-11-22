@@ -150,7 +150,7 @@ export class Player extends Sprite implements SpriteInterface {
 
                             break;
                         case 'door':
-
+                            // console.log('player colides with door')
                             break;
                     }
                 }

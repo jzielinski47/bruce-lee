@@ -44,7 +44,7 @@ function update() {
 
 
 
-    // drawColliders(currentScene)
+    drawColliders(currentScene)
     player.velocity.x = 0
     if (input.a.pressed && lastKey === 'a') { player.velocity.x = -velocity; player.switchSprite('walkLeft') }
     else if (input.d.pressed && lastKey === 'd') { player.velocity.x = velocity; player.switchSprite('walkRight') }

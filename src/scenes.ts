@@ -102,10 +102,12 @@ export const levels = [
             { id: 0, name: 'platform', x: 32, y: 56, width: 236, height: 6 },
             { id: 1, name: 'platform', x: 8, y: 104, width: 204, height: 6 },
             { id: 2, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
-            { id: 3, name: 'fence', x: 0, y: 0, width: 8, height: 134 },
-            { id: 3, name: 'fence', x: 8, y: 0, width: 40, height: 14 },
-            { id: 3, name: 'fence', x: 96, y: 0, width: 168, height: 14 },
-        ], lanterns: [], triggers: []
+            { id: 2, name: 'fence', x: 0, y: 16, width: 8, height: 112 },
+
+
+        ], lanterns: [], triggers: [
+            { id: 0, name: 'door', x: 200, y: 128, width: 12, height: 44, mode: 'door' },
+        ]
     }
 
 ]
