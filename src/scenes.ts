@@ -125,9 +125,10 @@ export const levels = [
             { id: 2, name: 'fence', x: 192, y: 112, width: 8, height: 22 },
             { id: 2, name: 'fence', x: 8, y: 112, width: 8, height: 22 },
 
-
-
-        ], lanterns: [], triggers: [
+        ], lanterns: [
+            { id: 0, name: 'lantern', x: 16, y: 22, width: 6, height: 10, collected: false },
+            { id: 1, name: 'lantern', x: 48, y: 22, width: 6, height: 10, collected: false },
+        ], triggers: [
             { id: 0, name: 'water', x: 272, y: 16, width: 24, height: 160, mode: 'water', dir: 'up' }
             // { id: 0, name: 'door', x: 200, y: 128, width: 12, height: 44, mode: 'door' },
         ]
