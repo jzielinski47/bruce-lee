@@ -177,7 +177,7 @@ export class Player extends Sprite implements SpriteInterface {
 
                             break;
                         case 'door':
-                            if (trigger.opened) {
+                            if (!trigger.opened) {
                                 if (this.velocity.y > 0) {
                                     this.velocity.y = 0
                                     const offset = this.hitbox.position.y - this.position.y + this.hitbox.scale.height
