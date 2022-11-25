@@ -150,6 +150,8 @@ export class Player extends Sprite implements SpriteInterface {
                                 case 'right': this.position.x = 0.1; this.position.y -= this.gravity / 2; break;
                                 case 'left': this.position.x = canvas.width - this.scale.width - 0.1; this.position.y -= this.gravity / 2; break;
                                 case 'down': this.position.x = (trigger.hatch.x + (trigger.hatch.width / 2) - (this.scale.width / 2)); this.position.y = 0;
+                                case 'up': break;
+                                case 'custom': this.position.x = trigger.custom.x; this.position.y = trigger.custom.y; break;
                             }
 
                             break;
