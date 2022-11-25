@@ -140,8 +140,8 @@ export const levels = [
             { id: 1, name: 'trap', x: 8, y: 58, width: 24, height: 6, mode: 'trap' },
             { id: 2, name: 'trap', x: 216, y: 122, width: 24, height: 6, mode: 'trap' },
 
-            { id: 3, name: 'loader', dir: 'custom', x: 0, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 4, custom: { x: canvas.width - 8 - 0.1, y: 32 } },
-            { id: 4, name: 'loader', dir: 'custom', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 4, custom: { x: 0, y: 0 } },
+            { id: 3, name: 'loader', dir: 'custom', x: 0, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 4, custom: { x: canvas.width - 10 - 0.1, y: 32 } },
+            // { id: 4, name: 'loader', dir: 'custom', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 5, custom: { x: 0, y: 0 } },
             // { id: 0, name: 'door', x: 200, y: 128, width: 12, height: 44, mode: 'door' },
         ]
     },
@@ -175,6 +175,7 @@ export const levels = [
         ], lanterns: [], triggers: [
             { id: 0, name: 'ladder', x: 56, y: 40, width: 16, height: 110 - 28, mode: 'ladder' },
             { id: 1, name: 'ladder', x: 248, y: 40, width: 16, height: 110 - 28, mode: 'ladder' },
+            { id: 4, name: 'loader', dir: 'custom', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 3, custom: { x: 0.1, y: 140 } },
         ]
     },
     {
