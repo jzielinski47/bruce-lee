@@ -5,11 +5,11 @@ import { Background } from "./sprites/Background";
 import { drawColliders, levels } from "./scenes";
 import { Latnern } from "./sprites/Lantern";
 
-const developmentMode: boolean = true
+const developmentMode: boolean = false
+export let currentScene: number = 0
 
 export const gravityScale: number = 0.1;
 export const velocity: number = 1.3;
-export let currentScene: number = 4
 export const setCurrentScene = (num: number) => currentScene = num
 
 export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0, y: 0 }, scale: { width: 15, height: 22 } },
