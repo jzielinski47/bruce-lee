@@ -25,8 +25,8 @@ export const levels = [
             { id: 5, name: 'lantern', x: 250, y: 86, width: 6, height: 10, collected: false }
         ], triggers: [
             { id: 0, name: 'ladder', x: 144, y: 80, width: 24, height: 58, mode: 'ladder' },
-            { id: 1, name: 'loader', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 1, dir: 'right' }
-        ]
+            { id: 1, name: 'loader', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 1, dir: 'right' },
+        ],
     },
     {
         id: 1, sprite: '../assets/map/level_1.png', colliders: [
@@ -54,7 +54,7 @@ export const levels = [
             { id: 3, name: 'loader', dir: 'left', x: 0, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 0 },
             { id: 4, name: 'loader', dir: 'right', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 2 },
             { id: 5, name: 'loader', dir: 'down', x: 0, y: canvas.height, width: canvas.width, height: 20, mode: 'loader', level: 3, hatch: { x: 56, y: 0, width: 32, heigth: 16 } },
-            { id: 6, name: 'door', x: 152, y: canvas.height - 10, width: 20 - 4, height: 10, mode: 'door' },
+            { id: 6, name: 'door', x: 152, y: canvas.height - 10, width: 20 - 4, height: 10, mode: 'door', opened: false, key: 21 },
 
         ]
     },

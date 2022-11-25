@@ -177,6 +177,23 @@ export class Player extends Sprite implements SpriteInterface {
 
                             break;
                         case 'door':
+
+
+                            if (this.velocity.y > 0) {
+                                this.velocity.y = 0
+                                const offset = this.hitbox.position.y - this.position.y + this.hitbox.scale.height
+                                this.position.y = trigger.y - offset - 0.1
+
+                                console.log('player collides with ' + trigger.name, 'down')
+                            }
+
+                            if (this.velocity.y < 0) {
+                                this.velocity.y = 0
+                                const offset = this.hitbox.position.y - this.position.y
+                                this.position.y = (trigger.y + trigger.height) - offset + 0.1
+
+                                console.log('player collides with ' + trigger.name, 'up')
+                            }
                             // console.log('player colides with door')
                             break;
                     }
@@ -195,7 +212,6 @@ export class Player extends Sprite implements SpriteInterface {
                 lantern.collected = true
             }
 
-            // console.log(lattern)
         })
     }
 

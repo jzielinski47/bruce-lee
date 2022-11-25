@@ -4,9 +4,10 @@ import { Player } from "./sprites/Player";
 import { Background } from "./sprites/Background";
 import { drawColliders, levels } from "./scenes";
 import { Latnern } from "./sprites/Lantern";
+import { Door } from "./sprites/Door";
 
-const developmentMode: boolean = true
-export let currentScene: number = 3
+const developmentMode: boolean = false
+export let currentScene: number = 1
 
 export const gravityScale: number = 0.1;
 export const velocity: number = 1.3;
@@ -27,20 +28,20 @@ export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0
     })
 
 const scene = new Background({ position: { x: 0, y: 0 }, scale: { width: canvas.width, height: canvas.height } })
-export const mem = { lanterns: [] }
+export const temp = { lanterns: [], doors: [] }
 
-renderLaterns()
+renderPrefabs()
 
 function update() {
     window.requestAnimationFrame(update)
 
     if (player.updateLevel) resetScene()
 
-
     scene.update()
     player.update()
 
-    mem.lanterns.map(lantern => lantern.update())
+    temp.lanterns.map(lantern => lantern.update())
+    temp.doors.map(door => door.update())
 
     if (developmentMode) { drawColliders(currentScene); player.drawHitbox() }
 
@@ -60,11 +61,19 @@ function update() {
 
 }
 
-export function renderLaterns() {
+export function renderPrefabs() {
     levels[currentScene].lanterns.map(lantern => {
         if (!lantern.collected) {
             const lanternObject = new Latnern(lantern.id, { position: { x: lantern.x, y: lantern.y }, scale: { width: 6, height: 10 } })
-            mem.lanterns.push(lanternObject)
+            temp.lanterns.push(lanternObject)
+        }
+    })
+
+    levels[currentScene].triggers.map(trigger => {
+        if (trigger.name === 'door') {
+            const door = new Door(trigger.id, { position: { x: trigger.x, y: trigger.y }, scale: { width: trigger.width, height: trigger.height } })
+            temp.doors.push(door)
+
         }
     })
 }
@@ -73,8 +82,9 @@ function resetScene() {
     currentScene = player.levelToLoad;
     console.warn('change');
     player.updateLevel = false;
-    mem.lanterns = []
-    renderLaterns()
+    temp.lanterns = []
+    temp.doors = []
+    renderPrefabs()
 }
 
 update()
