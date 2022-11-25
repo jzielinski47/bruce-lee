@@ -1,7 +1,7 @@
 import { currentScene, gravityScale, player, setCurrentScene } from "..";
 import { lastKey } from "../inputListener";
 import { levels } from "../scenes";
-import { canvas, ctx, stats } from "../setup";
+import { canvas, ctx, gameData } from "../setup";
 import { Anim, Animations, Setup, SpriteInterface, Transform } from "../types/types";
 import { onCollison } from "../utils";
 import { Latnern } from "./Lantern";
@@ -89,7 +89,7 @@ export class Player extends Sprite implements SpriteInterface {
         // this.applyGravity();
 
 
-        console.log(this.climbTime, this.climbCooldown);
+        // console.log(this.climbTime, this.climbCooldown);
 
     }
 

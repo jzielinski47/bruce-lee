@@ -59,4 +59,5 @@ export interface Stats {
     score: number;
     top: number;
     falls: number;
+    collectedLanterns: number;
 }

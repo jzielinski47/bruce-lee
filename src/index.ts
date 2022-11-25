@@ -7,7 +7,7 @@ import { Latnern } from "./sprites/Lantern";
 import { Door } from "./sprites/Door";
 
 const developmentMode: boolean = false
-export let currentScene: number = 1
+export let currentScene: number = 0
 
 export const gravityScale: number = 0.1;
 export const velocity: number = 1.3;
@@ -71,7 +71,7 @@ export function renderPrefabs() {
 
     levels[currentScene].triggers.map(trigger => {
         if (trigger.name === 'door') {
-            const door = new Door(trigger.id, { position: { x: trigger.x, y: trigger.y }, scale: { width: trigger.width, height: trigger.height } })
+            const door = new Door(trigger.id, { position: { x: trigger.x, y: trigger.y }, scale: { width: trigger.width, height: trigger.height } }, trigger.key)
             temp.doors.push(door)
 
         }

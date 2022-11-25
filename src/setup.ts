@@ -1,4 +1,4 @@
-import { Stats } from "./types/types";
+import { Stats as GameData } from "./types/types";
 
 export const canvas: HTMLCanvasElement = document.querySelector('#canvas')
 export const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
@@ -11,9 +11,9 @@ canvas.height = settings.height
 const bar: HTMLDivElement = document.querySelector('#bar')
 bar.style.width = settings.width + 'px';
 
-export const stats: Stats = { score: 0, top: 0, falls: 5 }
+export const gameData: GameData = { score: 0, top: 0, falls: 5, collectedLanterns: 0 }
 
-let data = ['1UP', resetZeros(stats.score, 6), 'TOP', resetZeros(stats.top, 6), 'FALLS', resetZeros(stats.falls, 2)]
+let data = ['1UP', resetZeros(gameData.score, 6), 'TOP', resetZeros(gameData.top, 6), 'FALLS', resetZeros(gameData.falls, 2)]
 data.map(el => {
     const div = document.createElement('div')
     div.innerHTML = el
@@ -22,8 +22,8 @@ data.map(el => {
 
 export function updateStats() {
     bar.innerHTML = ''
-    stats.top = stats.score
-    let data = ['1UP', resetZeros(stats.score, 6), 'TOP', resetZeros(stats.top, 6), 'FALLS', resetZeros(stats.falls, 2)]
+    gameData.top = gameData.score
+    let data = ['1UP', resetZeros(gameData.score, 6), 'TOP', resetZeros(gameData.top, 6), 'FALLS', resetZeros(gameData.falls, 2)]
     data.map(el => {
         const div = document.createElement('div')
         div.innerHTML = el

@@ -1,6 +1,6 @@
 import { temp, player } from "..";
 import { levels } from "../scenes";
-import { stats, updateStats } from "../setup";
+import { gameData, updateStats } from "../setup";
 import { Transform } from "../types/types";
 import { refinedOnCollison as advancedCollision } from "../utils";
 import { Sprite } from "./Sprite";
@@ -28,7 +28,8 @@ export class Latnern extends Sprite {
         if (advancedCollision(this, player)) {
             this.collected = true
 
-            stats.score += 100
+            gameData.score += 100
+            gameData.collectedLanterns += 1
             updateStats()
 
             temp.lanterns = temp.lanterns.filter(lant => lant.id !== this.id)
