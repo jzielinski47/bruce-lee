@@ -13,4 +13,3 @@ export function refinedOnCollison(object: Transform, collider) {
         && object.position.x <= (collider.position.x + collider.scale.width) && object.position.x + object.scale.width >= collider.position.x)
 }
 
-

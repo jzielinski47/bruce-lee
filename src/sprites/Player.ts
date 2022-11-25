@@ -75,14 +75,13 @@ export class Player extends Sprite implements SpriteInterface {
         this.updateHitbox()
         this.horizontalCollisionDetection()
 
+        this.updateHitbox()
+        this.verticalCollisionDetection()
+
         if (this.triggers.onLadder) { this.applyLadderMovement() } else { this.applyGravity() }
 
         this.updateHitbox()
-        // this.drawHitbox()
-        if (player.health <= 0) stats.score = 0;
-
         this.verticalCollisionDetection()
-
 
     }
 
@@ -93,14 +92,18 @@ export class Player extends Sprite implements SpriteInterface {
                     // this.velocity.x = 0
                     const offset = this.hitbox.position.x - this.position.x + this.hitbox.scale.width
                     this.position.x = collider.x - offset - 0.01
+
+                    console.log('player collides with ' + collider.name, 'right')
                 }
 
                 if (this.velocity.x < -0) {
                     // this.velocity.x = 0
                     const offset = this.hitbox.position.x - this.position.x
                     this.position.x = (collider.x + collider.width) - offset + 0.01
+
+                    console.log('player collides with ' + collider.name, 'left')
                 }
-                console.log('player collides with ' + collider.name)
+
             }
         })
     }
@@ -118,14 +121,18 @@ export class Player extends Sprite implements SpriteInterface {
                         this.velocity.y = 0
                         const offset = this.hitbox.position.y - this.position.y + this.hitbox.scale.height
                         this.position.y = collider.y - offset - 0.1
+
+                        console.log('player collides with ' + collider.name, 'down')
                     }
 
                     if (this.velocity.y < 0) {
                         this.velocity.y = 0
                         const offset = this.hitbox.position.y - this.position.y
                         this.position.y = (collider.y + collider.height) - offset + 0.1
+
+                        console.log('player collides with ' + collider.name, 'up')
                     }
-                    console.log('player collides with ' + collider.name)
+
                 }
             }
 
