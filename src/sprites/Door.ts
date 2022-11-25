@@ -1,3 +1,5 @@
+import { currentScene, temp } from "..";
+import { levels } from "../scenes";
 import { gameData } from "../setup";
 import { Transform } from "../types/types";
 import { Sprite } from "./Sprite";
@@ -18,6 +20,13 @@ export class Door extends Sprite {
 
     onOpen() {
         this.opened = gameData.collectedLanterns >= this.key
+
+        if (this.opened) {
+            temp.lanterns = temp.doors.filter(door => door.id !== this.id)
+            if (levels[currentScene].triggers) levels[currentScene].triggers.map(trig => {
+                trig.id === this.id ? trig.opened = true : null
+            })
+        }
         // console.error('open', gameData.collectedLanterns, this.key)
     }
 }

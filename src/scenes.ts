@@ -53,7 +53,7 @@ export const levels = [
             { id: 1, name: 'ladder', x: 152, y: 114, width: 16, height: 26, mode: 'ladder' },
             { id: 3, name: 'loader', dir: 'left', x: 0, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 0 },
             { id: 4, name: 'loader', dir: 'right', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 2 },
-            { id: 5, name: 'loader', dir: 'down', x: 0, y: canvas.height, width: canvas.width, height: 20, mode: 'loader', level: 3, hatch: { x: 56, y: 0, width: 32, heigth: 16 } },
+            { id: 5, name: 'loader', dir: 'down', x: 0, y: canvas.height + 20, width: canvas.width, height: 20, mode: 'loader', level: 3, hatch: { x: 56, y: 0, width: 32, heigth: 16 } },
             { id: 6, name: 'door', x: 152, y: canvas.height - 10, width: 20 - 4, height: 10, mode: 'door', opened: false, key: 21 },
 
         ]
