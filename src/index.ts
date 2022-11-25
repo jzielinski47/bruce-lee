@@ -6,8 +6,8 @@ import { drawColliders, levels } from "./scenes";
 import { Latnern } from "./sprites/Lantern";
 import { Door } from "./sprites/Door";
 
-const developmentMode: boolean = false
-export let currentScene: number = 0
+const developmentMode: boolean = true
+export let currentScene: number = 4
 
 export const gravityScale: number = 0.1;
 export const velocity: number = 1.3;
