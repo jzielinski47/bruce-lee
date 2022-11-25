@@ -149,7 +149,27 @@ export const levels = [
         id: 4, sprite: '../assets/map/level_4.png', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
         ], lanterns: [], triggers: []
-    }
+    },
+    {
+        id: 5, sprite: '../assets/map/level_5.png', colliders: [
+            { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
+        ], lanterns: [], triggers: []
+    },
+    {
+        id: 6, sprite: '../assets/map/level_6.png', colliders: [
+            { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
+        ], lanterns: [], triggers: []
+    },
+    {
+        id: 7, sprite: '../assets/map/level_7.png', colliders: [
+            { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
+        ], lanterns: [], triggers: []
+    },
+    {
+        id: 8, sprite: '../assets/map/level_8.png', colliders: [
+            { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
+        ], lanterns: [], triggers: []
+    },
 
 ]
 
