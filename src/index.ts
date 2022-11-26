@@ -6,8 +6,8 @@ import { drawColliders, levels } from "./scenes";
 import { Latnern } from "./sprites/Lantern";
 import { Door } from "./sprites/Door";
 
-const developmentMode: boolean = true
-export let currentScene: number = 1
+const developmentMode: boolean = false
+export let currentScene: number = 0
 
 export const gravityScale: number = 0.1;
 export const velocity: number = 1.3;
@@ -59,8 +59,6 @@ function update() {
     if (player.triggers.onLadder && player.climbAnimVariant === 1) { player.switchSprite('climb2'); }
     else if (player.triggers.onLadder && player.climbAnimVariant === 2) { player.switchSprite('climb1'); }
 
-
-
 }
 
 export function renderPrefabs() {
@@ -73,7 +71,7 @@ export function renderPrefabs() {
 
     levels[currentScene].triggers.map(trigger => {
         if (trigger.name === 'door') {
-            const door = new Door(trigger.id, { position: { x: trigger.x, y: trigger.y }, scale: { width: trigger.width, height: trigger.height } }, trigger.key)
+            const door = new Door({ position: { x: trigger.x, y: trigger.y }, scale: { width: trigger.width, height: trigger.height } }, { id: trigger.id, model: trigger.model, key: trigger.key })
             temp.doors.push(door)
         }
     })

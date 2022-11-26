@@ -1,7 +1,8 @@
-import { temp, player } from "..";
+import { temp, player, currentScene } from "..";
+import { levels } from "../scenes";
 import { gameData, updateStats } from "../setup";
 import { Transform } from "../types/types";
-import { refinedOnCollison as advancedCollision } from "../utils";
+import { onCollison, refinedOnCollison as advancedCollision } from "../utils";
 import { Sprite } from "./Sprite";
 
 export class Latnern extends Sprite {
@@ -32,6 +33,7 @@ export class Latnern extends Sprite {
             updateStats()
 
             temp.lanterns = temp.lanterns.filter(lant => lant.id !== this.id)
+            levels[currentScene].lanterns.map(lantern => { if (lantern.id === this.id && !lantern.collected) lantern.collected = true })
         }
     }
 }

@@ -54,7 +54,7 @@ export const levels = [
             { id: 3, name: 'loader', dir: 'left', x: 0, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 0 },
             { id: 4, name: 'loader', dir: 'right', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 2 },
             { id: 5, name: 'loader', dir: 'down', x: 0, y: canvas.height + 20, width: canvas.width, height: 20, mode: 'loader', level: 3, hatch: { x: 56, y: 0, width: 32, heigth: 16 } },
-            { id: 6, name: 'door', x: 152, y: canvas.height - 10, width: 20 - 4, height: 10, mode: 'door', opened: false, key: 4 }, // usually 22
+            { id: 6, name: 'door', x: 152, y: canvas.height - 10, width: 20 - 4, height: 10, mode: 'door', opened: false, model: 0, key: 22 }, // usually 22
 
         ]
     },
@@ -141,8 +141,9 @@ export const levels = [
             { id: 2, name: 'trap', x: 216, y: 122, width: 24, height: 6, mode: 'trap' },
 
             { id: 3, name: 'loader', dir: 'custom', x: 0, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 4, custom: { x: canvas.width - 16 - 0.1, y: 32 } },
-            // { id: 4, name: 'loader', dir: 'custom', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 5, custom: { x: 0, y: 0 } },
-            // { id: 0, name: 'door', x: 200, y: 128, width: 12, height: 44, mode: 'door' },
+
+            { id: 4, name: 'door', x: 200, y: 128, width: 8, height: 44, mode: 'door', opened: false, model: 1, key: 22 + 6 },
+            { id: 5, name: 'door', x: 0, y: 128, width: 8, height: 44, mode: 'door', opened: false, model: 1, key: 22 + 8 },
         ]
     },
     {
@@ -198,8 +199,6 @@ export const levels = [
 
 ]
 
-
-
 export const drawColliders = (num) => {
     levels[num].colliders.map(col => {
         ctx.fillStyle = 'rgba(0,255,0,0.5)'
@@ -208,7 +207,8 @@ export const drawColliders = (num) => {
     })
 
     levels[num].triggers.map(col => {
-        ctx.fillStyle = 'rgba(0,0,255,0.5)'
+
+        ctx.fillStyle = (col.name === 'door') ? 'rgba(255,165,0,0.5)' : 'rgba(0,0,255,0.5)'
         ctx.fillRect(col.x, col.y, col.width, col.height)
     })
 

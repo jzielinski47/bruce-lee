@@ -1,17 +1,19 @@
 import { currentScene, temp } from "..";
 import { levels } from "../scenes";
 import { gameData } from "../setup";
-import { Transform } from "../types/types";
+import { Animations, Transform } from "../types/types";
 import { Sprite } from "./Sprite";
 
 export class Door extends Sprite {
 
-    id: number; transform: Transform; opened: boolean; key: number;
+    id: number; transform: Transform; model: number; opened: boolean; key: number;
 
-    constructor(id: number, transform: Transform, key: number) {
-        super(transform, { idle: { frameRate: 1, frameBuffer: 30, loop: true, imageSrc: '../assets/sprites/door/model-1.png' } })
+    constructor(transform: Transform, { id, model, key }) {
 
-        this.id = id; this.key = key; this.opened = false;
+
+        super(transform, { idle: { frameRate: 1, frameBuffer: 30, loop: true, imageSrc: '../assets/sprites/door/model-' + model + '.png' } })
+
+        this.id = id; this.model = model; this.key = key; this.opened = false;
         this.scale = transform.scale; this.position = transform.position;
 
     }
@@ -23,10 +25,10 @@ export class Door extends Sprite {
 
         if (this.opened) {
             temp.doors = temp.doors.filter(door => door.id !== this.id)
-            if (levels[currentScene].triggers) levels[currentScene].triggers.map(trig => {
-                trig.id === this.id ? trig.opened = true : null
-            })
+            levels[currentScene].triggers.map(trig => trig.id === this.id ? trig.opened = true : null)
         }
         // console.error('open', gameData.collectedLanterns, this.key)
     }
+
+
 }

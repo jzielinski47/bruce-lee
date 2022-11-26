@@ -1,3 +1,4 @@
+import { isThisTypeNode } from "typescript";
 import { currentScene, gravityScale, player, setCurrentScene } from "..";
 import { lastKey } from "../inputListener";
 import { levels } from "../scenes";
@@ -72,7 +73,6 @@ export class Player extends Sprite implements SpriteInterface {
 
         this.updateHitbox()
         this.triggerCollisionDetection()
-        this.lanternCollisionDetection()
 
         this.updateHitbox()
         this.horizontalCollisionDetection()
@@ -83,8 +83,8 @@ export class Player extends Sprite implements SpriteInterface {
         this.verticalCollisionDetection();
     }
 
-    horizontalCollisionDetection = () => {
-        levels[currentScene].colliders.map(collider => {
+    horizontalCollisionDetection = (arr = levels[currentScene].colliders) => {
+        arr.map(collider => {
             if (onCollison(this.hitbox, collider)) {
                 if (this.velocity.x > 0) {
                     const offset = this.hitbox.position.x - this.position.x + this.hitbox.scale.width
@@ -103,8 +103,8 @@ export class Player extends Sprite implements SpriteInterface {
         })
     }
 
-    verticalCollisionDetection = () => {
-        levels[currentScene].colliders.map(collider => {
+    verticalCollisionDetection = (arr = levels[currentScene].colliders) => {
+        arr.map(collider => {
             if (!this.updateLevel) {
                 if (onCollison(this.hitbox, collider)) {
 
@@ -209,25 +209,19 @@ export class Player extends Sprite implements SpriteInterface {
                                 case 'right': this.position.x = 0.1; this.position.y -= this.gravity / 2; break;
                                 case 'left': this.position.x = canvas.width - this.scale.width - 0.1; this.position.y -= this.gravity / 2; break;
                                 case 'down': this.position.x = (trigger.hatch.x + (trigger.hatch.width / 2) - (this.scale.width / 2)); this.position.y = 0;
-                                case 'up': this.position.x = (trigger.hatch.x + (trigger.hatch.width / 2) - (this.scale.width / 2)); this.position.y = canvas.width - this.scale.height - 0.1; break;
+                                case 'up': break;
                                 case 'custom': this.position.x = trigger.custom.x; this.position.y = trigger.custom.y; break;
                             }
 
                             break;
                         case 'door':
                             if (!trigger.opened) {
-                                if (this.velocity.y > 0) {
-                                    this.velocity.y = 0
-                                    const offset = this.hitbox.position.y - this.position.y + this.hitbox.scale.height
-                                    this.position.y = trigger.y - offset - 0.1
-                                    console.log('player collides with ' + trigger.name, 'down')
+                                this.updateHitbox()
+                                switch (trigger.model) {
+                                    case 0: this.createVirtualCollider(trigger, 'v'); break;
+                                    case 1: this.createVirtualCollider(trigger, 'h'); break;
                                 }
-                                if (this.velocity.y < 0) {
-                                    this.velocity.y = 0
-                                    const offset = this.hitbox.position.y - this.position.y
-                                    this.position.y = (trigger.y + trigger.height) - offset + 0.1
-                                    console.log('player collides with ' + trigger.name, 'up')
-                                }
+
                             }
                             break;
                     }
@@ -236,19 +230,12 @@ export class Player extends Sprite implements SpriteInterface {
         }
     }
 
-    lanternCollisionDetection = () => {
-
-        levels[currentScene].lanterns.map(lantern => {
-            if (onCollison(this.hitbox, lantern)) {
-                if (!lantern.collected) {
-                    console.log('collected ' + lantern.name + ' ' + lantern.id)
-                }
-                lantern.collected = true
-            }
-
-        })
+    createVirtualCollider(object, mode) {
+        this.updateHitbox()
+        switch (mode) {
+            case 'h': this.horizontalCollisionDetection(levels[currentScene].triggers); break;
+            case 'v': this.verticalCollisionDetection(levels[currentScene].triggers); this.updateHitbox(); this.horizontalCollisionDetection(levels[currentScene].triggers); break;
+        }
     }
-
-
 
 }
