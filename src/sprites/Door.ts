@@ -22,7 +22,7 @@ export class Door extends Sprite {
         this.opened = gameData.collectedLanterns >= this.key
 
         if (this.opened) {
-            temp.lanterns = temp.doors.filter(door => door.id !== this.id)
+            temp.doors = temp.doors.filter(door => door.id !== this.id)
             if (levels[currentScene].triggers) levels[currentScene].triggers.map(trig => {
                 trig.id === this.id ? trig.opened = true : null
             })

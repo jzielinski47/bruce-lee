@@ -54,7 +54,7 @@ export const levels = [
             { id: 3, name: 'loader', dir: 'left', x: 0, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 0 },
             { id: 4, name: 'loader', dir: 'right', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 2 },
             { id: 5, name: 'loader', dir: 'down', x: 0, y: canvas.height + 20, width: canvas.width, height: 20, mode: 'loader', level: 3, hatch: { x: 56, y: 0, width: 32, heigth: 16 } },
-            { id: 6, name: 'door', x: 152, y: canvas.height - 10, width: 20 - 4, height: 10, mode: 'door', opened: false, key: 22 },
+            { id: 6, name: 'door', x: 152, y: canvas.height - 10, width: 20 - 4, height: 10, mode: 'door', opened: false, key: 4 }, // usually 22
 
         ]
     },
@@ -164,9 +164,6 @@ export const levels = [
             { id: 0, name: 'fence', x: 184, y: 62, width: 24, height: 20 },
             { id: 0, name: 'fence', x: 192, y: 80, width: 8, height: 36 },
             { id: 0, name: 'fence', x: 232, y: 16, width: 8, height: 98 },
-            // { id: 0, name: 'platform', x: 272, y: 60, width: 8, height: 10 },
-            // { id: 0, name: 'platform', x: 40, y: 60, width: 8, height: 10 },
-            // { id: 0, name: 'platform', x: canvas.width - 8, y: 60, width: 8, height: 10 },
             { id: 0, name: 'fence', x: canvas.width - 8, y: 60, width: 8, height: 94 },
             { id: 0, name: 'fence', x: 0, y: 0, width: 128, height: 12 },
             { id: 0, name: 'fence', x: 272, y: 60, width: 8, height: 60 },
@@ -176,7 +173,7 @@ export const levels = [
             { id: 0, name: 'ladder', x: 56, y: 40, width: 16, height: 110 - 28, mode: 'ladder' },
             { id: 1, name: 'ladder', x: 248, y: 40, width: 16, height: 110 - 28, mode: 'ladder' },
             { id: 4, name: 'loader', dir: 'custom', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 3, custom: { x: 0.1, y: 140 } },
-        ]
+        ], traps: []
     },
     {
         id: 5, sprite: '../assets/map/level_5.png', colliders: [
