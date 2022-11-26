@@ -7,7 +7,7 @@ import { Latnern } from "./sprites/Lantern";
 import { Door } from "./sprites/Door";
 
 const developmentMode: boolean = false
-export let currentScene: number = 0
+export let currentScene: number = 3
 
 export const gravityScale: number = 0.1;
 export const velocity: number = 1.3;
