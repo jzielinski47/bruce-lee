@@ -9,6 +9,7 @@ import { Sprite } from "./Sprite";
 
 export class Player extends Sprite implements SpriteInterface {
 
+    name: string;
     scale: { width: number; height: number; };
     position: { x: number; y: number; };
     velocity: { x: number; y: number; };
@@ -21,51 +22,43 @@ export class Player extends Sprite implements SpriteInterface {
     hitbox: Transform;
 
     triggers: { onLadder: boolean };
-    facingRight: boolean;
+    cooldowns: { climb: number; jump: number; }
+    lastActions: { climb: number; jump: number; }
     climbAnimVariant: number;
-    climbCooldown: number;
-    climbTime: number;
+
     levelToLoad: number;
     updateLevel: boolean;
-    lastPos: { x: number; y: number; };
-    health: number;
+
     date: Date;
-    lastJump: number;
-    jumpCooldown: number;
+    health: number;
 
     constructor(transform: Transform, animations: Animations) {
-        super(transform, { texture: '../assets/sprites/brucelee/idleRight.png' }, 1, animations)
+        super(transform, animations, 1)
+        this.name = 'player'
+
         this.scale = transform.scale;
         this.position = transform.position;
         this.velocity = transform.velocity;
 
         this.gravity = gravityScale;
-        // this.jumpHeight = 2.5
         this.jumpHeight = 1.8
         this.climbSpeed = 4
 
         this.sprite = new Image()
         this.sprite.src = '../assets/sprites/brucelee/brucelee-anim.png';
 
-        this.triggers = {
-            onLadder: false,
-        };
+        this.triggers = { onLadder: false };
 
         this.date = new Date();
 
-        this.jumpCooldown = 150
-        this.lastJump = this.date.getTime()
+        this.cooldowns = { climb: 150, jump: 150 }
+        this.lastActions = { climb: this.date.getTime(), jump: this.date.getTime() }
+        this.climbAnimVariant = 1;
 
-        this.climbAnimVariant = 1
-        this.climbCooldown = 150
-        this.climbTime = this.date.getTime()
+        this.levelToLoad = currentScene;
+        this.updateLevel = false;
 
-        this.levelToLoad = currentScene
-        this.updateLevel = false
-
-        this.lastPos = { x: this.position.x, y: this.position.y }
-
-        this.health = 100
+        this.health = 100;
     }
 
     update() {
@@ -78,8 +71,8 @@ export class Player extends Sprite implements SpriteInterface {
         if (player.velocity.x === 0 && lastKey === 'a') this.switchSprite('idleLeft')
 
         this.updateHitbox()
-        this.onTriggerEnter()
-        this.checkForLaterns()
+        this.triggerCollisionDetection()
+        this.lanternCollisionDetection()
 
         this.updateHitbox()
         this.horizontalCollisionDetection()
@@ -97,16 +90,15 @@ export class Player extends Sprite implements SpriteInterface {
                     const offset = this.hitbox.position.x - this.position.x + this.hitbox.scale.width
                     this.position.x = collider.x - offset - 0.01
 
-                    console.log('player collides with ' + collider.name, 'right')
+                    console.log(this.name + ' collides with ' + collider.name, 'right')
                 }
 
                 if (this.velocity.x < -0) {
                     const offset = this.hitbox.position.x - this.position.x
                     this.position.x = (collider.x + collider.width) - offset + 0.01
 
-                    console.log('player collides with ' + collider.name, 'left')
+                    console.log(this.name + ' collides with ' + collider.name, 'left')
                 }
-
             }
         })
     }
@@ -115,12 +107,13 @@ export class Player extends Sprite implements SpriteInterface {
         levels[currentScene].colliders.map(collider => {
             if (!this.updateLevel) {
                 if (onCollison(this.hitbox, collider)) {
+
                     if (this.velocity.y > 0) {
                         this.velocity.y = 0
                         const offset = this.hitbox.position.y - this.position.y + this.hitbox.scale.height
                         this.position.y = collider.y - offset - 0.1
 
-                        console.log('player collides with ' + collider.name, 'down')
+                        console.log('player collides with ' + collider.name, 'bottom')
                     }
 
                     if (this.velocity.y < 0) {
@@ -138,7 +131,7 @@ export class Player extends Sprite implements SpriteInterface {
 
     }
 
-    applyGravity() {
+    applyGravity = () => {
         this.position.y += this.velocity.y;
         this.velocity.y += this.gravity;
     }
@@ -175,32 +168,30 @@ export class Player extends Sprite implements SpriteInterface {
         this.date = new Date()
 
         if ((this.velocity.y === 0 || this.velocity.y === this.gravity) && !this.triggers.onLadder) {
-            if (this.date.getTime() - this.lastJump < this.jumpCooldown) return;
+            if (this.date.getTime() - this.lastActions.jump < this.cooldowns.jump) return;
             this.velocity.y = -this.jumpHeight
+            this.lastActions.jump = this.date.getTime();
         }
 
         if (this.velocity.y === 0 && this.triggers.onLadder) {
-            if (this.date.getTime() - this.climbTime < this.climbCooldown) return;
+            if (this.date.getTime() - this.lastActions.climb < this.cooldowns.climb) return;
             this.velocity.y = -this.climbSpeed
             this.climbAnimVariant = (this.climbAnimVariant === 1) ? 2 : 1
-            this.climbTime = this.date.getTime();
+            this.lastActions.climb = this.date.getTime();
         }
     }
 
     down = () => {
         this.date = new Date()
         if (this.velocity.y === 0 && this.triggers.onLadder) {
-            if (this.date.getTime() - this.climbTime < this.climbCooldown) return;
+            if (this.date.getTime() - this.lastActions.climb < this.cooldowns.climb) return;
             this.velocity.y = this.climbSpeed
             this.climbAnimVariant = (this.climbAnimVariant === 1) ? 2 : 1
-            this.climbTime = this.date.getTime();
-        }
-        if (this.velocity.x === 0 && (this.velocity.y === 0 || this.velocity.y === this.gravity) && !this.triggers.onLadder) {
-            this.switchSprite('lie')
+            this.lastActions.climb = this.date.getTime();
         }
     }
 
-    onTriggerEnter = () => {
+    triggerCollisionDetection = () => {
         if (levels[currentScene].triggers) {
             levels[currentScene].triggers.map(trigger => {
                 if (onCollison(this.hitbox, trigger)) {
@@ -211,12 +202,14 @@ export class Player extends Sprite implements SpriteInterface {
                             this.levelToLoad = trigger.level;
                             this.updateLevel = true;
 
-                            this.velocity.x = 0; this.velocity.y = 0;
+                            this.velocity.x = 0;
+                            this.velocity.y = 0;
+
                             switch (trigger.dir) {
                                 case 'right': this.position.x = 0.1; this.position.y -= this.gravity / 2; break;
                                 case 'left': this.position.x = canvas.width - this.scale.width - 0.1; this.position.y -= this.gravity / 2; break;
                                 case 'down': this.position.x = (trigger.hatch.x + (trigger.hatch.width / 2) - (this.scale.width / 2)); this.position.y = 0;
-                                case 'up': break;
+                                case 'up': this.position.x = (trigger.hatch.x + (trigger.hatch.width / 2) - (this.scale.width / 2)); this.position.y = canvas.width - this.scale.height - 0.1; break;
                                 case 'custom': this.position.x = trigger.custom.x; this.position.y = trigger.custom.y; break;
                             }
 
@@ -243,7 +236,7 @@ export class Player extends Sprite implements SpriteInterface {
         }
     }
 
-    checkForLaterns = () => {
+    lanternCollisionDetection = () => {
 
         levels[currentScene].lanterns.map(lantern => {
             if (onCollison(this.hitbox, lantern)) {

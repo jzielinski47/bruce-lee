@@ -41,7 +41,7 @@ export interface Anim {
 }
 
 export interface Animations {
-    idle?: Anim;
+    idle: Anim;
     idleRight?: Anim;
     idleLeft?: Anim;
     walkLeft?: Anim;

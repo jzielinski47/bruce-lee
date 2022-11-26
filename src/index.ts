@@ -15,6 +15,7 @@ export const setCurrentScene = (num: number) => currentScene = num
 
 export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0, y: 0 }, scale: { width: 15, height: 22 } },
     {
+        idle: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/idleRight.png' },
         idleRight: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/idleRight.png' },
         idleLeft: { frameRate: 1, frameBuffer: 2, loop: false, imageSrc: '../assets/sprites/brucelee/idleLeft.png' },
         walkLeft: { frameRate: 2, frameBuffer: 8, loop: false, imageSrc: '../assets/sprites/brucelee/walkLeft.png' },
@@ -74,7 +75,6 @@ export function renderPrefabs() {
         if (trigger.name === 'door') {
             const door = new Door(trigger.id, { position: { x: trigger.x, y: trigger.y }, scale: { width: trigger.width, height: trigger.height } }, trigger.key)
             temp.doors.push(door)
-
         }
     })
 }

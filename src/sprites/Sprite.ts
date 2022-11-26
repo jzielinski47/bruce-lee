@@ -13,7 +13,7 @@ export class Sprite {
     animations: Animations;
     loaded: boolean;
 
-    constructor(transform: Transform, material: Material, frameRate: number = 1, animations: Animations) {
+    constructor(transform: Transform, animations: Animations, frameRate: number = 1) {
         this.position = transform.position
         this.scale = transform.scale
         this.loaded = false
@@ -24,7 +24,7 @@ export class Sprite {
             this.loaded = true
         }
 
-        this.image.src = material.texture;
+        this.image.src = animations.idle.imageSrc;
 
         // animation
         this.animations = animations
