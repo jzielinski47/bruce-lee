@@ -6,8 +6,8 @@ import { drawColliders, levels } from "./scenes";
 import { Latnern } from "./sprites/Lantern";
 import { Door } from "./sprites/Door";
 
-const developmentMode: boolean = true
-export let currentScene: number = 4
+const developmentMode: boolean = false
+export let currentScene: number = 0
 
 export const gravityScale: number = 0.1;
 export const velocity: number = 1.3;
@@ -25,6 +25,7 @@ export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0
         fall: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/fall.png' },
         climb1: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/climb1.png' },
         climb2: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/climb2.png' },
+        lie: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/lie.png' },
     })
 
 const scene = new Background({ position: { x: 0, y: 0 }, scale: { width: canvas.width, height: canvas.height } })

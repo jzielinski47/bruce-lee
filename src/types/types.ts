@@ -53,6 +53,7 @@ export interface Animations {
     climb1?: Anim;
     climb2?: Anim;
     fall?: Anim;
+    lie?: Anim;
 }
 
 export interface Stats {

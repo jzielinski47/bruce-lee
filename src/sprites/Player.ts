@@ -20,7 +20,7 @@ export class Player extends Sprite implements SpriteInterface {
     sprite: HTMLImageElement;
     hitbox: Transform;
 
-    triggers: { onLadder: boolean; jump: boolean };
+    triggers: { onLadder: boolean };
     facingRight: boolean;
     climbAnimVariant: number;
     climbCooldown: number;
@@ -30,6 +30,8 @@ export class Player extends Sprite implements SpriteInterface {
     lastPos: { x: number; y: number; };
     health: number;
     date: Date;
+    lastJump: number;
+    jumpCooldown: number;
 
     constructor(transform: Transform, animations: Animations) {
         super(transform, { texture: '../assets/sprites/brucelee/idleRight.png' }, 1, animations)
@@ -47,10 +49,12 @@ export class Player extends Sprite implements SpriteInterface {
 
         this.triggers = {
             onLadder: false,
-            jump: false
         };
 
         this.date = new Date();
+
+        this.jumpCooldown = 150
+        this.lastJump = this.date.getTime()
 
         this.climbAnimVariant = 1
         this.climbCooldown = 150
@@ -68,12 +72,11 @@ export class Player extends Sprite implements SpriteInterface {
         this.render()
 
         this.position.x += this.velocity.x;
+        this.triggers.onLadder = false;
 
-        if (player.velocity.x === 0 && lastKey === 'd') { this.switchSprite('idleRight') }
-        if (player.velocity.x === 0 && lastKey === 'a') { this.switchSprite('idleLeft') }
+        if (player.velocity.x === 0 && lastKey === 'd') this.switchSprite('idleRight')
+        if (player.velocity.x === 0 && lastKey === 'a') this.switchSprite('idleLeft')
 
-        this.triggers.onLadder = false
-        this.triggers.jump = false
         this.updateHitbox()
         this.onTriggerEnter()
         this.checkForLaterns()
@@ -85,19 +88,12 @@ export class Player extends Sprite implements SpriteInterface {
 
         this.updateHitbox()
         this.verticalCollisionDetection();
-
-        // this.applyGravity();
-
-
-        // console.log(this.climbTime, this.climbCooldown);
-
     }
 
     horizontalCollisionDetection = () => {
         levels[currentScene].colliders.map(collider => {
             if (onCollison(this.hitbox, collider)) {
                 if (this.velocity.x > 0) {
-                    // this.velocity.x = 0
                     const offset = this.hitbox.position.x - this.position.x + this.hitbox.scale.width
                     this.position.x = collider.x - offset - 0.01
 
@@ -105,7 +101,6 @@ export class Player extends Sprite implements SpriteInterface {
                 }
 
                 if (this.velocity.x < -0) {
-                    // this.velocity.x = 0
                     const offset = this.hitbox.position.x - this.position.x
                     this.position.x = (collider.x + collider.width) - offset + 0.01
 
@@ -153,6 +148,56 @@ export class Player extends Sprite implements SpriteInterface {
         this.updateHitbox()
         this.verticalCollisionDetection()
         this.velocity.y = 0
+    }
+
+    updateHitbox = () => {
+        this.hitbox = {
+            position: { x: this.position.x + 1, y: this.position.y },
+            scale: { width: 16, height: 21 }
+        }
+    }
+
+    drawHitbox = () => {
+        ctx.fillStyle = 'rgba(255,0,0,0.5)'
+        ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.scale.width, this.hitbox.scale.height)
+    }
+
+    switchSprite = (sprite: string) => {
+        if (this.image === this.animations[sprite].image || !this.loaded) return
+        // this.currentFrame = 0
+        this.image = this.animations[sprite].image
+        this.frameRate = this.animations[sprite].frameRate
+        this.frameBuffer = this.animations[sprite].frameBuffer
+    }
+
+    jump = () => {
+
+        this.date = new Date()
+
+        if ((this.velocity.y === 0 || this.velocity.y === this.gravity) && !this.triggers.onLadder) {
+            if (this.date.getTime() - this.lastJump < this.jumpCooldown) return;
+            this.velocity.y = -this.jumpHeight
+        }
+
+        if (this.velocity.y === 0 && this.triggers.onLadder) {
+            if (this.date.getTime() - this.climbTime < this.climbCooldown) return;
+            this.velocity.y = -this.climbSpeed
+            this.climbAnimVariant = (this.climbAnimVariant === 1) ? 2 : 1
+            this.climbTime = this.date.getTime();
+        }
+    }
+
+    down = () => {
+        this.date = new Date()
+        if (this.velocity.y === 0 && this.triggers.onLadder) {
+            if (this.date.getTime() - this.climbTime < this.climbCooldown) return;
+            this.velocity.y = this.climbSpeed
+            this.climbAnimVariant = (this.climbAnimVariant === 1) ? 2 : 1
+            this.climbTime = this.date.getTime();
+        }
+        if (this.velocity.x === 0 && (this.velocity.y === 0 || this.velocity.y === this.gravity) && !this.triggers.onLadder) {
+            this.switchSprite('lie')
+        }
     }
 
     onTriggerEnter = () => {
@@ -211,51 +256,6 @@ export class Player extends Sprite implements SpriteInterface {
         })
     }
 
-    updateHitbox = () => {
-        this.hitbox = {
-            position: { x: this.position.x + 1, y: this.position.y },
-            scale: { width: 16, height: 21 }
-        }
-    }
 
-    jump = () => {
-
-        if ((this.velocity.y === 0 || this.velocity.y === this.gravity) && !this.triggers.onLadder && !this.triggers.jump) {
-            this.velocity.y = -this.jumpHeight
-            this.triggers.jump = true
-        }
-        // this.velocity.y = -this.jumpHeight // flying
-        this.date = new Date()
-        if (this.velocity.y === 0 && this.triggers.onLadder) {
-            if (this.date.getTime() - this.climbTime < this.climbCooldown) return;
-            this.velocity.y = -this.climbSpeed
-            this.climbAnimVariant = (this.climbAnimVariant === 1) ? 2 : 1
-            this.climbTime = this.date.getTime();
-        }
-    }
-
-    down = () => {
-
-        this.date = new Date()
-        if (this.velocity.y === 0 && this.triggers.onLadder) {
-            if (this.date.getTime() - this.climbTime < this.climbCooldown) return;
-            this.velocity.y = this.climbSpeed
-            this.climbAnimVariant = (this.climbAnimVariant === 1) ? 2 : 1
-            this.climbTime = this.date.getTime();
-        }
-    }
-
-    switchSprite = (sprite: string) => {
-        if (this.image === this.animations[sprite].image || !this.loaded) return
-        // this.currentFrame = 0
-        this.image = this.animations[sprite].image
-        this.frameRate = this.animations[sprite].frameRate
-        this.frameBuffer = this.animations[sprite].frameBuffer
-    }
-
-    drawHitbox = () => {
-        ctx.fillStyle = 'rgba(255,0,0,0.5)'
-        ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.scale.width, this.hitbox.scale.height)
-    }
 
 }
