@@ -5,15 +5,17 @@ import { Background } from "./sprites/Background";
 import { drawColliders, levels } from "./scenes";
 import { Latnern } from "./sprites/Lantern";
 import { Door } from "./sprites/Door";
+import { Prefab } from "./sprites/Prefab";
+
 
 const developmentMode: boolean = false
-export let currentScene: number = 3
+export let currentScene: number = 4
 
 export const gravityScale: number = 0.1;
 export const velocity: number = 1.3;
 export const setCurrentScene = (num: number) => currentScene = num
 
-export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0, y: 0 }, scale: { width: 15, height: 22 } },
+export const player = new Player({ position: { x: 230, y: 150 }, velocity: { x: 0, y: 0 }, scale: { width: 15, height: 22 } },
     {
         idle: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/idleRight.png' },
         idleRight: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/idleRight.png' },
@@ -30,7 +32,7 @@ export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0
     })
 
 const scene = new Background({ position: { x: 0, y: 0 }, scale: { width: canvas.width, height: canvas.height } })
-export const temp = { lanterns: [], doors: [] }
+export const temp = { lanterns: [], doors: [], waterfalls: [] }
 
 renderPrefabs()
 
@@ -40,10 +42,13 @@ function update() {
     if (player.updateLevel) resetScene()
 
     scene.update()
-    player.update()
+
 
     temp.lanterns.map(lantern => lantern.update())
     temp.doors.map(door => door.update())
+    temp.waterfalls.map(water => water.update())
+
+    player.update()
 
     if (developmentMode) { drawColliders(currentScene); player.drawHitbox() }
 
@@ -64,17 +69,24 @@ function update() {
 export function renderPrefabs() {
     levels[currentScene].lanterns.map(lantern => {
         if (!lantern.collected) {
-            const lanternObject = new Latnern(lantern.id, { position: { x: lantern.x, y: lantern.y }, scale: { width: 6, height: 10 } })
+            const lanternObject = new Latnern({ position: { x: lantern.x, y: lantern.y }, scale: { width: 6, height: 10 } }, { id: lantern.id, door: lantern.door })
             temp.lanterns.push(lanternObject)
         }
     })
 
     levels[currentScene].triggers.map(trigger => {
         if (trigger.name === 'door') {
-            const door = new Door({ position: { x: trigger.x, y: trigger.y }, scale: { width: trigger.width, height: trigger.height } }, { id: trigger.id, model: trigger.model, key: trigger.key })
+            const door = new Door({ position: { x: trigger.x, y: trigger.y }, scale: { width: trigger.width, height: trigger.height } },
+                { id: trigger.id, model: trigger.model, key: trigger.key, keyOpened: trigger.keyOpened })
             temp.doors.push(door)
         }
+        if (trigger.name === 'water') {
+            const waterObject = new Prefab({ position: { x: trigger.x, y: trigger.y }, scale: { width: trigger.width, height: trigger.height } },
+                { idle: { frameRate: 9, frameBuffer: 10, loop: true, imageSrc: '../assets/sprites/water/water-' + trigger.model + '-' + trigger.dir + '.png' } })
+            temp.waterfalls.push(waterObject)
+        }
     })
+
 }
 
 function resetScene() {
@@ -83,6 +95,7 @@ function resetScene() {
     player.updateLevel = false;
     temp.lanterns = []
     temp.doors = []
+    temp.waterfalls = []
     renderPrefabs()
 }
 

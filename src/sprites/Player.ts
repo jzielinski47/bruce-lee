@@ -17,12 +17,13 @@ export class Player extends Sprite implements SpriteInterface {
 
     jumpHeight: number;
     climbSpeed: number;
+    waterSpeed: number;
     gravity: number;
 
     sprite: HTMLImageElement;
     hitbox: Transform;
 
-    triggers: { onLadder: boolean };
+    triggers: { onLadder: boolean; onWater: boolean };
     cooldowns: { climb: number; jump: number; }
     lastActions: { climb: number; jump: number; }
     climbAnimVariant: number;
@@ -32,6 +33,7 @@ export class Player extends Sprite implements SpriteInterface {
 
     date: Date;
     health: number;
+    waterDirection: string;
 
     constructor(transform: Transform, animations: Animations) {
         super(transform, animations, 1)
@@ -44,11 +46,13 @@ export class Player extends Sprite implements SpriteInterface {
         this.gravity = gravityScale;
         this.jumpHeight = 1.8
         this.climbSpeed = 4
+        this.waterSpeed = 0.182
+        this.waterDirection = 'up'
 
         this.sprite = new Image()
         this.sprite.src = '../assets/sprites/brucelee/brucelee-anim.png';
 
-        this.triggers = { onLadder: false };
+        this.triggers = { onLadder: false, onWater: false };
 
         this.date = new Date();
 
@@ -67,6 +71,7 @@ export class Player extends Sprite implements SpriteInterface {
 
         this.position.x += this.velocity.x;
         this.triggers.onLadder = false;
+        this.triggers.onWater = false;
 
         if (player.velocity.x === 0 && lastKey === 'd') this.switchSprite('idleRight')
         if (player.velocity.x === 0 && lastKey === 'a') this.switchSprite('idleLeft')
@@ -77,7 +82,8 @@ export class Player extends Sprite implements SpriteInterface {
         this.updateHitbox()
         this.horizontalCollisionDetection()
 
-        this.triggers.onLadder ? this.applyLadderMovement() : this.applyGravity();
+
+        this.triggers.onLadder ? this.applyLadderMovement : this.applyGravity();
 
         this.updateHitbox()
         this.verticalCollisionDetection();
@@ -143,6 +149,14 @@ export class Player extends Sprite implements SpriteInterface {
         this.velocity.y = 0
     }
 
+    applyWaterMovement = () => {
+        this.position.y += this.velocity.y;
+        this.updateHitbox()
+        this.verticalCollisionDetection()
+        this.velocity.y = this.waterDirection == 'up' ? -this.waterSpeed : this.waterSpeed
+
+    }
+
     updateHitbox = () => {
         this.hitbox = {
             position: { x: this.position.x + 1, y: this.position.y },
@@ -167,13 +181,13 @@ export class Player extends Sprite implements SpriteInterface {
 
         this.date = new Date()
 
-        if ((this.velocity.y === 0 || this.velocity.y === this.gravity) && !this.triggers.onLadder) {
+        if ((this.velocity.y === 0 || this.velocity.y === this.gravity) && !this.triggers.onLadder && !this.triggers.onWater) {
             if (this.date.getTime() - this.lastActions.jump < this.cooldowns.jump) return;
             this.velocity.y = -this.jumpHeight
             this.lastActions.jump = this.date.getTime();
         }
 
-        if (this.velocity.y === 0 && this.triggers.onLadder) {
+        if ((this.velocity.y === 0 && this.triggers.onLadder) || this.triggers.onWater) {
             if (this.date.getTime() - this.lastActions.climb < this.cooldowns.climb) return;
             this.velocity.y = -this.climbSpeed
             this.climbAnimVariant = (this.climbAnimVariant === 1) ? 2 : 1
@@ -183,8 +197,9 @@ export class Player extends Sprite implements SpriteInterface {
 
     down = () => {
         this.date = new Date()
-        if (this.velocity.y === 0 && this.triggers.onLadder) {
+        if ((this.velocity.y === 0 && this.triggers.onLadder) || this.triggers.onWater) {
             if (this.date.getTime() - this.lastActions.climb < this.cooldowns.climb) return;
+            if (this.triggers.onWater) this.velocity.y += this.waterSpeed
             this.velocity.y = this.climbSpeed
             this.climbAnimVariant = (this.climbAnimVariant === 1) ? 2 : 1
             this.lastActions.climb = this.date.getTime();
@@ -197,6 +212,11 @@ export class Player extends Sprite implements SpriteInterface {
                 if (onCollison(this.hitbox, trigger)) {
                     switch (trigger.mode) {
                         case 'ladder': this.triggers.onLadder = true; break;
+                        case 'water':
+                            this.triggers.onWater = true;
+                            this.triggers.onLadder = true;
+                            this.waterDirection = trigger.dir
+                            break;
                         case 'loader':
 
                             this.levelToLoad = trigger.level;
@@ -220,6 +240,8 @@ export class Player extends Sprite implements SpriteInterface {
                                 switch (trigger.model) {
                                     case 0: this.createVirtualCollider(trigger, 'v'); break;
                                     case 1: this.createVirtualCollider(trigger, 'h'); break;
+                                    case 2: this.createVirtualCollider(trigger, 'v'); break;
+                                    case 3: this.createVirtualCollider(trigger, 'v'); break;
                                 }
 
                             }
