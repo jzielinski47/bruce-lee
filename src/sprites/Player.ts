@@ -82,8 +82,9 @@ export class Player extends Sprite implements SpriteInterface {
         this.updateHitbox()
         this.horizontalCollisionDetection()
 
-
-        this.triggers.onLadder ? this.applyLadderMovement : this.applyGravity();
+        if (this.triggers.onLadder && this.triggers.onWater) { this.applyWaterMovement() }
+        else if (this.triggers.onLadder) { this.applyLadderMovement() }
+        else { this.applyGravity(); }
 
         this.updateHitbox()
         this.verticalCollisionDetection();
@@ -181,7 +182,7 @@ export class Player extends Sprite implements SpriteInterface {
 
         this.date = new Date()
 
-        if ((this.velocity.y === 0 || this.velocity.y === this.gravity) && !this.triggers.onLadder && !this.triggers.onWater) {
+        if ((this.velocity.y === 0 || this.velocity.y === this.gravity) && !this.triggers.onLadder) {
             if (this.date.getTime() - this.lastActions.jump < this.cooldowns.jump) return;
             this.velocity.y = -this.jumpHeight
             this.lastActions.jump = this.date.getTime();

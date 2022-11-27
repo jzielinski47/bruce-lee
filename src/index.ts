@@ -8,7 +8,7 @@ import { Door } from "./sprites/Door";
 import { Prefab } from "./sprites/Prefab";
 
 
-const developmentMode: boolean = false
+const developmentMode: boolean = true
 export let currentScene: number = 4
 
 export const gravityScale: number = 0.1;

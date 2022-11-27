@@ -167,6 +167,7 @@ export const levels = [
             { id: 0, name: 'fence', x: 0, y: 0, width: 128, height: 12 },
             { id: 0, name: 'fence', x: 272, y: 60, width: 8, height: 60 },
             { id: 0, name: 'fence', x: 0, y: 0, width: 8, height: 16 },
+            { id: 26, name: 'ceiling', x: 0, y: 0, width: canvas.width, height: 2 },
 
         ], lanterns: [
             { id: 0, name: 'lantern', x: 88, y: 38, width: 6, height: 10, collected: false, door: 4 },
@@ -178,7 +179,16 @@ export const levels = [
             { id: 3, name: 'water', x: 144, y: 1, width: 32, height: 160, mode: 'water', dir: 'up', model: 1 },
             { id: 4, name: 'door', x: 88, y: 108, width: 32, height: 4, mode: 'door', opened: false, model: 2, keyOpened: true },
             { id: 5, name: 'door', x: 200, y: 108, width: 32, height: 4, mode: 'door', opened: false, model: 3, keyOpened: true },
-        ], traps: []
+        ], traps: [
+            { id: 0, name: 'pike', x: 130, y: 0, width: 6, height: 16, mode: 'trap', dmg: 100 },
+            { id: 1, name: 'pike', x: 138, y: 0, width: 6, height: 16, mode: 'trap', dmg: 100 },
+            { id: 2, name: 'pike', x: 178, y: 0, width: 6, height: 16, mode: 'trap', dmg: 100 },
+            { id: 3, name: 'pike', x: 186, y: 0, width: 6, height: 16, mode: 'trap', dmg: 100 },
+            { id: 4, name: 'pike', x: 130, y: 80, width: 6, height: 16, mode: 'trap', dmg: 100 },
+            { id: 5, name: 'pike', x: 138, y: 64, width: 6, height: 16, mode: 'trap', dmg: 100 },
+            { id: 6, name: 'pike', x: 178, y: 64, width: 6, height: 16, mode: 'trap', dmg: 100 },
+            { id: 7, name: 'pike', x: 186, y: 80, width: 6, height: 16, mode: 'trap', dmg: 100 },
+        ]
     },
     {
         id: 5, sprite: '../assets/map/level_5.png', colliders: [
@@ -221,8 +231,13 @@ export const drawColliders = (num) => {
             ctx.fillStyle = 'rgba(255,0,0,0.5)'
             ctx.fillRect(col.x, col.y, col.width, col.height)
         }
-
     })
+
+    levels[num].traps.map(trap => {
+        ctx.fillStyle = 'rgba(221,225,28,0.5)'
+        ctx.fillRect(trap.x, trap.y, trap.width, trap.height)
+    })
+
 }
 
 
