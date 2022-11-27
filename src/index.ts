@@ -16,7 +16,7 @@ export const gravityScale: number = 0.1;
 export const velocity: number = 1.3;
 export const setCurrentScene = (num: number) => currentScene = num
 
-export const player = new Player({ position: { x: 230, y: 60 }, velocity: { x: 0, y: 0 }, scale: { width: 15, height: 22 } },
+export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0, y: 0 }, scale: { width: 15, height: 22 } },
     {
         idle: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/idleRight.png' },
         idleRight: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/idleRight.png' },
