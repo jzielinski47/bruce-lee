@@ -1,5 +1,5 @@
 import { input, lastKey } from "./inputListener";
-import { ctx, canvas } from "./setup";
+import { ctx, canvas, gameData } from "./setup";
 import { Player } from "./sprites/Player";
 import { Background } from "./sprites/Background";
 import { drawColliders, levels } from "./scenes";
@@ -11,6 +11,7 @@ import { Prefab } from "./sprites/Prefab";
 const developmentMode: boolean = true
 export let currentScene: number = 4
 
+let lastPossibleScene: number = currentScene;
 export const gravityScale: number = 0.1;
 export const velocity: number = 1.3;
 export const setCurrentScene = (num: number) => currentScene = num
@@ -43,26 +44,29 @@ function update() {
 
     scene.update()
 
+    if (currentScene !== 9) {
+        temp.lanterns.map(lantern => lantern.update())
+        temp.doors.map(door => door.update())
+        temp.waterfalls.map(water => water.update())
 
-    temp.lanterns.map(lantern => lantern.update())
-    temp.doors.map(door => door.update())
-    temp.waterfalls.map(water => water.update())
+        player.update()
 
-    player.update()
+        if (developmentMode) { drawColliders(currentScene); player.drawHitbox() }
 
-    if (developmentMode) { drawColliders(currentScene); player.drawHitbox() }
+        player.velocity.x = 0
+        if (input.a.pressed && lastKey === 'a') { player.velocity.x = -velocity; player.switchSprite('walkLeft') }
+        else if (input.d.pressed && lastKey === 'd') { player.velocity.x = velocity; player.switchSprite('walkRight') }
 
-    player.velocity.x = 0
-    if (input.a.pressed && lastKey === 'a') { player.velocity.x = -velocity; player.switchSprite('walkLeft') }
-    else if (input.d.pressed && lastKey === 'd') { player.velocity.x = velocity; player.switchSprite('walkRight') }
+        if (player.velocity.y < 0 && input.a.pressed && lastKey === 'a') { player.switchSprite('jumpLeft') }
+        else if (player.velocity.y < 0 && input.d.pressed && lastKey === 'd') { player.switchSprite('jumpRight') }
+        else if (player.velocity.y < 0) { player.switchSprite('fall') }
+        else if (player.velocity.y > gravityScale + 0.3) { player.switchSprite('fall') }
 
-    if (player.velocity.y < 0 && input.a.pressed && lastKey === 'a') { player.switchSprite('jumpLeft') }
-    else if (player.velocity.y < 0 && input.d.pressed && lastKey === 'd') { player.switchSprite('jumpRight') }
-    else if (player.velocity.y < 0) { player.switchSprite('fall') }
-    else if (player.velocity.y > gravityScale + 0.3) { player.switchSprite('fall') }
-
-    if (player.triggers.onLadder && player.climbAnimVariant === 1) { player.switchSprite('climb2'); }
-    else if (player.triggers.onLadder && player.climbAnimVariant === 2) { player.switchSprite('climb1'); }
+        if (player.triggers.onLadder && player.climbAnimVariant === 1) { player.switchSprite('climb2'); }
+        else if (player.triggers.onLadder && player.climbAnimVariant === 2) { player.switchSprite('climb1'); }
+    } else {
+        setTimeout(() => announceDead(), 3000)
+    }
 
 }
 
@@ -90,6 +94,7 @@ export function renderPrefabs() {
 }
 
 function resetScene() {
+    if (player.levelToLoad !== 9) lastPossibleScene = currentScene
     currentScene = player.levelToLoad;
     console.warn('change');
     player.updateLevel = false;
@@ -97,6 +102,21 @@ function resetScene() {
     temp.doors = []
     temp.waterfalls = []
     renderPrefabs()
+}
+
+function announceDead() {
+    if (gameData.falls > 0) {
+        player.levelToLoad = lastPossibleScene
+        currentScene = player.levelToLoad;
+        console.warn('respawn');
+        // player.position.y = 16;
+        // player.position.y;
+        player.updateLevel = false;
+        temp.lanterns = []
+        temp.doors = []
+        temp.waterfalls = []
+        renderPrefabs()
+    }
 }
 
 update()

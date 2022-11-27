@@ -29,7 +29,7 @@ export const levels = [
         ], traps: []
     },
     {
-        id: 1, sprite: '../assets/map/level_1.png', colliders: [
+        id: 1, sprite: '../assets/map/level_1.png', defaults: [30, 150], colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 6, width: 150, height: 6 },
             { id: 1, name: 'floor', x: 170, y: canvas.height - 6, width: canvas.width - 170, height: 6 },
             { id: 2, name: 'fence', x: 0, y: canvas.height - 42, width: 8, height: 36 },
@@ -179,15 +179,17 @@ export const levels = [
             { id: 3, name: 'water', x: 144, y: 1, width: 32, height: 160, mode: 'water', dir: 'up', model: 1 },
             { id: 4, name: 'door', x: 88, y: 108, width: 32, height: 4, mode: 'door', opened: false, model: 2, keyOpened: true },
             { id: 5, name: 'door', x: 200, y: 108, width: 32, height: 4, mode: 'door', opened: false, model: 3, keyOpened: true },
+            { id: 6, name: 'loader', dir: 'down', x: 0, y: canvas.height + 20, width: canvas.width, height: 20, mode: 'loader', level: 6, hatch: { x: 28, y: 0, width: 36, heigth: 6 } },
+
         ], traps: [
-            { id: 0, name: 'pike', x: 130, y: 0, width: 6, height: 16, mode: 'trap', dmg: 100 },
-            { id: 1, name: 'pike', x: 138, y: 0, width: 6, height: 16, mode: 'trap', dmg: 100 },
-            { id: 2, name: 'pike', x: 178, y: 0, width: 6, height: 16, mode: 'trap', dmg: 100 },
-            { id: 3, name: 'pike', x: 186, y: 0, width: 6, height: 16, mode: 'trap', dmg: 100 },
-            { id: 4, name: 'pike', x: 130, y: 80, width: 6, height: 16, mode: 'trap', dmg: 100 },
-            { id: 5, name: 'pike', x: 138, y: 64, width: 6, height: 16, mode: 'trap', dmg: 100 },
-            { id: 6, name: 'pike', x: 178, y: 64, width: 6, height: 16, mode: 'trap', dmg: 100 },
-            { id: 7, name: 'pike', x: 186, y: 80, width: 6, height: 16, mode: 'trap', dmg: 100 },
+            { id: 0, name: 'trap', x: 130 + 2, y: 0, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
+            { id: 1, name: 'trap', x: 138 + 2, y: 0, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
+            { id: 2, name: 'trap', x: 178 + 2, y: 0, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
+            { id: 3, name: 'trap', x: 186 + 2, y: 0, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
+            { id: 4, name: 'trap', x: 130 + 2, y: 80, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
+            { id: 5, name: 'trap', x: 138 + 2, y: 64, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
+            { id: 6, name: 'trap', x: 178 + 2, y: 64, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
+            { id: 7, name: 'trap', x: 186 + 2, y: 80, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
         ]
     },
     {
@@ -197,7 +199,7 @@ export const levels = [
     },
     {
         id: 6, sprite: '../assets/map/level_6.png', colliders: [
-            { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
+            { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 16 },
         ], lanterns: [], triggers: [], traps: []
     },
     {
@@ -207,6 +209,11 @@ export const levels = [
     },
     {
         id: 8, sprite: '../assets/map/level_8.png', colliders: [
+            { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
+        ], lanterns: [], triggers: [], traps: []
+    },
+    {
+        id: 9, sprite: '../assets/map/dead.png', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
         ], lanterns: [], triggers: [], traps: []
     },

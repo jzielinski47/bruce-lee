@@ -80,6 +80,9 @@ export class Player extends Sprite implements SpriteInterface {
         this.triggerCollisionDetection()
 
         this.updateHitbox()
+        this.trapCollisionDetection()
+
+        this.updateHitbox()
         this.horizontalCollisionDetection()
 
         if (this.triggers.onLadder && this.triggers.onWater) { this.applyWaterMovement() }
@@ -88,6 +91,9 @@ export class Player extends Sprite implements SpriteInterface {
 
         this.updateHitbox()
         this.verticalCollisionDetection();
+
+        if (this.health <= 0) this.playerIsDead()
+
     }
 
     horizontalCollisionDetection = (arr = levels[currentScene].colliders) => {
@@ -253,12 +259,30 @@ export class Player extends Sprite implements SpriteInterface {
         }
     }
 
+    trapCollisionDetection = () => {
+        if (levels[currentScene].traps) {
+            levels[currentScene].traps.map(trap => {
+                if (onCollison(this.hitbox, trap)) {
+                    this.health -= trap.dmg;
+                }
+            })
+        }
+    }
+
     createVirtualCollider(object, mode) {
         this.updateHitbox()
         switch (mode) {
             case 'h': this.horizontalCollisionDetection(levels[currentScene].triggers); break;
             case 'v': this.verticalCollisionDetection(levels[currentScene].triggers); this.updateHitbox(); this.horizontalCollisionDetection(levels[currentScene].triggers); break;
         }
+    }
+
+    playerIsDead() {
+        this.levelToLoad = 9;
+        this.updateLevel = true;
+        this.health = 100;
+        console.log(this.levelToLoad);
+        gameData.falls--;
     }
 
 }
