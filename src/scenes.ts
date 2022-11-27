@@ -199,7 +199,15 @@ export const levels = [
     },
     {
         id: 6, sprite: '../assets/map/level_6.png', colliders: [
-            { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 16 },
+            { id: 0, name: 'floor', x: 0, y: canvas.height - 16, width: canvas.width, height: 16 },
+            { id: 1, name: 'fence', x: 0, y: 0, width: 8, height: 54 },
+            { id: 2, name: 'fence', x: 8, y: 0, width: 8, height: 96 },
+            { id: 3, name: 'fence', x: 0, y: 96, width: 320, height: 16 },
+            { id: 4, name: 'platform', x: 0, y: 90, width: 320, height: 6 },
+            { id: 5, name: 'platform', x: 0, y: 158, width: 320, height: 6 },
+            { id: 6, name: 'platform', x: 8, y: 156, width: 32, height: 2 },
+            { id: 7, name: 'platform', x: 288, y: 156, width: 32, height: 2 },
+            { id: 3, name: 'fence', x: 0, y: 96, width: 8, height: 70 },
         ], lanterns: [], triggers: [], traps: []
     },
     {
