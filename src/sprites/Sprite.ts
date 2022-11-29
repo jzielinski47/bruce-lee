@@ -53,6 +53,7 @@ export class Sprite {
             width: this.scale.width, height: this.scale.height
         }
 
+        ctx.imageSmoothingEnabled = false;
         ctx.drawImage(this.image, cropbox.position.x, cropbox.position.y, cropbox.width, cropbox.height, this.position.x, this.position.y, this.scale.width, this.scale.height)
         this.anim()
 
