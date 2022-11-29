@@ -181,7 +181,7 @@ export class Player extends Sprite implements SpriteInterface {
 
     switchSprite = (sprite: string) => {
         if (this.image === this.animations[sprite].image || !this.loaded) return
-        this.currentFrame = 0
+        // this.currentFrame = 0
         this.image = this.animations[sprite].image
         this.frameRate = this.animations[sprite].frameRate
         this.frameBuffer = this.animations[sprite].frameBuffer
