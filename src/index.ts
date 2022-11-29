@@ -9,11 +9,11 @@ import { Prefab } from "./sprites/Prefab";
 
 
 const developmentMode: boolean = true
-export let currentScene: number = 0
+export let currentScene: number = 2
 
 let lastPossibleScene: number = currentScene;
 export const gravityScale: number = 0.1;
-export const velocity: number = 1.3;
+export const velocity: number = 1.2;
 export const setCurrentScene = (num: number) => currentScene = num
 
 export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0, y: 0 }, scale: { width: 15, height: 22 } },
@@ -21,8 +21,8 @@ export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0
         idle: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/idleRight.png' },
         idleRight: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/idleRight.png' },
         idleLeft: { frameRate: 1, frameBuffer: 2, loop: false, imageSrc: '../assets/sprites/brucelee/idleLeft.png' },
-        walkLeft: { frameRate: 2, frameBuffer: 8, loop: false, imageSrc: '../assets/sprites/brucelee/walkLeft.png' },
-        walkRight: { frameRate: 2, frameBuffer: 8, loop: false, imageSrc: '../assets/sprites/brucelee/walkRight.png' },
+        walkLeft: { frameRate: 2, frameBuffer: 6, loop: false, imageSrc: '../assets/sprites/brucelee/walkLeft.png' },
+        walkRight: { frameRate: 2, frameBuffer: 6, loop: false, imageSrc: '../assets/sprites/brucelee/walkRight.png' },
         jump: { frameRate: 3, frameBuffer: 8, loop: true, imageSrc: '../assets/sprites/brucelee/jump.png' },
         jumpLeft: { frameRate: 2, frameBuffer: 30, loop: true, imageSrc: '../assets/sprites/brucelee/jumpLeft.png' },
         jumpRight: { frameRate: 2, frameBuffer: 30, loop: true, imageSrc: '../assets/sprites/brucelee/jumpRight.png' },
@@ -54,11 +54,13 @@ function update() {
         if (developmentMode) { drawColliders(currentScene); player.drawHitbox() }
 
         player.velocity.x = 0
+
+        // && (player.velocity.y === gravityScale || player.velocity.y === 0)
         if (input.a.pressed && lastKey === 'a') { player.velocity.x = -velocity; player.switchSprite('walkLeft') }
         else if (input.d.pressed && lastKey === 'd') { player.velocity.x = velocity; player.switchSprite('walkRight') }
 
-        if (player.velocity.y < 0 && input.a.pressed && lastKey === 'a') { player.switchSprite('jumpLeft') }
-        else if (player.velocity.y < 0 && input.d.pressed && lastKey === 'd') { player.switchSprite('jumpRight') }
+        if (player.velocity.y < 0 && input.a.pressed && lastKey === 'a') { player.velocity.x = -velocity * 0.8; player.switchSprite('jumpLeft') }
+        else if (player.velocity.y < 0 && input.d.pressed && lastKey === 'd') { player.velocity.x = velocity * 0.8; player.switchSprite('jumpRight') }
         else if (player.velocity.y < 0) { player.switchSprite('fall') }
         else if (player.velocity.y > gravityScale + 0.3) { player.switchSprite('fall') }
 
@@ -80,8 +82,9 @@ export function renderPrefabs() {
 
     levels[currentScene].triggers.map(trigger => {
         if (trigger.name === 'door') {
-            const door = new Door({ position: { x: trigger.x, y: trigger.y }, scale: { width: trigger.width, height: trigger.height } },
+            const door = new Door({ position: { x: trigger.x, y: trigger.model === 0 ? trigger.y - 4 : trigger.y }, scale: { width: trigger.width, height: trigger.height } },
                 { id: trigger.id, model: trigger.model, key: trigger.key, keyOpened: trigger.keyOpened })
+
             temp.doors.push(door)
         }
         if (trigger.name === 'water') {

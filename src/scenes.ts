@@ -62,12 +62,15 @@ export const levels = [
             { id: 3, name: 'loader', dir: 'left', x: 0, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 0 },
             { id: 4, name: 'loader', dir: 'right', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 2 },
             { id: 5, name: 'loader', dir: 'down', x: 0, y: canvas.height + 20, width: canvas.width, height: 20, mode: 'loader', level: 3, hatch: { x: 56, y: 0, width: 32, heigth: 16 } },
-            { id: 6, name: 'door', x: 152, y: canvas.height - 10, width: 20 - 4, height: 10, mode: 'door', opened: false, model: 0, keyOpened: false, key: 22 }, // usually 22
+            { id: 6, name: 'door', x: 152, y: canvas.height - 6, width: 20 - 4, height: 10, mode: 'door', opened: false, model: 0, keyOpened: false, key: 22 }, // usually 22
 
         ], traps: [
 
         ], platforms: [
-
+            { id: 0, name: 'platform', x: 112, y: 76, width: 96, height: 2 },
+            { id: 1, name: 'platform', x: 120, y: 70, width: 24, height: 2 },
+            { id: 2, name: 'platform', x: 176, y: 70, width: 24, height: 2 },
+            { id: 3, name: 'platform', x: 154, y: 110, width: 12, height: 2 },
         ]
     },
     {
@@ -104,7 +107,10 @@ export const levels = [
         ], triggers: [
             { id: 0, name: 'ladder', x: 136, y: 78, width: 24, height: 60, mode: 'ladder' },
             { id: 1, name: 'loader', dir: 'left', x: 0, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 1 },
-        ], traps: [], platforms: []
+        ], traps: [], platforms: [
+            { id: 0, name: 'platform', x: 136, y: 74, width: 24, height: 2 },
+            { id: 1, name: 'platform', x: 80, y: 74, width: 24, height: 2 },
+        ]
     },
     {
         id: 3, sprite: '../assets/map/level_3.png', colliders: [
@@ -267,7 +273,7 @@ export const drawColliders = (num) => {
 
     if (levels[num].platforms) {
         levels[num].platforms.map(platform => {
-            ctx.fillStyle = 'rgba(0, 50, 0,0.5)'
+            ctx.fillStyle = 'rgba(0, 128, 0,0.5)'
             ctx.fillRect(platform.x, platform.y, platform.width, platform.height)
         })
     }

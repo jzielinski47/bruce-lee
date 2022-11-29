@@ -44,7 +44,7 @@ export class Player extends Sprite implements SpriteInterface {
         this.velocity = transform.velocity;
 
         this.gravity = gravityScale;
-        this.jumpHeight = 1.8
+        this.jumpHeight = 1.6
         this.climbSpeed = 4
         this.waterSpeed = 0.182
         this.waterDirection = 'up'
@@ -56,7 +56,7 @@ export class Player extends Sprite implements SpriteInterface {
 
         this.date = new Date();
 
-        this.cooldowns = { climb: 150, jump: 150 }
+        this.cooldowns = { climb: 150, jump: 300 }
         this.lastActions = { climb: this.date.getTime(), jump: this.date.getTime() }
         this.climbAnimVariant = 1;
 
