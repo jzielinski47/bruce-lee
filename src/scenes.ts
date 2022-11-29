@@ -26,7 +26,15 @@ export const levels = [
         ], triggers: [
             { id: 0, name: 'ladder', x: 144, y: 80, width: 24, height: 58, mode: 'ladder' },
             { id: 1, name: 'loader', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 1, dir: 'right' },
-        ], traps: []
+        ], traps: [
+
+        ], platforms: [
+            { id: 0, name: 'platform', x: 48, y: 70, width: 32, height: 2 },
+            { id: 1, name: 'platform', x: 104, y: 70, width: 24, height: 2 },
+            { id: 2, name: 'platform', x: 184, y: 70, width: 16, height: 2 },
+            { id: 3, name: 'platform', x: 136, y: 76, width: 40, height: 2 },
+        ]
+
     },
     {
         id: 1, sprite: '../assets/map/level_1.png', defaults: [30, 150], colliders: [
@@ -56,7 +64,11 @@ export const levels = [
             { id: 5, name: 'loader', dir: 'down', x: 0, y: canvas.height + 20, width: canvas.width, height: 20, mode: 'loader', level: 3, hatch: { x: 56, y: 0, width: 32, heigth: 16 } },
             { id: 6, name: 'door', x: 152, y: canvas.height - 10, width: 20 - 4, height: 10, mode: 'door', opened: false, model: 0, keyOpened: false, key: 22 }, // usually 22
 
-        ], traps: []
+        ], traps: [
+
+        ], platforms: [
+
+        ]
     },
     {
         id: 2, sprite: '../assets/map/level_2.png', colliders: [
@@ -92,7 +104,7 @@ export const levels = [
         ], triggers: [
             { id: 0, name: 'ladder', x: 136, y: 78, width: 24, height: 60, mode: 'ladder' },
             { id: 1, name: 'loader', dir: 'left', x: 0, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 1 },
-        ], traps: []
+        ], traps: [], platforms: []
     },
     {
         id: 3, sprite: '../assets/map/level_3.png', colliders: [
@@ -142,7 +154,7 @@ export const levels = [
         ], traps: [
             { id: 0, name: 'trap', x: 8, y: 58, width: 24, height: 6, mode: 'trap' },
             { id: 1, name: 'trap', x: 216, y: 122, width: 24, height: 6, mode: 'trap' },
-        ]
+        ], platforms: []
     },
     {
         id: 4, sprite: '../assets/map/level_4.png', colliders: [
@@ -190,12 +202,12 @@ export const levels = [
             { id: 5, name: 'trap', x: 138 + 2, y: 64, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
             { id: 6, name: 'trap', x: 178 + 2, y: 64, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
             { id: 7, name: 'trap', x: 186 + 2, y: 80, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
-        ]
+        ], platforms: []
     },
     {
         id: 5, sprite: '../assets/map/level_5.png', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
-        ], lanterns: [], triggers: [], traps: []
+        ], lanterns: [], triggers: [], traps: [], platforms: []
     },
     {
         id: 6, sprite: '../assets/map/level_6.png', colliders: [
@@ -208,22 +220,22 @@ export const levels = [
             { id: 6, name: 'platform', x: 8, y: 156, width: 32, height: 2 },
             { id: 7, name: 'platform', x: 288, y: 156, width: 32, height: 2 },
             { id: 3, name: 'fence', x: 0, y: 96, width: 8, height: 70 },
-        ], lanterns: [], triggers: [], traps: []
+        ], lanterns: [], triggers: [], traps: [], platforms: []
     },
     {
         id: 7, sprite: '../assets/map/level_7.png', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
-        ], lanterns: [], triggers: [], traps: []
+        ], lanterns: [], triggers: [], traps: [], platforms: []
     },
     {
         id: 8, sprite: '../assets/map/level_8.png', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
-        ], lanterns: [], triggers: [], traps: []
+        ], lanterns: [], triggers: [], traps: [], platforms: []
     },
     {
         id: 9, sprite: '../assets/map/dead.png', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
-        ], lanterns: [], triggers: [], traps: []
+        ], lanterns: [], triggers: [], traps: [], platforms: []
     },
 
 ]
@@ -252,6 +264,14 @@ export const drawColliders = (num) => {
         ctx.fillStyle = 'rgba(221,225,28,0.5)'
         ctx.fillRect(trap.x, trap.y, trap.width, trap.height)
     })
+
+    if (levels[num].platforms) {
+        levels[num].platforms.map(platform => {
+            ctx.fillStyle = 'rgba(0, 50, 0,0.5)'
+            ctx.fillRect(platform.x, platform.y, platform.width, platform.height)
+        })
+    }
+
 
 }
 

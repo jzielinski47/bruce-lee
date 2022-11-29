@@ -4,7 +4,7 @@ import { lastKey } from "../inputListener";
 import { levels } from "../scenes";
 import { canvas, ctx, gameData } from "../setup";
 import { Anim, Animations, Setup, SpriteInterface, Transform } from "../types/types";
-import { onCollison } from "../utils";
+import { onCollison, onCollisonBottom } from "../utils";
 import { Latnern } from "./Lantern";
 import { Sprite } from "./Sprite";
 
@@ -92,6 +92,9 @@ export class Player extends Sprite implements SpriteInterface {
         this.updateHitbox()
         this.verticalCollisionDetection();
 
+        this.updateHitbox()
+        this.platformCollisionDetection();
+
         if (this.health <= 0) this.playerIsDead()
 
     }
@@ -178,7 +181,7 @@ export class Player extends Sprite implements SpriteInterface {
 
     switchSprite = (sprite: string) => {
         if (this.image === this.animations[sprite].image || !this.loaded) return
-        // this.currentFrame = 0
+        this.currentFrame = 0
         this.image = this.animations[sprite].image
         this.frameRate = this.animations[sprite].frameRate
         this.frameBuffer = this.animations[sprite].frameBuffer
@@ -267,6 +270,26 @@ export class Player extends Sprite implements SpriteInterface {
                 }
             })
         }
+    }
+
+    platformCollisionDetection = () => {
+
+        levels[currentScene].platforms.map(platform => {
+
+            if (onCollisonBottom(this.hitbox, platform)) {
+
+                if (this.velocity.y > 0) {
+                    this.velocity.y = 0
+                    const offset = this.hitbox.position.y - this.position.y + this.hitbox.scale.height
+                    this.position.y = platform.y - offset - 0.1
+
+                    console.log('player collides with ' + platform.name, 'bottom')
+                }
+
+            }
+
+        })
+
     }
 
     createVirtualCollider(object, mode) {

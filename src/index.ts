@@ -8,7 +8,7 @@ import { Door } from "./sprites/Door";
 import { Prefab } from "./sprites/Prefab";
 
 
-const developmentMode: boolean = false
+const developmentMode: boolean = true
 export let currentScene: number = 0
 
 let lastPossibleScene: number = currentScene;
