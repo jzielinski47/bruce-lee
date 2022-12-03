@@ -73,6 +73,7 @@ export class Player extends Sprite {
 
         if (player.velocity.x === 0 && lastKey === 'd') this.switchSprite('idleRight')
         if (player.velocity.x === 0 && lastKey === 'a') this.switchSprite('idleLeft')
+        if (player.velocity.x === 0 && lastKey === undefined) this.switchSprite('idleRight')
 
         this.updateHitbox()
         this.triggerCollisionDetection()

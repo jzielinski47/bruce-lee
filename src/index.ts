@@ -4,6 +4,7 @@ import { drawColliders, scenes } from "./scenes"
 import { Background } from "./sprites/Background"
 import { Door } from "./sprites/Door"
 import { Latnern } from "./sprites/Lantern"
+import { Ninja } from "./sprites/Ninja"
 import { Player } from "./sprites/Player"
 import { Prefab } from "./sprites/Prefab"
 import { updateUserInterface } from "./userinterface"
@@ -22,6 +23,13 @@ export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0
         climb1: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/climb1.png' },
         climb2: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/climb2.png' },
         lie: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/lie.png' },
+    })
+
+const ninja = new Ninja({ position: { x: 270, y: 20 }, velocity: { x: 0, y: 0 }, scale: { width: 15, height: 22 } },
+    {
+        idle: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/ninja/idleRight.png' },
+        idleRight: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/ninja/idleRight.png' },
+        idleLeft: { frameRate: 1, frameBuffer: 2, loop: false, imageSrc: '../assets/sprites/ninja/idleLeft.png' },
     })
 
 const scene = new Background({ position: { x: 0, y: 0 }, scale: { width: canvas.width, height: canvas.height } })
@@ -46,10 +54,12 @@ const update = () => {
         temp.waterfalls.map(water => water.update())
 
         player.update()
+        ninja.update()
 
         if (config.dev.inDevelopmendMode) { drawColliders(config.dev.currentScene); player.drawHitbox() }
 
         player.velocity.x = 0
+        ninja.velocity.x = 0
 
         // && (player.velocity.y === gravityScale || player.velocity.y === 0)
         if (input.a.pressed && lastKey === 'a') { player.velocity.x = -config.physics.velocity; player.switchSprite('walkLeft') }
