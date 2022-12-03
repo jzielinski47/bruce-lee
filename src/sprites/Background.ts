@@ -1,7 +1,6 @@
-import { currentScene } from "..";
-import { levels } from "../scenes";
-import { ctx } from "../setup";
-import { Animations, Material, Setup, Transform } from "../types/types";
+import { config, ctx } from "../config";
+import { Animations, Transform } from "../interfaces/interfaces";
+import { scenes } from "../scenes";
 
 export class Background {
 
@@ -24,7 +23,7 @@ export class Background {
             this.scale.height = this.image.height
         }
 
-        this.image.src = levels[currentScene].sprite;
+        this.image.src = scenes[config.dev.currentScene].sprite;
 
     }
 
@@ -34,7 +33,7 @@ export class Background {
 
     update() {
         this.render()
-        this.image.src = levels[currentScene].sprite;
+        this.image.src = scenes[config.dev.currentScene].sprite;
         // console.error(currentScene)
     }
 }

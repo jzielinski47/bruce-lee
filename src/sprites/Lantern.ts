@@ -1,8 +1,9 @@
-import { temp, player, currentScene } from "..";
-import { levels } from "../scenes";
-import { gameData, updateStats } from "../setup";
-import { Transform } from "../types/types";
-import { onCollison, refinedOnCollison as advancedCollision } from "../utils";
+import { player, temp } from "..";
+import { config } from "../config";
+import { Transform } from "../interfaces/interfaces";
+import { scenes } from "../scenes";
+import { updateUserInterface } from "../userinterface";
+import { refinedOnCollison } from "../utils";
 import { Sprite } from "./Sprite";
 
 export class Latnern extends Sprite {
@@ -26,19 +27,19 @@ export class Latnern extends Sprite {
     }
 
     onCollect() {
-        if (advancedCollision(this, player)) {
+        if (refinedOnCollison(this, player)) {
             this.collected = true
 
-            gameData.score += 100
-            gameData.collectedLanterns += 1
-            updateStats()
+            config.stats.score += 100
+            config.stats.collectedLanterns += 1
+            updateUserInterface()
 
             if (this.door !== null) {
-                levels[currentScene].triggers.map(trig => { if (trig.id === this.door) trig.opened = true })
+                scenes[config.dev.currentScene].triggers.map(trig => { if (trig.id === this.door) trig.opened = true })
             }
 
             temp.lanterns = temp.lanterns.filter(lant => lant.id !== this.id)
-            levels[currentScene].lanterns.map(lantern => { if (lantern.id === this.id && !lantern.collected) lantern.collected = true })
+            scenes[config.dev.currentScene].lanterns.map(lantern => { if (lantern.id === this.id && !lantern.collected) lantern.collected = true })
         }
     }
 }

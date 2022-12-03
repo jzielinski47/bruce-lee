@@ -1,8 +1,7 @@
-import { ctx } from "../setup";
-import { Animations, Material, Setup, Transform } from "../types/types";
+import { ctx } from "../config";
+import { Transform, Animations } from "../interfaces/interfaces";
 
 export class Sprite {
-
     position: { x: number; y: number }
     scale: { width: number; height: number }
     image: HTMLImageElement

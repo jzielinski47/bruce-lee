@@ -1,7 +1,4 @@
-import { currentScene } from ".";
-import { levels } from "./scenes";
-import { Latnern } from "./sprites/Lantern";
-import { Transform } from "./types/types";
+import { Transform } from "./interfaces/interfaces"
 
 export function onCollison(object: Transform, collider) {
     return (object.position.y + object.scale.height >= collider.y && object.position.y <= (collider.y + collider.height)
@@ -20,3 +17,13 @@ export function onCollisonBottom(object: Transform, collider) {
         object.position.x + object.scale.width >= collider.x)
 }
 
+export function formatNumber(num: number, max: number): string {
+    let string: string = ''
+    if (num.toString().length < max) {
+        for (let i = 0; i < max - num.toString().length; i++) {
+            string += '0'
+        }
+    }
+    string += num.toString()
+    return string;
+}

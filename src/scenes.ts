@@ -1,8 +1,6 @@
-import { canvas, ctx } from "./setup";
+import { canvas, ctx } from "./config"
 
-// { id: 0, player: true, ninja: false, green: false }
-
-export const levels = [
+export const scenes = [
     {
         id: 0, sprite: '../assets/map/level_0.png', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 6, width: canvas.width, height: 6 },
@@ -247,32 +245,32 @@ export const levels = [
 ]
 
 export const drawColliders = (num) => {
-    levels[num].colliders.map(col => {
+    scenes[num].colliders.map(col => {
         ctx.fillStyle = 'rgba(0,255,0,0.5)'
         if (col.name === 'platform') ctx.fillStyle = 'rgba(255,255,0,0.5)'
         ctx.fillRect(col.x, col.y, col.width, col.height)
     })
 
-    levels[num].triggers.map(col => {
+    scenes[num].triggers.map(col => {
 
         ctx.fillStyle = (col.name === 'door') ? 'rgba(255,165,0,0.5)' : 'rgba(0,0,255,0.5)'
         ctx.fillRect(col.x, col.y, col.width, col.height)
     })
 
-    levels[num].lanterns.map(col => {
+    scenes[num].lanterns.map(col => {
         if (!col.collected) {
             ctx.fillStyle = 'rgba(255,0,0,0.5)'
             ctx.fillRect(col.x, col.y, col.width, col.height)
         }
     })
 
-    levels[num].traps.map(trap => {
+    scenes[num].traps.map(trap => {
         ctx.fillStyle = 'rgba(221,225,28,0.5)'
         ctx.fillRect(trap.x, trap.y, trap.width, trap.height)
     })
 
-    if (levels[num].platforms) {
-        levels[num].platforms.map(platform => {
+    if (scenes[num].platforms) {
+        scenes[num].platforms.map(platform => {
             ctx.fillStyle = 'rgba(0, 128, 0,0.5)'
             ctx.fillRect(platform.x, platform.y, platform.width, platform.height)
         })
@@ -280,7 +278,3 @@ export const drawColliders = (num) => {
 
 
 }
-
-
-
-

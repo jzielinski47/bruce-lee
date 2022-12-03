@@ -1,7 +1,7 @@
-import { currentScene, temp } from "..";
-import { levels } from "../scenes";
-import { gameData } from "../setup";
-import { Animations, Transform } from "../types/types";
+import { temp } from "..";
+import { config } from "../config";
+import { Transform } from "../interfaces/interfaces";
+import { scenes } from "../scenes";
 import { Sprite } from "./Sprite";
 
 export class Door extends Sprite {
@@ -23,22 +23,22 @@ export class Door extends Sprite {
     onOpen() {
 
         if (this.keyOpened) {
-            levels[currentScene].triggers.map(trig => {
+            scenes[config.dev.currentScene].triggers.map(trig => {
                 if (trig.id === this.id) {
                     this.opened = trig.opened
                 }
             })
         }
 
-        if (!this.keyOpened && gameData.collectedLanterns >= this.key) this.opened = true
+        if (!this.keyOpened && config.stats.collectedLanterns >= this.key) this.opened = true
 
         // console.log(this.opened)
 
         if (this.opened) {
             temp.doors = temp.doors.filter(door => door.id !== this.id)
-            levels[currentScene].triggers.map(trig => trig.id === this.id ? trig.opened = true : null)
+            scenes[config.dev.currentScene].triggers.map(trig => trig.id === this.id ? trig.opened = true : null)
         }
-        // console.error('open', gameData.collectedLanterns, this.key)
+        // console.error('open', config.stats.collectedLanterns, this.key)
     }
 
 

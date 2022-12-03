@@ -6,9 +6,9 @@ export const input = {
     w: { pressed: false },
     s: { pressed: false },
 }
-export let lastKey: string
+export let lastKey: string;
 
-window.onkeydown = e => {
+window.onkeydown = (e: KeyboardEvent) => {
     switch (e.key) {
         case "a": case "ArrowLeft": input.a.pressed = true; lastKey = 'a'; player.climbAnimVariant = (player.climbAnimVariant === 1) ? 2 : 1; break;
         case "d": case "ArrowRight": input.d.pressed = true; lastKey = 'd'; player.climbAnimVariant = (player.climbAnimVariant === 1) ? 2 : 1; break;
@@ -17,10 +17,9 @@ window.onkeydown = e => {
     }
 }
 
-window.onkeyup = e => {
+window.onkeyup = (e: KeyboardEvent) => {
     switch (e.key) {
         case "a": case "ArrowLeft": input.a.pressed = false; break;
         case "d": case "ArrowRight": input.d.pressed = false; break;
     }
 }
-

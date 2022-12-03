@@ -29,13 +29,15 @@ body {
     display: flex;
     flex-direction: column;
     gap: 2px;
+
+    /* height: 90v; */
 }
 
 #canvas {
-    /* height: 80%; */
+    /* height: 80vh; */
 }
 
-#bar {
+#ui {
     display: flex;
     flex-direction: row;
     background-color: #d8d8d8;

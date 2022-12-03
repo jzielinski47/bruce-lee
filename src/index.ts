@@ -1,20 +1,12 @@
-import { input, lastKey } from "./inputListener";
-import { ctx, canvas, gameData } from "./setup";
-import { Player } from "./sprites/Player";
-import { Background } from "./sprites/Background";
-import { drawColliders, levels } from "./scenes";
-import { Latnern } from "./sprites/Lantern";
-import { Door } from "./sprites/Door";
-import { Prefab } from "./sprites/Prefab";
-
-
-const developmentMode: boolean = false
-export let currentScene: number = 0
-
-let lastPossibleScene: number = currentScene;
-export const gravityScale: number = 0.1;
-export const velocity: number = 1.2;
-export const setCurrentScene = (num: number) => currentScene = num
+import { canvas, config } from "./config"
+import { input, lastKey } from "./controls"
+import { drawColliders, scenes } from "./scenes"
+import { Background } from "./sprites/Background"
+import { Door } from "./sprites/Door"
+import { Latnern } from "./sprites/Lantern"
+import { Player } from "./sprites/Player"
+import { Prefab } from "./sprites/Prefab"
+import { updateUserInterface } from "./userinterface"
 
 export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0, y: 0 }, scale: { width: 15, height: 22 } },
     {
@@ -34,39 +26,43 @@ export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0
 
 const scene = new Background({ position: { x: 0, y: 0 }, scale: { width: canvas.width, height: canvas.height } })
 export const temp = { lanterns: [], doors: [], waterfalls: [] }
-
+let lastPossibleScene: number = config.dev.currentScene;
 renderPrefabs()
 
-function update() {
+const start = () => {
+    updateUserInterface()
+}
+
+const update = () => {
     window.requestAnimationFrame(update)
 
     if (player.updateLevel) resetScene()
 
     scene.update()
 
-    if (currentScene !== 9) {
+    if (config.dev.currentScene !== 9) {
         temp.lanterns.map(lantern => lantern.update())
         temp.doors.map(door => door.update())
         temp.waterfalls.map(water => water.update())
 
         player.update()
 
-        if (developmentMode) { drawColliders(currentScene); player.drawHitbox() }
+        if (config.dev.inDevelopmendMode) { drawColliders(config.dev.currentScene); player.drawHitbox() }
 
         player.velocity.x = 0
 
         // && (player.velocity.y === gravityScale || player.velocity.y === 0)
-        if (input.a.pressed && lastKey === 'a') { player.velocity.x = -velocity; player.switchSprite('walkLeft') }
-        else if (input.d.pressed && lastKey === 'd') { player.velocity.x = velocity; player.switchSprite('walkRight') }
+        if (input.a.pressed && lastKey === 'a') { player.velocity.x = -config.physics.velocity; player.switchSprite('walkLeft') }
+        else if (input.d.pressed && lastKey === 'd') { player.velocity.x = config.physics.velocity; player.switchSprite('walkRight') }
 
-        if (player.velocity.y < 0 && input.a.pressed && lastKey === 'a') { player.velocity.x = -velocity * 0.8; player.switchSprite('jumpLeft') }
-        else if (player.velocity.y < 0 && input.d.pressed && lastKey === 'd') { player.velocity.x = velocity * 0.8; player.switchSprite('jumpRight') }
+        if (player.velocity.y < 0 && input.a.pressed && lastKey === 'a') { player.velocity.x = -config.physics.velocity * 0.8; player.switchSprite('jumpLeft') }
+        else if (player.velocity.y < 0 && input.d.pressed && lastKey === 'd') { player.velocity.x = config.physics.velocity * 0.8; player.switchSprite('jumpRight') }
         else if (player.velocity.y < 0) { player.switchSprite('fall') }
-        else if (player.velocity.y > gravityScale + 0.3) { player.switchSprite('fall') }
+        else if (player.velocity.y > config.physics.gravityScale + 0.3) { player.switchSprite('fall') }
 
 
-        if (input.a.pressed && lastKey === 'a' && player.triggers.onLadder) { player.velocity.x = -velocity * 0.7; }
-        else if (input.d.pressed && lastKey === 'd' && player.triggers.onLadder) { player.velocity.x = velocity * 0.7; }
+        if (input.a.pressed && lastKey === 'a' && player.triggers.onLadder) { player.velocity.x = -config.physics.velocity * 0.7; }
+        else if (input.d.pressed && lastKey === 'd' && player.triggers.onLadder) { player.velocity.x = config.physics.velocity * 0.7; }
         if (player.triggers.onLadder && player.climbAnimVariant === 1) { player.switchSprite('climb2'); }
         else if (player.triggers.onLadder && player.climbAnimVariant === 2) { player.switchSprite('climb1'); }
     } else {
@@ -76,14 +72,14 @@ function update() {
 }
 
 export function renderPrefabs() {
-    levels[currentScene].lanterns.map(lantern => {
+    scenes[config.dev.currentScene].lanterns.map(lantern => {
         if (!lantern.collected) {
             const lanternObject = new Latnern({ position: { x: lantern.x, y: lantern.y }, scale: { width: 6, height: 10 } }, { id: lantern.id, door: lantern.door })
             temp.lanterns.push(lanternObject)
         }
     })
 
-    levels[currentScene].triggers.map(trigger => {
+    scenes[config.dev.currentScene].triggers.map(trigger => {
         if (trigger.name === 'door') {
             const door = new Door({ position: { x: trigger.x, y: trigger.model === 0 ? trigger.y - 4 : trigger.y }, scale: { width: trigger.width, height: trigger.height } },
                 { id: trigger.id, model: trigger.model, key: trigger.key, keyOpened: trigger.keyOpened })
@@ -100,8 +96,8 @@ export function renderPrefabs() {
 }
 
 function resetScene() {
-    if (player.levelToLoad !== 9) lastPossibleScene = currentScene
-    currentScene = player.levelToLoad;
+    if (player.levelToLoad !== 9) lastPossibleScene = config.dev.currentScene
+    config.dev.currentScene = player.levelToLoad;
     console.warn('change');
     player.updateLevel = false;
     temp.lanterns = []
@@ -111,9 +107,9 @@ function resetScene() {
 }
 
 function announceDead() {
-    if (gameData.falls > 0) {
+    if (config.stats.lives > 0) {
         player.levelToLoad = lastPossibleScene
-        currentScene = player.levelToLoad;
+        config.dev.currentScene = player.levelToLoad;
         console.warn('respawn');
         // player.position.y = 16;
         // player.position.y;
@@ -125,8 +121,5 @@ function announceDead() {
     }
 }
 
+start()
 update()
-
-
-
-

@@ -1,15 +1,12 @@
-import { isThisTypeNode } from "typescript";
-import { currentScene, gravityScale, player, setCurrentScene } from "..";
-import { lastKey } from "../inputListener";
-import { levels } from "../scenes";
-import { canvas, ctx, gameData } from "../setup";
-import { Anim, Animations, Setup, SpriteInterface, Transform } from "../types/types";
+import { player } from "..";
+import { ctx, canvas, config } from "../config";
+import { lastKey } from "../controls";
+import { Transform, Animations } from "../interfaces/interfaces";
+import { scenes } from "../scenes";
 import { onCollison, onCollisonBottom } from "../utils";
-import { Latnern } from "./Lantern";
 import { Sprite } from "./Sprite";
 
-export class Player extends Sprite implements SpriteInterface {
-
+export class Player extends Sprite {
     name: string;
     scale: { width: number; height: number; };
     position: { x: number; y: number; };
@@ -17,7 +14,7 @@ export class Player extends Sprite implements SpriteInterface {
 
     jumpHeight: number;
     climbSpeed: number;
-    waterSpeed: number;
+    onWaterSpeed: number;
     gravity: number;
 
     sprite: HTMLImageElement;
@@ -43,11 +40,12 @@ export class Player extends Sprite implements SpriteInterface {
         this.position = transform.position;
         this.velocity = transform.velocity;
 
-        this.gravity = gravityScale;
-        this.jumpHeight = 1.6
-        this.climbSpeed = 4
-        this.waterSpeed = 0.182
-        this.waterDirection = 'up'
+        this.gravity = config.physics.gravityScale;
+        this.jumpHeight = config.physics.jumpHeight;
+        this.climbSpeed = config.physics.climbSpeed;
+        this.onWaterSpeed = config.physics.onWaterSpeed;
+
+        this.waterDirection;
 
         this.sprite = new Image()
         this.sprite.src = '../assets/sprites/brucelee/brucelee-anim.png';
@@ -60,7 +58,7 @@ export class Player extends Sprite implements SpriteInterface {
         this.lastActions = { climb: this.date.getTime(), jump: this.date.getTime() }
         this.climbAnimVariant = 1;
 
-        this.levelToLoad = currentScene;
+        this.levelToLoad = config.dev.currentScene;
         this.updateLevel = false;
 
         this.health = 100;
@@ -99,7 +97,7 @@ export class Player extends Sprite implements SpriteInterface {
 
     }
 
-    horizontalCollisionDetection = (arr = levels[currentScene].colliders) => {
+    horizontalCollisionDetection = (arr = scenes[config.dev.currentScene].colliders) => {
         arr.map(collider => {
             if (onCollison(this.hitbox, collider)) {
                 if (this.velocity.x > 0) {
@@ -119,7 +117,7 @@ export class Player extends Sprite implements SpriteInterface {
         })
     }
 
-    verticalCollisionDetection = (arr = levels[currentScene].colliders) => {
+    verticalCollisionDetection = (arr = scenes[config.dev.currentScene].colliders) => {
         arr.map(collider => {
             if (!this.updateLevel) {
                 if (onCollison(this.hitbox, collider)) {
@@ -163,7 +161,7 @@ export class Player extends Sprite implements SpriteInterface {
         this.position.y += this.velocity.y;
         this.updateHitbox()
         this.verticalCollisionDetection()
-        this.velocity.y = this.waterDirection == 'up' ? -this.waterSpeed : this.waterSpeed
+        this.velocity.y = this.waterDirection == 'up' ? -this.onWaterSpeed : this.onWaterSpeed
 
     }
 
@@ -209,7 +207,7 @@ export class Player extends Sprite implements SpriteInterface {
         this.date = new Date()
         if ((this.velocity.y === 0 && this.triggers.onLadder) || this.triggers.onWater) {
             if (this.date.getTime() - this.lastActions.climb < this.cooldowns.climb) return;
-            if (this.triggers.onWater) this.velocity.y += this.waterSpeed
+            if (this.triggers.onWater) this.velocity.y += this.onWaterSpeed
             this.velocity.y = this.climbSpeed
             this.climbAnimVariant = (this.climbAnimVariant === 1) ? 2 : 1
             this.lastActions.climb = this.date.getTime();
@@ -217,8 +215,8 @@ export class Player extends Sprite implements SpriteInterface {
     }
 
     triggerCollisionDetection = () => {
-        if (levels[currentScene].triggers) {
-            levels[currentScene].triggers.map(trigger => {
+        if (scenes[config.dev.currentScene].triggers) {
+            scenes[config.dev.currentScene].triggers.map(trigger => {
                 if (onCollison(this.hitbox, trigger)) {
                     switch (trigger.mode) {
                         case 'ladder': this.triggers.onLadder = true; break;
@@ -263,8 +261,8 @@ export class Player extends Sprite implements SpriteInterface {
     }
 
     trapCollisionDetection = () => {
-        if (levels[currentScene].traps) {
-            levels[currentScene].traps.map(trap => {
+        if (scenes[config.dev.currentScene].traps) {
+            scenes[config.dev.currentScene].traps.map(trap => {
                 if (onCollison(this.hitbox, trap)) {
                     this.health -= trap.dmg;
                 }
@@ -274,7 +272,7 @@ export class Player extends Sprite implements SpriteInterface {
 
     platformCollisionDetection = () => {
 
-        levels[currentScene].platforms.map(platform => {
+        scenes[config.dev.currentScene].platforms.map(platform => {
 
             if (onCollisonBottom(this.hitbox, platform)) {
 
@@ -295,8 +293,8 @@ export class Player extends Sprite implements SpriteInterface {
     createVirtualCollider(object, mode) {
         this.updateHitbox()
         switch (mode) {
-            case 'h': this.horizontalCollisionDetection(levels[currentScene].triggers); break;
-            case 'v': this.verticalCollisionDetection(levels[currentScene].triggers); this.updateHitbox(); this.horizontalCollisionDetection(levels[currentScene].triggers); break;
+            case 'h': this.horizontalCollisionDetection(scenes[config.dev.currentScene].triggers); break;
+            case 'v': this.verticalCollisionDetection(scenes[config.dev.currentScene].triggers); this.updateHitbox(); this.horizontalCollisionDetection(scenes[config.dev.currentScene].triggers); break;
         }
     }
 
@@ -305,7 +303,6 @@ export class Player extends Sprite implements SpriteInterface {
         this.updateLevel = true;
         this.health = 100;
         console.log(this.levelToLoad);
-        gameData.falls--;
+        config.stats.lives--;
     }
-
 }

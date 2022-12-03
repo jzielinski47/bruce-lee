@@ -1,5 +1,4 @@
-import { Transform } from "../types/types";
-import { Sprite } from "./Sprite";
+import { Transform } from "../interfaces/interfaces";
 
 export class Ninja {
     position: { x: number; y: number; };
