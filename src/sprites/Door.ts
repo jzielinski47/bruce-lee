@@ -8,7 +8,6 @@ export class Door extends Sprite {
 
     id: number; transform: Transform; model: number; opened: boolean; key: number; keyOpened: boolean;
 
-
     constructor(transform: Transform, { id, model, key, keyOpened }) {
 
         super(transform, { idle: { frameRate: 1, frameBuffer: 30, loop: true, imageSrc: '../assets/sprites/door/model-' + model + '.png' } })

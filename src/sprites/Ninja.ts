@@ -1,8 +1,9 @@
-import { Transform } from "../interfaces/interfaces";
+import { Animations, Transform } from "../interfaces/interfaces";
 
 export class Ninja {
     position: { x: number; y: number; };
-    constructor(transform: Transform) {
+    
+    constructor(transform: Transform, animations: Animations) {
         this.position = transform.position
     }
 }
