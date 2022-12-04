@@ -19,7 +19,7 @@ export class Player extends Sprite {
     sprite: HTMLImageElement;
     hitbox: Transform;
 
-    triggers: { onLadder: boolean; onWater: boolean };
+    triggers: { onLadder: boolean; onWater: boolean; crouched: boolean; };
     cooldowns: { climb: number; jump: number; }
     lastActions: { climb: number; jump: number; }
     climbAnimVariant: number;
@@ -49,7 +49,7 @@ export class Player extends Sprite {
         this.sprite = new Image()
         this.sprite.src = '../assets/sprites/brucelee/brucelee-anim.png';
 
-        this.triggers = { onLadder: false, onWater: false };
+        this.triggers = { onLadder: false, onWater: false, crouched: false };
 
         this.date = new Date();
 
@@ -94,6 +94,8 @@ export class Player extends Sprite {
         this.platformCollisionDetection();
 
         if (this.health <= 0) this.playerIsDead()
+
+        console.log('c', this.triggers.crouched)
 
     }
 
@@ -167,8 +169,8 @@ export class Player extends Sprite {
 
     updateHitbox = () => {
         this.hitbox = {
-            position: { x: this.position.x + 1, y: this.position.y },
-            scale: { width: 16, height: 21 }
+            position: this.triggers.crouched ? { x: this.position.x + 2, y: this.position.y + 17 } : { x: this.position.x + 1, y: this.position.y },
+            scale: this.triggers.crouched ? { width: 30, height: 3 } : { width: 16, height: 21 }
         }
     }
 
@@ -205,6 +207,12 @@ export class Player extends Sprite {
 
     down = () => {
         this.date = new Date()
+
+        if ((this.velocity.y === 0 || this.velocity.y === this.gravity) && !this.triggers.onLadder) {
+            this.triggers.crouched = true;
+            this.updateHitbox()
+        }
+
         if ((this.velocity.y === 0 && this.triggers.onLadder) || this.triggers.onWater) {
             if (this.date.getTime() - this.lastActions.climb < this.cooldowns.climb) return;
             if (this.triggers.onWater) this.velocity.y += this.onWaterSpeed

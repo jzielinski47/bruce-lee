@@ -23,7 +23,8 @@ export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0
         fall: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/fall.png' },
         climb1: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/climb1.png' },
         climb2: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/climb2.png' },
-        lie: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/lie.png' },
+        lieLeft: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/lieLeft.png' },
+        lieRight: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/lieRight.png' },
     })
 
 const ninja = new Ninja({ position: { x: 270, y: 20 }, velocity: { x: 0, y: 0 }, scale: { width: 28, height: 21 } },
@@ -67,19 +68,22 @@ const update = () => {
         player.velocity.x = 0
         ninja.velocity.x = 0
 
-        if (input.a.pressed && lastKey === 'a') { player.velocity.x = -config.physics.velocity; player.switchSprite('walkLeft') }
-        else if (input.d.pressed && lastKey === 'd') { player.velocity.x = config.physics.velocity; player.switchSprite('walkRight') }
+        if (player.triggers.crouched && input.s.pressed && lastKey === 'd') player.switchSprite('lieRight')
+        else if (player.triggers.crouched && input.s.pressed && lastKey === 'a') player.switchSprite('lieLeft')
+        else {
+            if (input.a.pressed && lastKey === 'a') { player.velocity.x = -config.physics.velocity; player.switchSprite('walkLeft') }
+            else if (input.d.pressed && lastKey === 'd') { player.velocity.x = config.physics.velocity; player.switchSprite('walkRight') }
 
-        if (player.velocity.y < 0 && input.a.pressed && lastKey === 'a') { player.velocity.x = -config.physics.velocity * 0.8; player.switchSprite('jumpLeft') }
-        else if (player.velocity.y < 0 && input.d.pressed && lastKey === 'd') { player.velocity.x = config.physics.velocity * 0.8; player.switchSprite('jumpRight') }
-        else if (player.velocity.y < 0) { player.switchSprite('fall') }
-        else if (player.velocity.y > config.physics.gravityScale + 0.1) { player.switchSprite('fall') }
+            if (player.velocity.y < 0 && input.a.pressed && lastKey === 'a') { player.velocity.x = -config.physics.velocity * 0.8; player.switchSprite('jumpLeft') }
+            else if (player.velocity.y < 0 && input.d.pressed && lastKey === 'd') { player.velocity.x = config.physics.velocity * 0.8; player.switchSprite('jumpRight') }
+            else if (player.velocity.y < 0) { player.switchSprite('jump') }
+            else if (player.velocity.y > config.physics.gravityScale + 0.1) { player.switchSprite('fall') }
 
-
-        if (input.a.pressed && lastKey === 'a' && player.triggers.onLadder) { player.velocity.x = -config.physics.velocity * 0.7; }
-        else if (input.d.pressed && lastKey === 'd' && player.triggers.onLadder) { player.velocity.x = config.physics.velocity * 0.7; }
-        if (player.triggers.onLadder && player.climbAnimVariant === 1) { player.switchSprite('climb2'); }
-        else if (player.triggers.onLadder && player.climbAnimVariant === 2) { player.switchSprite('climb1'); }
+            if (input.a.pressed && lastKey === 'a' && player.triggers.onLadder) { player.velocity.x = -config.physics.velocity * 0.7; }
+            else if (input.d.pressed && lastKey === 'd' && player.triggers.onLadder) { player.velocity.x = config.physics.velocity * 0.7; }
+            if (player.triggers.onLadder && player.climbAnimVariant === 1) { player.switchSprite('climb2'); }
+            else if (player.triggers.onLadder && player.climbAnimVariant === 2) { player.switchSprite('climb1'); }
+        }
 
         // ninja anim control block  
 

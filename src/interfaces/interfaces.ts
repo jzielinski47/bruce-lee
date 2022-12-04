@@ -27,4 +27,6 @@ export interface Animations {
     lie?: Anim;
     attackLeft?: Anim;
     attackRight?: Anim;
+    lieLeft?: Anim;
+    lieRight?: Anim;
 }
