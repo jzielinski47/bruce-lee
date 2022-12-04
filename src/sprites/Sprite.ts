@@ -32,8 +32,6 @@ export class Sprite {
         this.elapsedFrames = 0
         this.frameBuffer = 8
 
-
-
         if (this.animations) {
             for (let key in this.animations) {
                 const image = new Image()
@@ -44,9 +42,15 @@ export class Sprite {
             }
         }
 
+
     }
 
     render() {
+
+        this.scale.width = this.image.width / this.frameRate
+        this.scale.height = this.image.height
+        this.loaded = true
+
         const cropbox = {
             position: { x: this.scale.width * this.currentFrame, y: 0 },
             width: this.scale.width, height: this.scale.height
@@ -61,7 +65,9 @@ export class Sprite {
     }
 
     update() {
+
         this.render()
+
     }
 
     anim() {

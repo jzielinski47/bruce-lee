@@ -1,8 +1,8 @@
 import { player } from "..";
-import { config, ctx } from "../config";
+import { canvas, config, ctx } from "../config";
 import { Animations, Transform } from "../interfaces/interfaces";
 import { scenes } from "../scenes";
-import { onCollison } from "../utils";
+import { onCollison, onCollisonBottom, vectorDistance } from "../utils";
 import { Sprite } from "./Sprite";
 
 export class Ninja extends Sprite {
@@ -22,6 +22,13 @@ export class Ninja extends Sprite {
     hitbox: Transform;
     triggers: { onLadder: boolean; onWater: boolean; };
     health: number;
+    date: Date;
+    actionCooldown: number;
+    lastAction: number;
+    facingRight: boolean;
+    inAir: boolean;
+    waterDirection: string;
+    distance: number;
 
     constructor(transform: Transform, animations: Animations) {
         super(transform, animations, 1)
@@ -35,30 +42,50 @@ export class Ninja extends Sprite {
         this.jumpHeight = config.physics.jumpHeight;
         this.climbSpeed = config.physics.climbSpeed;
         this.onWaterSpeed = config.physics.onWaterSpeed;
+        this.waterDirection
 
         this.sprite = new Image()
         this.sprite.src = '';
 
         this.triggers = { onLadder: false, onWater: false };
         this.health = 100;
+
+        this.date = new Date();
+        this.actionCooldown = 2000
+        this.lastAction
+
+        this.facingRight = false
+        this.inAir = (this.velocity.y > config.physics.gravityScale + 0.1 || this.velocity.y < 0)
+
+        this.distance = -4
     }
 
     update() {
         this.render()
+        this.updateHitbox()
+
+        this.inAir = (this.velocity.y > config.physics.gravityScale + 0.1 || this.velocity.y < 0)
+
+        this.triggers.onLadder = false;
+        this.triggers.onWater = false;
+
+        this.smartMovementDetecion()
 
         this.position.x += this.velocity.x;
 
-        if (this.velocity.x === 0 && player.position.x > this.position.x) this.switchSprite('idleRight')
-        if (this.velocity.x === 0 && player.position.x < this.position.x) this.switchSprite('idleLeft')
+        this.updateHitbox()
+        this.triggerCollisionDetection()
 
-
+        this.updateHitbox()
+        this.trapCollisionDetection()
 
         this.updateHitbox()
         this.horizontalCollisionDetection()
 
-        this.applyGravity()
+        if (this.triggers.onLadder && this.triggers.onWater) { this.applyWaterMovement() }
+        else if (this.triggers.onLadder) { this.applyLadderMovement() }
+        else { this.applyGravity(); }
 
-        this.drawHitbox()
 
         this.updateHitbox()
         this.verticalCollisionDetection();
@@ -112,9 +139,91 @@ export class Ninja extends Sprite {
 
     }
 
+    triggerCollisionDetection = () => {
+        if (scenes[config.dev.currentScene].triggers) {
+            scenes[config.dev.currentScene].triggers.map(trigger => {
+                if (onCollison(this.hitbox, trigger)) {
+                    switch (trigger.mode) {
+                        case 'ladder': this.triggers.onLadder = true; break;
+                        case 'water':
+                            this.triggers.onWater = true;
+                            this.triggers.onLadder = true;
+                            this.waterDirection = trigger.dir
+                            break;
+                        case 'door':
+                            if (!trigger.opened) {
+                                this.updateHitbox()
+                                switch (trigger.model) {
+                                    case 0: this.createVirtualCollider(trigger, 'v'); break;
+                                    case 1: this.createVirtualCollider(trigger, 'h'); break;
+                                    case 2: this.createVirtualCollider(trigger, 'v'); break;
+                                    case 3: this.createVirtualCollider(trigger, 'v'); break;
+                                }
+
+                            }
+                            break;
+                    }
+                }
+            })
+        }
+    }
+
+    trapCollisionDetection = () => {
+        if (scenes[config.dev.currentScene].traps) {
+            scenes[config.dev.currentScene].traps.map(trap => {
+                if (onCollison(this.hitbox, trap)) {
+                    this.health -= trap.dmg;
+                }
+            })
+        }
+    }
+
+    platformCollisionDetection = () => {
+
+        scenes[config.dev.currentScene].platforms.map(platform => {
+
+            if (onCollisonBottom(this.hitbox, platform)) {
+
+                if (this.velocity.y > 0) {
+                    this.velocity.y = 0
+                    const offset = this.hitbox.position.y - this.position.y + this.hitbox.scale.height
+                    this.position.y = platform.y - offset - 0.1
+
+                    console.log('player collides with ' + platform.name, 'bottom')
+                }
+
+            }
+
+        })
+
+    }
+
+    createVirtualCollider(object, mode) {
+        this.updateHitbox()
+        switch (mode) {
+            case 'h': this.horizontalCollisionDetection(scenes[config.dev.currentScene].triggers); break;
+            case 'v': this.verticalCollisionDetection(scenes[config.dev.currentScene].triggers); this.updateHitbox(); this.horizontalCollisionDetection(scenes[config.dev.currentScene].triggers); break;
+        }
+    }
+
     applyGravity = () => {
         this.position.y += this.velocity.y;
         this.velocity.y += this.gravity;
+    }
+
+    applyLadderMovement = () => {
+        this.position.y += this.velocity.y;
+        this.updateHitbox()
+        this.verticalCollisionDetection()
+        this.velocity.y = 0
+    }
+
+    applyWaterMovement = () => {
+        this.position.y += this.velocity.y;
+        this.updateHitbox()
+        this.verticalCollisionDetection()
+        this.velocity.y = this.waterDirection == 'up' ? -this.onWaterSpeed : this.onWaterSpeed
+
     }
 
     updateHitbox = () => {
@@ -135,5 +244,12 @@ export class Ninja extends Sprite {
         this.image = this.animations[sprite].image
         this.frameRate = this.animations[sprite].frameRate
         this.frameBuffer = this.animations[sprite].frameBuffer
+    }
+
+    smartMovementDetecion = () => {
+
+
+
+
     }
 }

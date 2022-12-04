@@ -25,4 +25,6 @@ export interface Animations {
     climb2?: Anim;
     fall?: Anim;
     lie?: Anim;
+    attackLeft?: Anim;
+    attackRight?: Anim;
 }

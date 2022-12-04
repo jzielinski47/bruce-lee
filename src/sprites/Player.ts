@@ -1,4 +1,3 @@
-import { player } from "..";
 import { ctx, canvas, config } from "../config";
 import { lastKey } from "../controls";
 import { Transform, Animations } from "../interfaces/interfaces";
@@ -71,9 +70,9 @@ export class Player extends Sprite {
         this.triggers.onLadder = false;
         this.triggers.onWater = false;
 
-        if (player.velocity.x === 0 && lastKey === 'd') this.switchSprite('idleRight')
-        if (player.velocity.x === 0 && lastKey === 'a') this.switchSprite('idleLeft')
-        if (player.velocity.x === 0 && lastKey === undefined) this.switchSprite('idleRight')
+        if (this.velocity.x === 0 && lastKey === 'd') this.switchSprite('idleRight')
+        if (this.velocity.x === 0 && lastKey === 'a') this.switchSprite('idleLeft')
+        if (this.velocity.x === 0 && lastKey === undefined) this.switchSprite('idleRight')
 
         this.updateHitbox()
         this.triggerCollisionDetection()

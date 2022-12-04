@@ -8,6 +8,7 @@ import { Ninja } from "./sprites/Ninja"
 import { Player } from "./sprites/Player"
 import { Prefab } from "./sprites/Prefab"
 import { updateUserInterface } from "./userinterface"
+import { vectorDistance } from "./utils"
 
 export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0, y: 0 }, scale: { width: 15, height: 22 } },
     {
@@ -25,11 +26,16 @@ export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0
         lie: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/lie.png' },
     })
 
-const ninja = new Ninja({ position: { x: 270, y: 20 }, velocity: { x: 0, y: 0 }, scale: { width: 15, height: 22 } },
+const ninja = new Ninja({ position: { x: 270, y: 20 }, velocity: { x: 0, y: 0 }, scale: { width: 28, height: 21 } },
     {
         idle: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/ninja/idleRight.png' },
         idleRight: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/ninja/idleRight.png' },
         idleLeft: { frameRate: 1, frameBuffer: 2, loop: false, imageSrc: '../assets/sprites/ninja/idleLeft.png' },
+        walkLeft: { frameRate: 2, frameBuffer: 16, loop: false, imageSrc: '../assets/sprites/ninja/walkLeft.png' },
+        walkRight: { frameRate: 2, frameBuffer: 16, loop: false, imageSrc: '../assets/sprites/ninja/walkRight.png' },
+        fall: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/ninja/fall.png' },
+        attackLeft: { frameRate: 2, frameBuffer: 16, loop: true, imageSrc: '../assets/sprites/ninja/attackLeft.png' },
+        attackRight: { frameRate: 2, frameBuffer: 16, loop: true, imageSrc: '../assets/sprites/ninja/attackRight.png' },
     })
 
 const scene = new Background({ position: { x: 0, y: 0 }, scale: { width: canvas.width, height: canvas.height } })
@@ -53,28 +59,50 @@ const update = () => {
         temp.doors.map(door => door.update())
         temp.waterfalls.map(water => water.update())
 
-        player.update()
         ninja.update()
+        player.update()
 
-        if (config.dev.inDevelopmendMode) { drawColliders(config.dev.currentScene); player.drawHitbox() }
+        if (config.dev.inDevelopmendMode) { drawColliders(config.dev.currentScene); player.drawHitbox(); ninja.drawHitbox() }
 
         player.velocity.x = 0
         ninja.velocity.x = 0
 
-        // && (player.velocity.y === gravityScale || player.velocity.y === 0)
         if (input.a.pressed && lastKey === 'a') { player.velocity.x = -config.physics.velocity; player.switchSprite('walkLeft') }
         else if (input.d.pressed && lastKey === 'd') { player.velocity.x = config.physics.velocity; player.switchSprite('walkRight') }
 
         if (player.velocity.y < 0 && input.a.pressed && lastKey === 'a') { player.velocity.x = -config.physics.velocity * 0.8; player.switchSprite('jumpLeft') }
         else if (player.velocity.y < 0 && input.d.pressed && lastKey === 'd') { player.velocity.x = config.physics.velocity * 0.8; player.switchSprite('jumpRight') }
         else if (player.velocity.y < 0) { player.switchSprite('fall') }
-        else if (player.velocity.y > config.physics.gravityScale + 0.3) { player.switchSprite('fall') }
+        else if (player.velocity.y > config.physics.gravityScale + 0.1) { player.switchSprite('fall') }
 
 
         if (input.a.pressed && lastKey === 'a' && player.triggers.onLadder) { player.velocity.x = -config.physics.velocity * 0.7; }
         else if (input.d.pressed && lastKey === 'd' && player.triggers.onLadder) { player.velocity.x = config.physics.velocity * 0.7; }
         if (player.triggers.onLadder && player.climbAnimVariant === 1) { player.switchSprite('climb2'); }
         else if (player.triggers.onLadder && player.climbAnimVariant === 2) { player.switchSprite('climb1'); }
+
+        // ninja anim control block  
+
+        if (ninja.inAir) ninja.switchSprite('fall');
+        else {
+
+            if (player.position.x - ninja.distance > ninja.hitbox.position.x + ninja.hitbox.scale.width) {
+                ninja.facingRight = true
+                ninja.velocity.x = config.physics.velocity * 0.8;
+                ninja.switchSprite('walkRight')
+            } else if (player.position.x + player.scale.width + ninja.distance < ninja.hitbox.position.x) {
+                ninja.facingRight = false
+                ninja.velocity.x = -config.physics.velocity * 0.8;
+                ninja.switchSprite('walkLeft')
+            } else {
+                if (vectorDistance(ninja, player).horizontal >= 0 && vectorDistance(ninja, player).vertical < 10 && vectorDistance(ninja, player).vertical > -10) { ninja.switchSprite('attackLeft') }
+                else if (vectorDistance(ninja, player).horizontal < 0 && vectorDistance(ninja, player).vertical < 10 && vectorDistance(ninja, player).vertical > -10) { ninja.switchSprite('attackRight') }
+                else if (vectorDistance(ninja, player).horizontal >= 0) ninja.switchSprite('idleLeft')
+                else ninja.switchSprite('idleRight')
+            }
+
+        }
+
     } else {
         setTimeout(() => announceDead(), 3000)
     }
