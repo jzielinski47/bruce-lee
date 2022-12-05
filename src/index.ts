@@ -70,8 +70,8 @@ const update = () => {
         player.velocity.x = 0
         ninja.velocity.x = 0
 
-        if (player.triggers.crouched && input.s.pressed && lastKey === 'd') player.switchSprite('lieRight')
-        else if (player.triggers.crouched && input.s.pressed && lastKey === 'a') player.switchSprite('lieLeft')
+        if (player.triggers.isCrouch && input.s.pressed && lastKey === 'd') player.switchSprite('lieRight')
+        else if (player.triggers.isCrouch && input.s.pressed && lastKey === 'a') player.switchSprite('lieLeft')
         else {
             if (input.a.pressed && lastKey === 'a') { player.velocity.x = -config.physics.velocity; player.switchSprite('walkLeft') }
             else if (input.d.pressed && lastKey === 'd') { player.velocity.x = config.physics.velocity; player.switchSprite('walkRight') }

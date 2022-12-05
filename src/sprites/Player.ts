@@ -19,9 +19,9 @@ export class Player extends Sprite {
     sprite: HTMLImageElement;
     hitbox: Transform;
 
-    triggers: { onLadder: boolean; onWater: boolean; crouched: boolean; };
-    cooldowns: { climb: number; jump: number; }
-    lastActions: { climb: number; jump: number; }
+    triggers: { onLadder: boolean; onWater: boolean; isCrouch: boolean; inAttack: boolean; };
+    cooldowns: { climb: number; jump: number; attack: number; }
+    lastActions: { climb: number; jump: number; attack: number; }
     climbAnimVariant: number;
 
     levelToLoad: number;
@@ -49,12 +49,12 @@ export class Player extends Sprite {
         this.sprite = new Image()
         this.sprite.src = '../assets/sprites/brucelee/brucelee-anim.png';
 
-        this.triggers = { onLadder: false, onWater: false, crouched: false };
+        this.triggers = { onLadder: false, onWater: false, isCrouch: false, inAttack: false };
 
         this.date = new Date();
 
-        this.cooldowns = { climb: 150, jump: 300 }
-        this.lastActions = { climb: this.date.getTime(), jump: this.date.getTime() }
+        this.cooldowns = { climb: 150, jump: 300, attack: 500 }
+        this.lastActions = { climb: this.date.getTime(), jump: this.date.getTime(), attack: this.date.getTime() }
         this.climbAnimVariant = 1;
 
         this.levelToLoad = config.dev.currentScene;
@@ -70,9 +70,9 @@ export class Player extends Sprite {
         this.triggers.onLadder = false;
         this.triggers.onWater = false;
 
-        if (this.velocity.x === 0 && lastKey === 'd') this.switchSprite('idleRight')
-        if (this.velocity.x === 0 && lastKey === 'a') this.switchSprite('idleLeft')
-        if (this.velocity.x === 0 && lastKey === undefined) this.switchSprite('idleRight')
+        if (this.velocity.x === 0 && lastKey === 'd' && !this.triggers.inAttack) this.switchSprite('idleRight')
+        if (this.velocity.x === 0 && lastKey === 'a' && !this.triggers.inAttack) this.switchSprite('idleLeft')
+        if (this.velocity.x === 0 && lastKey === undefined && !this.triggers.inAttack) this.switchSprite('idleRight')
 
         this.updateHitbox()
         this.triggerCollisionDetection()
@@ -95,7 +95,7 @@ export class Player extends Sprite {
 
         if (this.health <= 0) this.playerIsDead()
 
-        console.log('c', this.triggers.crouched)
+        // console.log('c', this.triggers.crouched)
 
     }
 
@@ -169,8 +169,8 @@ export class Player extends Sprite {
 
     updateHitbox = () => {
         this.hitbox = {
-            position: this.triggers.crouched ? { x: this.position.x + 2, y: this.position.y + 17 } : { x: this.position.x + 1, y: this.position.y },
-            scale: this.triggers.crouched ? { width: 30, height: 3 } : { width: 16, height: 21 }
+            position: this.triggers.isCrouch ? { x: this.position.x + 2, y: this.position.y + 17 } : { x: this.position.x + 1, y: this.position.y },
+            scale: this.triggers.isCrouch ? { width: 30, height: 3 } : { width: 16, height: 21 }
         }
     }
 
@@ -209,7 +209,7 @@ export class Player extends Sprite {
         this.date = new Date()
 
         if ((this.velocity.y === 0 || this.velocity.y === this.gravity) && !this.triggers.onLadder) {
-            this.triggers.crouched = true;
+            this.triggers.isCrouch = true;
             this.updateHitbox()
         }
 
@@ -312,5 +312,18 @@ export class Player extends Sprite {
         this.health = 100;
         console.log(this.levelToLoad);
         config.stats.lives--;
+    }
+
+    attack() {
+        this.date = new Date()
+
+        if (this.velocity.x === 0) {
+            if (this.date.getTime() - this.lastActions.attack < this.cooldowns.attack) return;
+            lastKey === 'a' ? this.switchSprite('attackLeft') : this.switchSprite('attackRight')
+            this.triggers.inAttack = true;
+            setTimeout(() => this.triggers.inAttack = false, 150)
+            this.lastActions.attack = this.date.getTime();
+        }
+
     }
 }

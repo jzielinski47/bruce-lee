@@ -33,6 +33,6 @@ export const vectorDistance = (object1, object2) => {
         horizontal: ((object1.position.x + object1.scale.width) / 2) - ((object2.position.x + object2.scale.width) / 2),
         vertical: ((object1.position.y + object1.scale.height)) - ((object2.position.y + object2.scale.height))
     }
-    console.log(vector)
+    // console.log(vector)
     return vector;
 }

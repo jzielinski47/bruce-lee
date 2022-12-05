@@ -3,14 +3,14 @@ import { canvas, ctx } from "./config"
 export const scenes = [
     {
         id: 0, sprite: '../assets/map/level_0.png', colliders: [
-            { id: 0, name: 'floor', x: 0, y: canvas.height - 6, width: canvas.width, height: 6 },
+            { id: 0, name: 'floor', x: 0, y: canvas.height - 6 + 1, width: canvas.width, height: 6 },
             { id: 1, name: 'fence', x: 0, y: canvas.height - 68, width: 8, height: 68 },
             { id: 2, name: 'fence', x: canvas.width - 8, y: canvas.height - 42, width: 8, height: 36 },
-            { id: 3, name: 'platform', x: 0, y: canvas.height - 72, width: 32, height: 8 },
-            { id: 4, name: 'platform', x: canvas.width - 118, y: canvas.height - 56, width: 118, height: 14 },
-            { id: 5, name: 'platform', x: 0, y: 76, width: 136, height: 4 },
-            { id: 6, name: 'platform', x: 176, y: 76, width: 32, height: 4 },
-            { id: 7, name: 'platform', x: canvas.width - 70, y: 72, width: 70, height: 16 },
+            { id: 3, name: 'platform', x: 0, y: canvas.height - 72 + 1, width: 32, height: 8 },
+            { id: 4, name: 'platform', x: canvas.width - 118, y: canvas.height - 56 + 1, width: 118, height: 14 },
+            { id: 5, name: 'platform', x: 0, y: 76 + 1, width: 136, height: 4 },
+            { id: 6, name: 'platform', x: 176, y: 76 + 1, width: 32, height: 4 },
+            { id: 7, name: 'platform', x: canvas.width - 70, y: 72 + 1, width: 70, height: 16 },
             { id: 8, name: 'prop', x: 10, y: 48, width: 20, height: 32 },
             { id: 9, name: 'border-top', x: 0, y: 0, width: canvas.width, height: 0 },
             { id: 10, name: 'border-left', x: 0, y: 0, width: 0, height: canvas.height }
@@ -27,26 +27,26 @@ export const scenes = [
         ], traps: [
 
         ], platforms: [
-            { id: 0, name: 'platform', x: 48, y: 70, width: 32, height: 2 },
-            { id: 1, name: 'platform', x: 104, y: 70, width: 24, height: 2 },
-            { id: 2, name: 'platform', x: 184, y: 70, width: 16, height: 2 },
-            { id: 3, name: 'platform', x: 136, y: 76, width: 40, height: 2 },
+            { id: 0, name: 'platform', x: 48, y: 70 + 1, width: 32, height: 2 },
+            { id: 1, name: 'platform', x: 104, y: 70 + 1, width: 24, height: 2 },
+            { id: 2, name: 'platform', x: 184, y: 70 + 1, width: 16, height: 2 },
+            { id: 3, name: 'platform', x: 136, y: 76 + 1, width: 40, height: 2 },
         ]
 
     },
     {
         id: 1, sprite: '../assets/map/level_1.png', defaults: [30, 150], colliders: [
-            { id: 0, name: 'floor', x: 0, y: canvas.height - 6, width: 150, height: 6 },
-            { id: 1, name: 'floor', x: 170, y: canvas.height - 6, width: canvas.width - 170, height: 6 },
+            { id: 0, name: 'floor', x: 0, y: canvas.height - 6 + 1, width: 150, height: 6 },
+            { id: 1, name: 'floor', x: 170, y: canvas.height - 6 + 1, width: canvas.width - 170, height: 6 },
             { id: 2, name: 'fence', x: 0, y: canvas.height - 42, width: 8, height: 36 },
             { id: 3, name: 'fence', x: canvas.width - 16, y: canvas.height - 42, width: 8, height: 36 },
             { id: 4, name: 'fence', x: 304, y: 86, width: 8, height: 36 },
-            { id: 5, name: 'platform', x: 0, y: 120, width: 126, height: 14 },
-            { id: 6, name: 'platform', x: 194, y: 120, width: 126, height: 14 },
-            { id: 7, name: 'platform', x: 0, y: 72, width: 78, height: 14 },
-            { id: 8, name: 'platform', x: 120, y: 76, width: 24, height: 4 },
-            { id: 9, name: 'platform', x: 176, y: 76, width: 24, height: 4 },
-            { id: 10, name: 'platform', x: 242, y: 72, width: 78, height: 14 },
+            { id: 5, name: 'platform', x: 0, y: 120 + 1, width: 126, height: 14 },
+            { id: 6, name: 'platform', x: 194, y: 120 + 1, width: 126, height: 14 },
+            { id: 7, name: 'platform', x: 0, y: 72 + 1, width: 78, height: 14 },
+            { id: 8, name: 'platform', x: 120, y: 76 + 1, width: 24, height: 4 },
+            { id: 9, name: 'platform', x: 176, y: 76 + 1, width: 24, height: 4 },
+            { id: 10, name: 'platform', x: 242, y: 72 + 1, width: 78, height: 14 },
         ], lanterns: [
             { id: 0, name: 'lantern', x: 48, y: 134, width: 6, height: 10, collected: false, door: null },
             { id: 1, name: 'lantern', x: 120, y: 134, width: 6, height: 10, collected: false, door: null },
@@ -60,28 +60,28 @@ export const scenes = [
             { id: 3, name: 'loader', dir: 'left', x: 0, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 0 },
             { id: 4, name: 'loader', dir: 'right', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 2 },
             { id: 5, name: 'loader', dir: 'down', x: 0, y: canvas.height + 20, width: canvas.width, height: 20, mode: 'loader', level: 3, hatch: { x: 56, y: 0, width: 32, heigth: 16 } },
-            { id: 6, name: 'door', x: 152, y: canvas.height - 6, width: 20 - 4, height: 10, mode: 'door', opened: false, model: 0, keyOpened: false, key: 22 }, // usually 22
+            { id: 6, name: 'door', x: 152, y: canvas.height - 6 + 1, width: 20 - 4, height: 10, mode: 'door', opened: false, model: 0, keyOpened: false, key: 22 }, // usually 22
 
         ], traps: [
 
         ], platforms: [
-            { id: 0, name: 'platform', x: 112, y: 76, width: 96, height: 2 },
-            { id: 1, name: 'platform', x: 120, y: 70, width: 24, height: 2 },
-            { id: 2, name: 'platform', x: 176, y: 70, width: 24, height: 2 },
-            { id: 3, name: 'platform', x: 154, y: 110, width: 12, height: 2 },
+            { id: 0, name: 'platform', x: 112, y: 76 + 1, width: 96, height: 2 },
+            { id: 1, name: 'platform', x: 120, y: 70 + 1, width: 24, height: 2 },
+            { id: 2, name: 'platform', x: 176, y: 70 + 1, width: 24, height: 2 },
+            { id: 3, name: 'platform', x: 154, y: 110 + 1, width: 12, height: 2 },
         ]
     },
     {
         id: 2, sprite: '../assets/map/level_2.png', colliders: [
-            { id: 0, name: 'floor', x: 0, y: canvas.height - 6, width: canvas.width, height: 6 },
+            { id: 0, name: 'floor', x: 0, y: canvas.height - 6 + 1, width: canvas.width, height: 6 },
             { id: 1, name: 'fence', x: 0, y: canvas.height - 42, width: 8, height: 36 },
             { id: 2, name: 'fence', x: 0, y: 86, width: 8, height: 36 },
-            { id: 3, name: 'platform', x: 0, y: 120, width: 46, height: 14 },
-            { id: 4, name: 'platform', x: 74, y: 120, width: 52, height: 14 },
-            { id: 5, name: 'platform', x: 170, y: 120, width: 52, height: 14 },
-            { id: 6, name: 'platform', x: 0, y: 72, width: 80, height: 14 },
-            { id: 7, name: 'weird-platform', x: 80, y: 74, width: 24, height: 6 },
-            { id: 8, name: 'platform', x: 178, y: 72, width: 36, height: 14 },
+            { id: 3, name: 'platform', x: 0, y: 120 + 1, width: 46, height: 14 },
+            { id: 4, name: 'platform', x: 74, y: 120 + 1, width: 52, height: 14 },
+            { id: 5, name: 'platform', x: 170, y: 120 + 1, width: 52, height: 14 },
+            { id: 6, name: 'platform', x: 0, y: 72 + 1, width: 80, height: 14 },
+            { id: 7, name: 'weird-platform', x: 80, y: 74 + 1, width: 24, height: 6 },
+            { id: 8, name: 'platform', x: 178, y: 72 + 1, width: 36, height: 14 },
             { id: 9, name: 'fence', x: 248, y: 80, width: 8, height: 48 },
             { id: 10, name: 'fence', x: 248, y: 80, width: 8, height: 48 },
             { id: 11, name: 'fence', x: 240, y: 74, width: 80, height: 6 },
@@ -106,21 +106,21 @@ export const scenes = [
             { id: 0, name: 'ladder', x: 136, y: 78, width: 24, height: 60, mode: 'ladder' },
             { id: 1, name: 'loader', dir: 'left', x: 0, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 1 },
         ], traps: [], platforms: [
-            { id: 0, name: 'platform', x: 136, y: 74, width: 24, height: 2 },
-            { id: 1, name: 'platform', x: 80, y: 74, width: 24, height: 2 },
+            { id: 0, name: 'platform', x: 136, y: 74 + 1, width: 24, height: 2 },
+            { id: 1, name: 'platform', x: 80, y: 74 + 1, width: 24, height: 2 },
         ]
     },
     {
         id: 3, sprite: '../assets/map/level_3.png', colliders: [
-            { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
-            { id: 1, name: 'platform', x: 0, y: 8, width: 52, height: 6 },
-            { id: 2, name: 'platform', x: 92, y: 8, width: 176, height: 6 },
-            { id: 3, name: 'platform', x: 300, y: 8, width: 20, height: 6 },
-            { id: 4, name: 'platform', x: 32, y: 56, width: 236, height: 6 },
-            { id: 5, name: 'platform', x: 300, y: 56, width: 20, height: 6 },
-            { id: 6, name: 'platform', x: 8, y: 104, width: 204, height: 6 },
-            { id: 7, name: 'platform', x: 244, y: 104, width: 24, height: 6 },
-            { id: 8, name: 'platform', x: 300, y: 104, width: 24, height: 6 },
+            { id: 0, name: 'floor', x: 0, y: canvas.height - 8 + 1, width: canvas.width, height: 8 },
+            { id: 1, name: 'platform', x: 0, y: 8 + 1, width: 52, height: 6 },
+            { id: 2, name: 'platform', x: 92, y: 8 + 1, width: 176, height: 6 },
+            { id: 3, name: 'platform', x: 300, y: 8 + 1, width: 20, height: 6 },
+            { id: 4, name: 'platform', x: 32, y: 56 + 1, width: 236, height: 6 },
+            { id: 5, name: 'platform', x: 300, y: 56 + 1, width: 20, height: 6 },
+            { id: 6, name: 'platform', x: 8, y: 104 + 1, width: 204, height: 6 },
+            { id: 7, name: 'platform', x: 244, y: 104 + 1, width: 24, height: 6 },
+            { id: 8, name: 'platform', x: 300, y: 104 + 1, width: 24, height: 6 },
             { id: 9, name: 'fence', x: 0, y: 16, width: 8, height: 112 },
             { id: 10, name: 'fence', x: 8, y: 0, width: 8, height: 12 },
             { id: 11, name: 'fence', x: 40, y: 0, width: 8, height: 12 },
@@ -162,20 +162,20 @@ export const scenes = [
     },
     {
         id: 4, sprite: '../assets/map/level_4.png', colliders: [
-            { id: 0, name: 'floor', x: 48, y: canvas.height - 22, width: 96, height: 4 },
-            { id: 0, name: 'floor', x: 176, y: canvas.height - 22, width: 144, height: 4 },
+            { id: 0, name: 'floor', x: 48, y: canvas.height - 22 + 1, width: 96, height: 4 },
+            { id: 0, name: 'floor', x: 176, y: canvas.height - 22 + 1, width: 144, height: 4 },
             { id: 0, name: 'fence', x: 176, y: canvas.height - 18, width: 144, height: 18 },
             { id: 0, name: 'fence', x: 48, y: canvas.height - 18, width: 96, height: 18 },
             { id: 0, name: 'fence', x: 40, y: 60, width: 8, height: 116 },
             { id: 0, name: 'fence', x: 0, y: 14, width: 8, height: canvas.height },
             { id: 0, name: 'fence', x: 192, y: 0, width: 128, height: 12 },
-            { id: 0, name: 'platform', x: 8, y: 8, width: 120, height: 6 },
-            { id: 0, name: 'platform', x: 192, y: 8, width: 120, height: 6 },
+            { id: 0, name: 'platform', x: 8, y: 8 + 1, width: 120, height: 6 },
+            { id: 0, name: 'platform', x: 192, y: 8 + 1, width: 120, height: 6 },
             { id: 0, name: 'fence', x: 80, y: 16, width: 8, height: 98 },
             { id: 0, name: 'fence', x: 120, y: 80, width: 8, height: 74 },
             { id: 0, name: 'fence', x: 112, y: 62, width: 24, height: 20 },
-            { id: 0, name: 'platform', x: 112, y: 60, width: 32, height: 6 },
-            { id: 0, name: 'platform', x: 176, y: 60, width: 32, height: 6 },
+            { id: 0, name: 'platform', x: 112, y: 60 + 1, width: 32, height: 6 },
+            { id: 0, name: 'platform', x: 176, y: 60 + 1, width: 32, height: 6 },
             { id: 0, name: 'fence', x: 184, y: 62, width: 24, height: 20 },
             { id: 0, name: 'fence', x: 192, y: 80, width: 8, height: 36 },
             { id: 0, name: 'fence', x: 232, y: 16, width: 8, height: 98 },
@@ -193,8 +193,8 @@ export const scenes = [
             { id: 1, name: 'ladder', x: 248, y: 40, width: 16, height: 110 - 28, mode: 'ladder' },
             { id: 2, name: 'loader', dir: 'custom', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 3, custom: { x: 0.1, y: 140 } },
             { id: 3, name: 'water', x: 144, y: 1, width: 32, height: 160, mode: 'water', dir: 'up', model: 1 },
-            { id: 4, name: 'door', x: 88, y: 108, width: 32, height: 4, mode: 'door', opened: false, model: 2, keyOpened: true },
-            { id: 5, name: 'door', x: 200, y: 108, width: 32, height: 4, mode: 'door', opened: false, model: 3, keyOpened: true },
+            { id: 4, name: 'door', x: 88, y: 108 + 1, width: 32, height: 4, mode: 'door', opened: false, model: 2, keyOpened: true },
+            { id: 5, name: 'door', x: 200, y: 108 + 1, width: 32, height: 4, mode: 'door', opened: false, model: 3, keyOpened: true },
             { id: 6, name: 'loader', dir: 'down', x: 0, y: canvas.height + 20, width: canvas.width, height: 20, mode: 'loader', level: 6, hatch: { x: 28, y: 0, width: 36, heigth: 6 } },
 
         ], traps: [

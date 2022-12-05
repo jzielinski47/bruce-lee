@@ -86,7 +86,6 @@ export class Ninja extends Sprite {
         else if (this.triggers.onLadder) { this.applyLadderMovement() }
         else { this.applyGravity(); }
 
-
         this.updateHitbox()
         this.verticalCollisionDetection();
 
