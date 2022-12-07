@@ -20,7 +20,7 @@ export class Ninja extends Sprite {
 
     sprite: HTMLImageElement;
     hitbox: Transform;
-    triggers: { onLadder: boolean; onWater: boolean; };
+    triggers: { onLadder: boolean; onWater: boolean; inAttack: boolean };
     health: number;
     date: Date;
     actionCooldown: number;
@@ -29,10 +29,12 @@ export class Ninja extends Sprite {
     inAir: boolean;
     waterDirection: string;
     distance: number;
+    cooldowns: { climb: number; jump: number; attack: number; };
+    lastActions: { climb: number; jump: number; attack: number; };
 
-    constructor(transform: Transform, animations: Animations) {
+    constructor(name: string, transform: Transform, animations: Animations) {
         super(transform, animations, 1)
-        this.name = 'ninja'
+        this.name = name // ninja or sumo
 
         this.scale = transform.scale;
         this.position = transform.position;
@@ -47,7 +49,9 @@ export class Ninja extends Sprite {
         this.sprite = new Image()
         this.sprite.src = '';
 
-        this.triggers = { onLadder: false, onWater: false };
+        this.triggers = { onLadder: false, onWater: false, inAttack: false };
+        this.cooldowns = { climb: 150, jump: 500, attack: 800 }
+        this.lastActions = { climb: this.date.getTime(), jump: this.date.getTime(), attack: this.date.getTime() }
         this.health = 100;
 
         this.date = new Date();
@@ -68,8 +72,6 @@ export class Ninja extends Sprite {
 
         this.triggers.onLadder = false;
         this.triggers.onWater = false;
-
-        this.smartMovementDetecion()
 
         this.position.x += this.velocity.x;
 
@@ -260,10 +262,16 @@ export class Ninja extends Sprite {
         this.frameBuffer = this.animations[sprite].frameBuffer
     }
 
-    smartMovementDetecion = () => {
+    attack = () => {
+        this.triggers.inAttack = false
+        this.date = new Date()
 
+        if (vectorDistance(this, player).vertical < 0) this.switchSprite('attackRight')
+        else this.switchSprite('attackRight')
 
-
-
+        if (this.date.getTime() - this.lastActions.attack < this.cooldowns.attack) return;
+        this.triggers.inAttack = true;
+        setTimeout(() => this.triggers.inAttack = false, this.velocity.x === 0 ? 150 : 400)
+        this.lastActions.attack = this.date.getTime();
     }
 }

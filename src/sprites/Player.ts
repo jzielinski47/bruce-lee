@@ -53,7 +53,7 @@ export class Player extends Sprite {
 
         this.date = new Date();
 
-        this.cooldowns = { climb: 150, jump: 300, attack: 500 }
+        this.cooldowns = { climb: 150, jump: 500, attack: 800 }
         this.lastActions = { climb: this.date.getTime(), jump: this.date.getTime(), attack: this.date.getTime() }
         this.climbAnimVariant = 1;
 
@@ -317,13 +317,11 @@ export class Player extends Sprite {
     attack() {
         this.date = new Date()
 
-        if (this.velocity.x === 0) {
-            if (this.date.getTime() - this.lastActions.attack < this.cooldowns.attack) return;
-            lastKey === 'a' ? this.switchSprite('attackLeft') : this.switchSprite('attackRight')
-            this.triggers.inAttack = true;
-            setTimeout(() => this.triggers.inAttack = false, 150)
-            this.lastActions.attack = this.date.getTime();
-        }
+        if (this.date.getTime() - this.lastActions.attack < this.cooldowns.attack) return;
+        this.triggers.inAttack = true;
+        setTimeout(() => this.triggers.inAttack = false, this.velocity.x === 0 ? 150 : 400)
+        this.lastActions.attack = this.date.getTime();
+
 
     }
 }

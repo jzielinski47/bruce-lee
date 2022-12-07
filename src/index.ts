@@ -27,9 +27,11 @@ export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0
         lieRight: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/lieRight.png' },
         attackLeft: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/attackLeft.png' },
         attackRight: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/attackRight.png' },
+        attack2Left: { frameRate: 2, frameBuffer: 16, loop: true, imageSrc: '../assets/sprites/brucelee/attack2Left.png' },
+        attack2Right: { frameRate: 2, frameBuffer: 16, loop: true, imageSrc: '../assets/sprites/brucelee/attack2Right.png' },
     })
 
-const ninja = new Ninja({ position: { x: 270, y: 20 }, velocity: { x: 0, y: 0 }, scale: { width: 28, height: 21 } },
+const ninja = new Ninja('ninja', { position: { x: 270, y: 20 }, velocity: { x: 0, y: 0 }, scale: { width: 28, height: 21 } },
     {
         idle: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/ninja/idleRight.png' },
         idleRight: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/ninja/idleRight.png' },
@@ -37,8 +39,20 @@ const ninja = new Ninja({ position: { x: 270, y: 20 }, velocity: { x: 0, y: 0 },
         walkLeft: { frameRate: 2, frameBuffer: 16, loop: false, imageSrc: '../assets/sprites/ninja/walkLeft.png' },
         walkRight: { frameRate: 2, frameBuffer: 16, loop: false, imageSrc: '../assets/sprites/ninja/walkRight.png' },
         fall: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/ninja/fall.png' },
-        attackLeft: { frameRate: 2, frameBuffer: 16, loop: true, imageSrc: '../assets/sprites/ninja/attackLeft.png' },
-        attackRight: { frameRate: 2, frameBuffer: 16, loop: true, imageSrc: '../assets/sprites/ninja/attackRight.png' },
+        attackLeft: { frameRate: 2, frameBuffer: 14, loop: true, imageSrc: '../assets/sprites/ninja/attackLeft.png' },
+        attackRight: { frameRate: 2, frameBuffer: 14, loop: true, imageSrc: '../assets/sprites/ninja/attackRight.png' },
+    })
+
+const sumo = new Ninja('sumo', { position: { x: 230, y: 20 }, velocity: { x: 0, y: 0 }, scale: { width: 28, height: 21 } },
+    {
+        idle: { frameRate: 2, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/sumo/idleRight.png' },
+        idleRight: { frameRate: 2, frameBuffer: 60, loop: true, imageSrc: '../assets/sprites/sumo/idleRight.png' },
+        idleLeft: { frameRate: 2, frameBuffer: 60, loop: false, imageSrc: '../assets/sprites/sumo/idleLeft.png' },
+        walkLeft: { frameRate: 2, frameBuffer: 16, loop: false, imageSrc: '../assets/sprites/sumo/walkLeft.png' },
+        walkRight: { frameRate: 2, frameBuffer: 16, loop: false, imageSrc: '../assets/sprites/sumo/walkRight.png' },
+        fall: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/sumo/fall.png' },
+        attackLeft: { frameRate: 2, frameBuffer: 14, loop: true, imageSrc: '../assets/sprites/sumo/attackLeft.png' },
+        attackRight: { frameRate: 2, frameBuffer: 14, loop: true, imageSrc: '../assets/sprites/sumo/attackRight.png' },
     })
 
 const scene = new Background({ position: { x: 0, y: 0 }, scale: { width: canvas.width, height: canvas.height } })
@@ -64,14 +78,23 @@ const update = () => {
 
         ninja.update()
         player.update()
+        sumo.update()
+
+        if (!player.triggers.inAttack) player.velocity.x = 0
+        if (!sumo.triggers.inAttack) sumo.velocity.x = 0
+        ninja.velocity.x = 0
 
         if (config.dev.inDevelopmendMode) { drawColliders(config.dev.currentScene); player.drawHitbox(); ninja.drawHitbox() }
 
-        player.velocity.x = 0
-        ninja.velocity.x = 0
-
         if (player.triggers.isCrouch && input.s.pressed && lastKey === 'd') player.switchSprite('lieRight')
         else if (player.triggers.isCrouch && input.s.pressed && lastKey === 'a') player.switchSprite('lieLeft')
+        else if (player.triggers.inAttack) {
+            if (player.velocity.x === 0) {
+                lastKey === 'a' ? player.switchSprite('attackLeft') : player.switchSprite('attackRight')
+            } else {
+                lastKey === 'a' ? player.switchSprite('attack2Left') : player.switchSprite('attack2Right')
+            }
+        }
         else {
             if (input.a.pressed && lastKey === 'a') { player.velocity.x = -config.physics.velocity; player.switchSprite('walkLeft') }
             else if (input.d.pressed && lastKey === 'd') { player.velocity.x = config.physics.velocity; player.switchSprite('walkRight') }
@@ -101,13 +124,39 @@ const update = () => {
                 ninja.velocity.x = -config.physics.velocity * 0.8;
                 ninja.switchSprite('walkLeft')
             } else {
-                if (vectorDistance(ninja, player).horizontal >= 0 && vectorDistance(ninja, player).vertical < 10 && vectorDistance(ninja, player).vertical > -10) { ninja.switchSprite('attackLeft') }
-                else if (vectorDistance(ninja, player).horizontal < 0 && vectorDistance(ninja, player).vertical < 10 && vectorDistance(ninja, player).vertical > -10) { ninja.switchSprite('attackRight') }
+                if (vectorDistance(ninja, player).horizontal >= 0 && vectorDistance(ninja, player).vertical < 10 && vectorDistance(ninja, player).vertical > -10) { ninja.attack() }
+                else if (vectorDistance(ninja, player).horizontal < 0 && vectorDistance(ninja, player).vertical < 10 && vectorDistance(ninja, player).vertical > -10) { ninja.attack() }
                 else if (vectorDistance(ninja, player).horizontal >= 0) ninja.switchSprite('idleLeft')
                 else ninja.switchSprite('idleRight')
             }
 
         }
+
+        // sumo anim control block  
+
+        if (sumo.inAir) sumo.switchSprite('fall');
+        else {
+
+            if (player.position.x - sumo.distance > sumo.hitbox.position.x + sumo.hitbox.scale.width) {
+                sumo.facingRight = true
+                sumo.velocity.x = config.physics.velocity * 0.7;
+                sumo.switchSprite('walkRight')
+            } else if (player.position.x + player.scale.width + sumo.distance < sumo.hitbox.position.x) {
+                sumo.facingRight = false
+                sumo.velocity.x = -config.physics.velocity * 0.7;
+                sumo.switchSprite('walkLeft')
+            } else {
+                if (vectorDistance(sumo, player).horizontal >= 0 && vectorDistance(sumo, player).vertical < 10 && vectorDistance(sumo, player).vertical > -10) {
+                    sumo.switchSprite('attackLeft'); sumo.triggers.inAttack = true
+                } else if (vectorDistance(sumo, player).horizontal < 0 && vectorDistance(sumo, player).vertical < 10 && vectorDistance(sumo, player).vertical > -10) {
+                    sumo.switchSprite('attackRight'); sumo.triggers.inAttack = true
+                }
+                else if (vectorDistance(sumo, player).horizontal >= 0) sumo.switchSprite('idleLeft')
+                else sumo.switchSprite('idleRight')
+            }
+
+        }
+
 
     } else {
         setTimeout(() => announceDead(), 3000)
