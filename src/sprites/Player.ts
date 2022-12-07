@@ -258,6 +258,7 @@ export class Player extends Sprite {
                                     case 1: this.createVirtualCollider(trigger, 'h'); break;
                                     case 2: this.createVirtualCollider(trigger, 'v'); break;
                                     case 3: this.createVirtualCollider(trigger, 'v'); break;
+                                    case 4: this.createVirtualCollider(trigger, 'h'); break;
                                 }
 
                             }

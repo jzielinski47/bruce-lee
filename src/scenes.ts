@@ -221,10 +221,16 @@ export const scenes = [
             { id: 3, name: 'fence', x: 0, y: 96, width: 320, height: 16 },
             { id: 4, name: 'platform', x: 0, y: 90, width: 320, height: 6 },
             { id: 5, name: 'platform', x: 0, y: 158, width: 320, height: 6 },
-            { id: 6, name: 'platform', x: 8, y: 156, width: 32, height: 2 },
             { id: 7, name: 'platform', x: 288, y: 156, width: 32, height: 2 },
+            { id: 7, name: 'platform', x: 16, y: 42 + 1, width: 248, height: 6 },
             { id: 3, name: 'fence', x: 0, y: 96, width: 8, height: 70 },
-        ], lanterns: [], triggers: [], traps: [], platforms: []
+            { id: 7, name: 'ceiling', x: 64, y: 0, width: 200, height: 6 },
+        ], lanterns: [], triggers: [
+            { id: 1, name: 'loader', dir: 'right', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 7 },
+        ], traps: [], platforms: [
+            { id: 0, name: 'platform', x: 16, y: 150 + 1, width: 16, height: 2 },
+            { id: 2, name: 'platform', x: 8, y: 156, width: 32, height: 2 },
+        ]
     },
     {
         id: 7, sprite: '../assets/map/level_7.png', colliders: [

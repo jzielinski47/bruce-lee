@@ -84,7 +84,7 @@ const update = () => {
         if (!sumo.triggers.inAttack) sumo.velocity.x = 0
         ninja.velocity.x = 0
 
-        if (config.dev.inDevelopmendMode) { drawColliders(config.dev.currentScene); player.drawHitbox(); ninja.drawHitbox() }
+        if (config.dev.inDevelopmendMode) { drawColliders(config.dev.currentScene); player.drawHitbox(); ninja.drawHitbox(); sumo.drawHitbox() }
 
         if (player.triggers.isCrouch && input.s.pressed && lastKey === 'd') player.switchSprite('lieRight')
         else if (player.triggers.isCrouch && input.s.pressed && lastKey === 'a') player.switchSprite('lieLeft')
