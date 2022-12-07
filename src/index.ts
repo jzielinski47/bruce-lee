@@ -139,21 +139,17 @@ const update = () => {
 
             if (player.position.x - sumo.distance > sumo.hitbox.position.x + sumo.hitbox.scale.width) {
                 sumo.facingRight = true
-                sumo.velocity.x = config.physics.velocity * 0.7;
+                sumo.velocity.x = config.physics.velocity * 0.5;
                 sumo.switchSprite('walkRight')
             } else if (player.position.x + player.scale.width + sumo.distance < sumo.hitbox.position.x) {
                 sumo.facingRight = false
-                sumo.velocity.x = -config.physics.velocity * 0.7;
+                sumo.velocity.x = -config.physics.velocity * 0.5;
                 sumo.switchSprite('walkLeft')
-            } else {
-                if (vectorDistance(sumo, player).horizontal >= 0 && vectorDistance(sumo, player).vertical < 10 && vectorDistance(sumo, player).vertical > -10) {
-                    sumo.switchSprite('attackLeft'); sumo.triggers.inAttack = true
-                } else if (vectorDistance(sumo, player).horizontal < 0 && vectorDistance(sumo, player).vertical < 10 && vectorDistance(sumo, player).vertical > -10) {
-                    sumo.switchSprite('attackRight'); sumo.triggers.inAttack = true
-                }
-                else if (vectorDistance(sumo, player).horizontal >= 0) sumo.switchSprite('idleLeft')
-                else sumo.switchSprite('idleRight')
+            } else if (vectorDistance(sumo, player).horizontal >= 0 && vectorDistance(sumo, player).vertical < 30 && vectorDistance(sumo, player).vertical > -10
+                || vectorDistance(sumo, player).horizontal < 0 && vectorDistance(sumo, player).vertical < 30 && vectorDistance(sumo, player).vertical > -10) {
+                sumo.attack()
             }
+
 
         }
 

@@ -36,6 +36,10 @@ export class Ninja extends Sprite {
         super(transform, animations, 1)
         this.name = name // ninja or sumo
 
+        this.facingRight = vectorDistance(this, player).horizontal < 0
+
+        this.date = new Date()
+
         this.scale = transform.scale;
         this.position = transform.position;
         this.velocity = transform.velocity;
@@ -50,7 +54,7 @@ export class Ninja extends Sprite {
         this.sprite.src = '';
 
         this.triggers = { onLadder: false, onWater: false, inAttack: false };
-        this.cooldowns = { climb: 150, jump: 500, attack: 800 }
+        this.cooldowns = { climb: 150, jump: 500, attack: this.name === 'sumo' ? 1200 : 800 }
         this.lastActions = { climb: this.date.getTime(), jump: this.date.getTime(), attack: this.date.getTime() }
         this.health = 100;
 
@@ -61,17 +65,20 @@ export class Ninja extends Sprite {
         this.facingRight = false
         this.inAir = (this.velocity.y > config.physics.gravityScale + 0.1 || this.velocity.y < 0)
 
-        this.distance = -4
+        this.distance = this.name === 'sumo' ? -6 : -4
     }
 
     update() {
         this.render()
         this.updateHitbox()
+        this.facingRight = vectorDistance(this, player).horizontal < 0
 
         this.inAir = (this.velocity.y > config.physics.gravityScale + 0.1 || this.velocity.y < 0)
 
         this.triggers.onLadder = false;
         this.triggers.onWater = false;
+
+        if (!this.triggers.inAttack) this.switchSprite(this.facingRight ? 'idleRight' : 'idleLeft')
 
         this.position.x += this.velocity.x;
 
@@ -263,15 +270,16 @@ export class Ninja extends Sprite {
     }
 
     attack = () => {
-        this.triggers.inAttack = false
+
         this.date = new Date()
 
-        if (vectorDistance(this, player).vertical < 0) this.switchSprite('attackRight')
-        else this.switchSprite('attackRight')
-
         if (this.date.getTime() - this.lastActions.attack < this.cooldowns.attack) return;
+
+        this.switchSprite(this.facingRight ? 'attackRight' : 'attackLeft')
+
+
         this.triggers.inAttack = true;
-        setTimeout(() => this.triggers.inAttack = false, this.velocity.x === 0 ? 150 : 400)
+        setTimeout(() => this.triggers.inAttack = false, 400)
         this.lastActions.attack = this.date.getTime();
     }
 }
