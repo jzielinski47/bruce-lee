@@ -35,7 +35,7 @@ export const vectorDistance = (object1, object2) => {
     }
     vector.horizontal *= -1;
     vector.vertical *= -1;
-    console.log(vector)
+    // console.log(vector)
     return vector;
 }
 
