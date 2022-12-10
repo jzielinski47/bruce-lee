@@ -77,6 +77,9 @@ export const temp = { lanterns: [], doors: [], waterfalls: [] }
 const start = () => {
     updateUserInterface()
     loadScenePresets()
+
+    ninja.destroy()
+    sumo.destroy()
 }
 
 const update = () => {
@@ -131,6 +134,10 @@ function resetScene() {
     temp.waterfalls = []
     config.stats.score += 2000
     config.stats.topScore = config.stats.score
+    ninja.destroy()
+    sumo.destroy()
+
+
     updateUserInterface()
     loadScenePresets()
 }

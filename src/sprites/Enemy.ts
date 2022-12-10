@@ -307,10 +307,10 @@ export class Enemy extends Sprite {
                 const onSameElevation: boolean = checkIfBetween(-this.heightDifference, this.heightDifference, vectorDistance(this.hitbox, player).vertical)
 
                 if (vectorDistance(this.hitbox, player).horizontal < (onSameElevation ? -this.attackRange : -this.safeDistance)) {
-                    this.velocity.x = -config.physics.velocity * 0.8;
+                    this.velocity.x = -config.physics.velocity * (this.name === 'sumo' ? 0.6 : 0.8);
                     this.switchSprite(this.velocity.x < 0 ? 'walkLeft' : 'idleLeft')
                 } else if (vectorDistance(this.hitbox, player).horizontal > (onSameElevation ? this.attackRange : this.safeDistance)) {
-                    this.velocity.x = config.physics.velocity * 0.8;
+                    this.velocity.x = config.physics.velocity * (this.name === 'sumo' ? 0.6 : 0.8);
                     this.switchSprite(this.velocity.x > 0 ? 'walkRight' : 'idleRight')
                 } else {
                     switch (this.name) {
@@ -341,11 +341,18 @@ export class Enemy extends Sprite {
         config.stats.score += this.name === 'sumo' ? 450 : 200
         config.stats.topScore = config.stats.score
         updateUserInterface()
+
+        setTimeout(() => this.revive(), this.name === 'sumo' ? 15000 : 8000)
+
     }
 
     attackBoxCollisionDetection() {
+        player.updateHitbox()
+        sumo.updateHitbox()
+        ninja.updateHitbox()
+
         this.damage(player)
-        // this.damage(this.name === 'sumo' ? ninja : sumo)
+        this.damage(this.name === 'sumo' ? ninja : sumo)
     }
 
 
@@ -363,6 +370,12 @@ export class Enemy extends Sprite {
                 this.triggers.attackBoxDisplay = false
             }
         }
+    }
+
+    revive() {
+        this.triggers.isDead = false
+        this.health = this.name === 'sumo' ? 120 : 99;
+        this.position = { x: 230, y: 150 }
     }
 
 }
