@@ -59,10 +59,9 @@ const scene = new Background({ position: { x: 0, y: 0 }, scale: { width: canvas.
 
 export const temp = { lanterns: [], doors: [], waterfalls: [] }
 
-loadScenePresets()
-
 const start = () => {
     updateUserInterface()
+    loadScenePresets()
 }
 
 const update = () => {
@@ -75,8 +74,8 @@ const update = () => {
     temp.doors.map(door => door.update())
     temp.waterfalls.map(water => water.update())
 
-    ninja.update()
     sumo.update()
+    ninja.update()
     player.update()
 
     config.dev.inDevelopmendMode ? drawColliders(config.dev.currentScene) : null

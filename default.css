@@ -29,6 +29,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 2px;
+    width: 60%;
+    height: auto;
 
     /* height: 90v; */
 }
@@ -42,11 +44,13 @@ body {
     flex-direction: row;
     background-color: #d8d8d8;
 
-    height: 12px;
-    font-size: 6px;
+    height: 32px;
+    font-size: 18px;
+    /* height: 12px;
+    font-size: 6px; */
     font-weight: 900;
 
-    gap: 10px;
+    gap: 2em;
 
     justify-content: center;
     align-items: center;
