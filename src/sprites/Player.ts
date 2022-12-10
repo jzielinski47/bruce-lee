@@ -93,10 +93,6 @@ export class Player extends Sprite {
         this.updateHitbox()
         this.platformCollisionDetection();
 
-        if (this.health <= 0) this.playerIsDead()
-
-        // console.log('c', this.triggers.crouched)
-
         this.updateHitbox()
         config.dev.inDevelopmendMode ? this.drawHitbox() : null
 
@@ -198,7 +194,7 @@ export class Player extends Sprite {
 
         this.date = new Date()
 
-        if ((this.velocity.y === 0 || this.velocity.y === this.gravity) && !this.triggers.onLadder) {
+        if ((this.velocity.y === 0 || this.velocity.y === this.gravity) && !this.triggers.onLadder && !this.triggers.isCrouch) {
             if (this.date.getTime() - this.lastActions.jump < this.cooldowns.jump) return;
             this.velocity.y = -this.jumpHeight
             this.lastActions.jump = this.date.getTime();
@@ -215,10 +211,7 @@ export class Player extends Sprite {
     down = () => {
         this.date = new Date()
 
-        if ((this.velocity.y === 0 || this.velocity.y === this.gravity) && !this.triggers.onLadder) {
-            this.triggers.isCrouch = true;
-            this.updateHitbox()
-        }
+        if ((this.velocity.y === 0 || this.velocity.y === this.gravity) && !this.triggers.onLadder) { this.updateHitbox(); this.triggers.isCrouch = true; }
 
         if ((this.velocity.y === 0 && this.triggers.onLadder) || this.triggers.onWater) {
             if (this.date.getTime() - this.lastActions.climb < this.cooldowns.climb) return;
@@ -314,7 +307,7 @@ export class Player extends Sprite {
         }
     }
 
-    playerIsDead() {
+    setDead() {
         this.levelToLoad = 9;
         this.updateLevel = true;
         this.health = 100;
@@ -332,24 +325,27 @@ export class Player extends Sprite {
     }
 
     applyControls() {
-        if (this.triggers.isCrouch && input.s.pressed && lastKey === 'd') this.switchSprite('lieRight')
-        else if (this.triggers.isCrouch && input.s.pressed && lastKey === 'a') this.switchSprite('lieLeft')
-        else if (this.triggers.inAttack) {
-            this.velocity.x === 0 ? this.switchSprite(lastKey === 'a' ? 'attackLeft' : 'attackRight') : this.switchSprite(lastKey === 'a' ? 'attack2Left' : 'attack2Right')
-        }
-        else {
-            if (input.a.pressed && lastKey === 'a') { this.velocity.x = -config.physics.velocity; this.switchSprite('walkLeft') }
-            else if (input.d.pressed && lastKey === 'd') { this.velocity.x = config.physics.velocity; this.switchSprite('walkRight') }
 
+        if (this.triggers.isCrouch) this.switchSprite(lastKey === 'd' ? 'lieRight' : 'lieLeft')
+        else if (this.triggers.inAttack) this.velocity.x === 0 ? this.switchSprite(lastKey === 'a' ? 'attackLeft' : 'attackRight') : this.switchSprite(lastKey === 'a' ? 'attack2Left' : 'attack2Right')
+        else {
+
+            // walk animation
+            if (input.a.pressed && lastKey === 'a') { this.velocity.x = -config.physics.velocity; this.switchSprite('walkLeft') }
+            if (input.d.pressed && lastKey === 'd') { this.velocity.x = config.physics.velocity; this.switchSprite('walkRight') }
+
+            // jump animation
             if (this.velocity.y < 0 && input.a.pressed && lastKey === 'a') { this.velocity.x = -config.physics.velocity * 0.8; this.switchSprite('jumpLeft') }
             else if (this.velocity.y < 0 && input.d.pressed && lastKey === 'd') { this.velocity.x = config.physics.velocity * 0.8; this.switchSprite('jumpRight') }
             else if (this.velocity.y < 0) { this.switchSprite('jump') }
             else if (this.velocity.y > config.physics.gravityScale + 0.1) { this.switchSprite('fall') }
 
+            // ladderClimb animation
             if (input.a.pressed && lastKey === 'a' && this.triggers.onLadder) { this.velocity.x = -config.physics.velocity * 0.7; }
             else if (input.d.pressed && lastKey === 'd' && this.triggers.onLadder) { this.velocity.x = config.physics.velocity * 0.7; }
-            if (this.triggers.onLadder && this.climbAnimVariant === 1) { this.switchSprite('climb2'); }
-            else if (this.triggers.onLadder && this.climbAnimVariant === 2) { this.switchSprite('climb1'); }
+            if (this.triggers.onLadder) this.switchSprite(this.climbAnimVariant === 1 ? 'climb2' : 'climb1');
+
         }
     }
+
 }
