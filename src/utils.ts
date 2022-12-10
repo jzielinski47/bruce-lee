@@ -35,10 +35,16 @@ export const vectorDistance = (object1, object2) => {
     }
     vector.horizontal *= -1;
     vector.vertical *= -1;
-    // console.log(vector)
+    console.log(vector)
     return vector;
 }
 
-export function getRandomInt(max) {
+export function getRandomInt(max: number) {
     return Math.floor(Math.random() * max);
+}
+
+export function getRandomFloat(min: number, max: number, decimals: number) {
+    const str = (Math.random() * (max - min) + min).toFixed(decimals);
+
+    return parseFloat(str);
 }

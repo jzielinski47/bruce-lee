@@ -2,7 +2,7 @@ import { player } from "..";
 import { canvas, config, ctx } from "../config";
 import { Animations, ICooldown, Transform } from "../interfaces/interfaces";
 import { scenes } from "../scenes";
-import { getRandomInt, onCollison, onCollisonBottom, vectorDistance } from "../utils";
+import { getRandomFloat, getRandomInt, onCollison, onCollisonBottom, vectorDistance } from "../utils";
 import { Sprite } from "./Sprite";
 
 export class Enemy extends Sprite {
@@ -24,6 +24,8 @@ export class Enemy extends Sprite {
     onWaterSpeed: number;
     distance: number;
     waterDirection: string;
+    attackRange: number;
+    heightDifference: number;
 
     constructor(name: string, transform: Transform, animations: Animations) {
 
@@ -44,7 +46,7 @@ export class Enemy extends Sprite {
         this.sprite.src = '';
 
         this.triggers = { onLadder: false, onWater: false, inAttack: false };
-        this.cooldowns = { climb: 150, jump: 500, attack: this.name === 'sumo' ? 1200 : 800 }
+        this.cooldowns = { climb: 150, jump: 500, attack: this.name === 'sumo' ? 1600 : 1200 }
         this.lastActions = { climb: this.date.getTime(), jump: this.date.getTime(), attack: this.date.getTime() }
 
         this.health = 100;
@@ -54,7 +56,8 @@ export class Enemy extends Sprite {
 
         this.onWaterSpeed = config.physics.onWaterSpeed;
 
-        this.distance = this.name === 'sumo' ? -6 : -4
+        this.attackRange = getRandomFloat(6, 8, 3)
+        this.heightDifference = 10
     }
 
     update() {
@@ -280,20 +283,24 @@ export class Enemy extends Sprite {
 
         this.updateHitbox()
 
-
         if (this.inAir) this.switchSprite('fall')
         else {
 
-            const attackRange: number = 5
+            if (!this.triggers.inAttack) this.switchSprite(this.facingRight ? 'idleRight' : 'idleLeft')
 
-            if (vectorDistance(this.hitbox, player).horizontal < 0) {
-                console.log(this.name, 'on-left')
-            } else if (vectorDistance(this.hitbox, player).horizontal > 0) {
-                console.log(this.name, 'on-right')
+            if (vectorDistance(this.hitbox, player).horizontal < -this.attackRange) {
+                // console.log(this.name, 'on-left')
+                this.velocity.x = -config.physics.velocity * 0.8;
+                this.switchSprite(this.velocity.x < 0 ? 'walkLeft' : 'idleLeft')
+            } else if (vectorDistance(this.hitbox, player).horizontal > this.attackRange) {
+                // console.log(this.name, 'on-right')
+                this.velocity.x = config.physics.velocity * 0.8;
+                this.switchSprite(this.velocity.x > 0 ? 'walkRight' : 'idleRight')
+            } else if (vectorDistance(this.hitbox, player).vertical > -this.heightDifference) {
+                this.attack()
             }
 
-
-
+            // 
             // if (player.position.x - this.distance > this.hitbox.position.x + this.hitbox.scale.width) {
             //     this.facingRight = true
             //     this.velocity.x = config.physics.velocity * 0.8;
@@ -310,7 +317,7 @@ export class Enemy extends Sprite {
             //     else this.switchSprite('idleRight')
             // }
 
-            if (!this.triggers.inAttack) this.switchSprite(this.facingRight ? 'idleRight' : 'idleLeft')
+
 
         }
     }
