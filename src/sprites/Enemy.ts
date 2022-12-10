@@ -1,6 +1,6 @@
 import { player } from "..";
 import { canvas, config, ctx } from "../config";
-import { Animations, Transform } from "../interfaces/interfaces";
+import { Animations, ICooldown, Transform } from "../interfaces/interfaces";
 import { scenes } from "../scenes";
 import { onCollison, onCollisonBottom, vectorDistance } from "../utils";
 import { Sprite } from "./Sprite";
@@ -9,37 +9,27 @@ export class Enemy extends Sprite {
 
     name: string;
     date: Date;
-
-    scale: { width: number; height: number; };
-    position: { x: number; y: number; };
     velocity: { x: number; y: number; };
-
     gravity: number;
     jumpHeight: number;
     climbSpeed: number;
-    onWaterSpeed: number;
-
     sprite: HTMLImageElement;
     hitbox: Transform;
-
-    triggers: { onLadder: boolean; onWater: boolean; inAttack: boolean };
-    cooldowns: { climb: number; jump: number; attack: number; };
-    lastActions: { climb: number; jump: number; attack: number; };
-
+    triggers: { onLadder: boolean; onWater: boolean; inAttack: boolean; };
+    cooldowns: ICooldown;
+    lastActions: ICooldown;
+    health: number;
     inAir: boolean;
     facingRight: boolean;
+    onWaterSpeed: number;
+    distance: number;
     waterDirection: string;
 
-    distance: number;
-    health: number;
-
-
     constructor(name: string, transform: Transform, animations: Animations) {
+
         super(transform, animations, 1)
+
         this.name = name // ninja or sumo
-
-        this.facingRight = vectorDistance(this, player).horizontal < 0
-
         this.date = new Date()
 
         this.scale = transform.scale;
@@ -49,31 +39,30 @@ export class Enemy extends Sprite {
         this.gravity = config.physics.gravityScale;
         this.jumpHeight = config.physics.jumpHeight;
         this.climbSpeed = config.physics.climbSpeed;
-        this.onWaterSpeed = config.physics.onWaterSpeed;
-        this.waterDirection
 
         this.sprite = new Image()
         this.sprite.src = '';
-
-        this.date = new Date();
 
         this.triggers = { onLadder: false, onWater: false, inAttack: false };
         this.cooldowns = { climb: 150, jump: 500, attack: this.name === 'sumo' ? 1200 : 800 }
         this.lastActions = { climb: this.date.getTime(), jump: this.date.getTime(), attack: this.date.getTime() }
 
         this.health = 100;
-        this.facingRight = false;
 
+        this.facingRight = vectorDistance(this, player).horizontal < 0
         this.inAir = (this.velocity.y > config.physics.gravityScale + 0.1 || this.velocity.y < 0)
+
+        this.onWaterSpeed = config.physics.onWaterSpeed;
 
         this.distance = this.name === 'sumo' ? -6 : -4
     }
 
     update() {
+
         this.render()
+
         this.updateHitbox()
         this.facingRight = vectorDistance(this, player).horizontal < 0
-
         this.inAir = (this.velocity.y > config.physics.gravityScale + 0.1 || this.velocity.y < 0)
 
         this.triggers.onLadder = false;
@@ -92,9 +81,9 @@ export class Enemy extends Sprite {
         this.updateHitbox()
         this.horizontalCollisionDetection()
 
-        if (this.triggers.onLadder && this.triggers.onWater) { this.applyWaterMovement() }
-        else if (this.triggers.onLadder) { this.applyLadderMovement() }
-        else { this.applyGravity(); }
+        if (this.triggers.onLadder && this.triggers.onWater) this.applyWaterMovement()
+        else if (this.triggers.onLadder) this.applyLadderMovement()
+        else this.applyGravity();
 
         this.updateHitbox()
         this.verticalCollisionDetection();
@@ -271,13 +260,11 @@ export class Enemy extends Sprite {
     }
 
     attack = () => {
-
         this.date = new Date()
 
         if (this.date.getTime() - this.lastActions.attack < this.cooldowns.attack) return;
 
         this.switchSprite(this.facingRight ? 'attackRight' : 'attackLeft')
-
 
         this.triggers.inAttack = true;
         setTimeout(() => this.triggers.inAttack = false, 400)

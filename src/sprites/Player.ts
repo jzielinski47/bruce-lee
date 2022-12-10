@@ -32,8 +32,11 @@ export class Player extends Sprite {
     waterDirection: string;
 
     constructor(transform: Transform, animations: Animations) {
+
         super(transform, animations, 1)
+
         this.name = 'player'
+        this.date = new Date();
 
         this.scale = transform.scale;
         this.position = transform.position;
@@ -44,16 +47,12 @@ export class Player extends Sprite {
         this.climbSpeed = config.physics.climbSpeed;
         this.onWaterSpeed = config.physics.onWaterSpeed;
 
-        this.waterDirection;
-
         this.sprite = new Image()
         this.sprite.src = '../assets/sprites/brucelee/brucelee-anim.png';
 
         this.triggers = { onLadder: false, onWater: false, isCrouch: false, inAttack: false };
 
-        this.date = new Date();
-
-        this.cooldowns = { climb: 150, jump: 500, attack: 800 }
+        this.cooldowns = { climb: 150, jump: 500, attack: 400 }
         this.lastActions = { climb: this.date.getTime(), jump: this.date.getTime(), attack: this.date.getTime() }
         this.climbAnimVariant = 1;
 
@@ -322,7 +321,5 @@ export class Player extends Sprite {
         this.triggers.inAttack = true;
         setTimeout(() => this.triggers.inAttack = false, this.velocity.x === 0 ? 150 : 400)
         this.lastActions.attack = this.date.getTime();
-
-
     }
 }

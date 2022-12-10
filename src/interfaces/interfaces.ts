@@ -32,3 +32,5 @@ export interface Animations {
     attack2Left?: Anim;
     attack2Right?: Anim;
 }
+
+export declare type ICooldown = { climb: number; jump: number; attack: number; };
