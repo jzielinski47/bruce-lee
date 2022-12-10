@@ -53,7 +53,7 @@ export class Player extends Sprite {
 
         this.triggers = { onLadder: false, onWater: false, isCrouch: false, inAttack: false };
 
-        this.cooldowns = { climb: 150, jump: 500, attack: 400 }
+        this.cooldowns = { climb: 150, jump: 500, attack: 500 }
         this.lastActions = { climb: this.date.getTime(), jump: this.date.getTime(), attack: this.date.getTime() }
         this.climbAnimVariant = 1;
 
@@ -65,6 +65,7 @@ export class Player extends Sprite {
     }
 
     update() {
+
         this.render()
 
         this.position.x += this.velocity.x;
@@ -110,14 +111,14 @@ export class Player extends Sprite {
                     const offset = this.hitbox.position.x - this.position.x + this.hitbox.scale.width
                     this.position.x = collider.x - offset - 0.01
 
-                    console.log(this.name + ' collides with ' + collider.name, 'right')
+                    config.dev.inColDetectionMode ? console.log(this.name + ' collides with ' + collider.name, 'right') : null
                 }
 
                 if (this.velocity.x < -0) {
                     const offset = this.hitbox.position.x - this.position.x
                     this.position.x = (collider.x + collider.width) - offset + 0.01
 
-                    console.log(this.name + ' collides with ' + collider.name, 'left')
+                    config.dev.inColDetectionMode ? console.log(this.name + ' collides with ' + collider.name, 'left') : null
                 }
             }
         })
@@ -133,7 +134,7 @@ export class Player extends Sprite {
                         const offset = this.hitbox.position.y - this.position.y + this.hitbox.scale.height
                         this.position.y = collider.y - offset - 0.1
 
-                        console.log('player collides with ' + collider.name, 'bottom')
+                        config.dev.inColDetectionMode ? console.log('player collides with ' + collider.name, 'bottom') : null
                     }
 
                     if (this.velocity.y < 0) {
@@ -141,7 +142,7 @@ export class Player extends Sprite {
                         const offset = this.hitbox.position.y - this.position.y
                         this.position.y = (collider.y + collider.height) - offset + 0.1
 
-                        console.log('player collides with ' + collider.name, 'up')
+                        config.dev.inColDetectionMode ? console.log('player collides with ' + collider.name, 'up') : null
                     }
 
                 }

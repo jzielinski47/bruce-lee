@@ -2,7 +2,7 @@ import { player } from "..";
 import { canvas, config, ctx } from "../config";
 import { Animations, ICooldown, Transform } from "../interfaces/interfaces";
 import { scenes } from "../scenes";
-import { onCollison, onCollisonBottom, vectorDistance } from "../utils";
+import { getRandomInt, onCollison, onCollisonBottom, vectorDistance } from "../utils";
 import { Sprite } from "./Sprite";
 
 export class Enemy extends Sprite {
@@ -49,7 +49,7 @@ export class Enemy extends Sprite {
 
         this.health = 100;
 
-        this.facingRight = vectorDistance(this, player).horizontal < 0
+        this.facingRight = false
         this.inAir = (this.velocity.y > config.physics.gravityScale + 0.1 || this.velocity.y < 0)
 
         this.onWaterSpeed = config.physics.onWaterSpeed;
@@ -61,16 +61,14 @@ export class Enemy extends Sprite {
 
         this.render()
 
+        this.position.x += this.velocity.x;
+
         this.updateHitbox()
-        this.facingRight = vectorDistance(this, player).horizontal < 0
+        this.facingRight = vectorDistance(this.hitbox, player).horizontal > 0
         this.inAir = (this.velocity.y > config.physics.gravityScale + 0.1 || this.velocity.y < 0)
 
         this.triggers.onLadder = false;
         this.triggers.onWater = false;
-
-        if (!this.triggers.inAttack) this.switchSprite(this.facingRight ? 'idleRight' : 'idleLeft')
-
-        this.position.x += this.velocity.x;
 
         this.updateHitbox()
         this.triggerCollisionDetection()
@@ -127,7 +125,7 @@ export class Enemy extends Sprite {
                     const offset = this.hitbox.position.y - this.position.y + this.hitbox.scale.height
                     this.position.y = collider.y - offset - 0.1
 
-                    console.log('player collides with ' + collider.name, 'bottom')
+                    config.dev.inColDetectionMode ? console.log(this.name + ' collides with ' + collider.name, 'bottom') : null
                 }
 
                 if (this.velocity.y < 0) {
@@ -135,7 +133,7 @@ export class Enemy extends Sprite {
                     const offset = this.hitbox.position.y - this.position.y
                     this.position.y = (collider.y + collider.height) - offset + 0.1
 
-                    console.log('player collides with ' + collider.name, 'up')
+                    config.dev.inColDetectionMode ? console.log(this.name + ' collides with ' + collider.name, 'up') : null
                 }
 
             }
@@ -279,23 +277,40 @@ export class Enemy extends Sprite {
     }
 
     applyAiControls() {
-        if (this.inAir) this.switchSprite('fall');
+
+        this.updateHitbox()
+
+
+        if (this.inAir) this.switchSprite('fall')
         else {
 
-            if (player.position.x - this.distance > this.hitbox.position.x + this.hitbox.scale.width) {
-                this.facingRight = true
-                this.velocity.x = config.physics.velocity * 0.8;
-                this.switchSprite('walkRight')
-            } else if (player.position.x + player.scale.width + this.distance < this.hitbox.position.x) {
-                this.facingRight = false
-                this.velocity.x = -config.physics.velocity * 0.8;
-                this.switchSprite('walkLeft')
-            } else {
-                if (vectorDistance(this, player).horizontal >= 0 && vectorDistance(this, player).vertical < 10 && vectorDistance(this, player).vertical > -10) { this.attack() }
-                else if (vectorDistance(this, player).horizontal < 0 && vectorDistance(this, player).vertical < 10 && vectorDistance(this, player).vertical > -10) { this.attack() }
-                else if (vectorDistance(this, player).horizontal >= 0) this.switchSprite('idleLeft')
-                else this.switchSprite('idleRight')
+            const attackRange: number = 5
+
+            if (vectorDistance(this.hitbox, player).horizontal < 0) {
+                console.log(this.name, 'on-left')
+            } else if (vectorDistance(this.hitbox, player).horizontal > 0) {
+                console.log(this.name, 'on-right')
             }
+
+
+
+            // if (player.position.x - this.distance > this.hitbox.position.x + this.hitbox.scale.width) {
+            //     this.facingRight = true
+            //     this.velocity.x = config.physics.velocity * 0.8;
+            //     this.switchSprite('walkRight')
+            // } else if (player.position.x + player.scale.width + this.distance < this.hitbox.position.x) {
+            //     this.facingRight = false
+            //     this.velocity.x = -config.physics.velocity * 0.8;
+            //     this.switchSprite('walkLeft')
+            // } else {
+
+            //     if (vectorDistance(this, player).horizontal >= 0 && vectorDistance(this, player).vertical < 10 && vectorDistance(this, player).vertical > -10) { this.attack() }
+            //     else if (vectorDistance(this, player).horizontal < 0 && vectorDistance(this, player).vertical < 10 && vectorDistance(this, player).vertical > -10) { this.attack() }
+            //     else if (vectorDistance(this, player).horizontal >= 0) this.switchSprite('idleLeft')
+            //     else this.switchSprite('idleRight')
+            // }
+
+            if (!this.triggers.inAttack) this.switchSprite(this.facingRight ? 'idleRight' : 'idleLeft')
 
         }
     }

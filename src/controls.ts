@@ -10,7 +10,6 @@ export const input = {
 export let lastKey: string;
 
 window.onkeydown = (e: KeyboardEvent) => {
-    console.log(e.key)
 
     switch (e.key) {
         case "a": case "ArrowLeft": if (player.velocity.y === 0 || player.velocity.y === config.physics.gravityScale || player.triggers.onLadder) { input.a.pressed = true; lastKey = 'a'; } player.climbAnimVariant = (player.climbAnimVariant === 1) ? 2 : 1; break;

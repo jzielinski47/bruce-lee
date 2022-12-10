@@ -33,6 +33,12 @@ export const vectorDistance = (object1, object2) => {
         horizontal: ((object1.position.x + object1.scale.width) / 2) - ((object2.position.x + object2.scale.width) / 2),
         vertical: ((object1.position.y + object1.scale.height)) - ((object2.position.y + object2.scale.height))
     }
+    vector.horizontal *= -1;
+    vector.vertical *= -1;
     // console.log(vector)
     return vector;
+}
+
+export function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
 }
