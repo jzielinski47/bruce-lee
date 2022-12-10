@@ -49,7 +49,7 @@ export class Enemy extends Sprite {
         this.sprite.src = '';
 
         this.triggers = { onLadder: false, onWater: false, inAttack: false, isDead: false, shocked: false, attackBoxDisplay: false, isCrouch: false };
-        this.cooldowns = { climb: 150, jump: 500, attack: this.name === 'sumo' ? 190 : 1200 }
+        this.cooldowns = { climb: 150, jump: 500, attack: this.name === 'sumo' ? 5000 : 2500 }
         this.lastActions = { climb: this.date.getTime(), jump: this.date.getTime(), attack: this.date.getTime() }
 
         this.health = this.name === 'sumo' ? 120 : 99;
@@ -72,6 +72,8 @@ export class Enemy extends Sprite {
             this.render()
 
             this.position.x += this.velocity.x;
+
+            this.attackBox = { position: this.position, scale: { width: 14, height: 10 } }
 
             this.updateHitbox()
             this.facingRight = vectorDistance(this.hitbox, player).horizontal > 0
@@ -343,17 +345,18 @@ export class Enemy extends Sprite {
 
     attackBoxCollisionDetection() {
         this.damage(player)
-        this.damage(this.name === 'sumo' ? ninja : sumo)
+        // this.damage(this.name === 'sumo' ? ninja : sumo)
     }
 
 
     damage(enemy) {
-        if (refinedOnCollison(this.attackBox, enemy)) {
+        if (refinedOnCollison(this.attackBox, enemy.hitbox)) {
             if (!enemy.triggers.isCrouch && !enemy.triggers.shocked) {
-                enemy.health -= 33;
+                enemy.health -= 5;
                 // config.stats.score += 75;
                 enemy.velocity.x = 0;
-                !this.facingRight ? enemy.velocity.x -= config.physics.velocity * 4 : enemy.velocity.x += config.physics.velocity * 4
+                !this.facingRight ? enemy.velocity.x -= config.physics.velocity * 1.2 : enemy.velocity.x += config.physics.velocity * 1.2
+                enemy.velocity.y -= 1
                 enemy.triggers.shocked = true
                 setTimeout(() => enemy.triggers.shocked = false, 1000)
                 enemy.switchSprite(this.facingRight ? 'hitRight' : 'hitLeft')

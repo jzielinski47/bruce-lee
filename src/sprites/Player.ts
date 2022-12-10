@@ -55,7 +55,7 @@ export class Player extends Sprite {
 
         this.triggers = { onLadder: false, onWater: false, isCrouch: false, inAttack: false, attackBoxDisplay: false, shocked: false };
 
-        this.cooldowns = { climb: 150, jump: 500, attack: 800 }
+        this.cooldowns = { climb: 150, jump: 500, attack: 400 }
         this.lastActions = { climb: this.date.getTime(), jump: this.date.getTime(), attack: this.date.getTime() }
         this.climbAnimVariant = 1;
 
@@ -64,7 +64,7 @@ export class Player extends Sprite {
 
         this.health = 100;
 
-        this.attackBox = { position: this.position, scale: { width: 14, height: 21 } }
+        this.attackBox = { position: { x: this.position.x + (lastKey === 'a' ? 0 : 10), y: this.position.y }, scale: { width: 14, height: 21 } }
 
 
 
@@ -77,6 +77,8 @@ export class Player extends Sprite {
         this.position.x += this.velocity.x;
         this.triggers.onLadder = false;
         this.triggers.onWater = false;
+
+        this.attackBox = { position: { x: this.position.x + (lastKey === 'a' ? 0 : 10), y: this.position.y }, scale: { width: 14, height: 21 } }
 
         if (!this.triggers.shocked) {
             if (this.velocity.x === 0 && lastKey === 'd' && !this.triggers.inAttack) this.switchSprite('idleRight')
@@ -111,6 +113,8 @@ export class Player extends Sprite {
         if (!this.triggers.inAttack) this.velocity.x = 0
 
         if (!this.triggers.shocked) this.applyControls()
+
+        if (this.health <= 0) { config.stats.lives--; updateUserInterface(); this.health = 100 }
 
 
     }
