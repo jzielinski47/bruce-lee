@@ -48,3 +48,8 @@ export function getRandomFloat(min: number, max: number, decimals: number) {
 
     return parseFloat(str);
 }
+
+export function checkIfBetween(min: number, max: number, num: number) {
+    if (num < min || num > max) return false
+    else return true
+}

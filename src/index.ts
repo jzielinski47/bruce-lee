@@ -8,7 +8,7 @@ import { Enemy } from "./sprites/Enemy"
 import { Player } from "./sprites/Player"
 import { Prefab } from "./sprites/Prefab"
 import { updateUserInterface } from "./userinterface"
-import { vectorDistance } from "./utils"
+import { getRandomFloat, vectorDistance } from "./utils"
 
 export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0, y: 0 }, scale: { width: 15, height: 22 } },
     {
@@ -29,9 +29,11 @@ export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0
         attackRight: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/attackRight.png' },
         attack2Left: { frameRate: 2, frameBuffer: 16, loop: true, imageSrc: '../assets/sprites/brucelee/attack2Left.png' },
         attack2Right: { frameRate: 2, frameBuffer: 16, loop: true, imageSrc: '../assets/sprites/brucelee/attack2Right.png' },
+        hitLeft: { frameRate: 2, frameBuffer: 14, loop: true, imageSrc: '../assets/sprites/player/hitLeft.png' },
+        hitRight: { frameRate: 2, frameBuffer: 14, loop: true, imageSrc: '../assets/sprites/player/hitRight.png' },
     })
 
-const ninja = new Enemy('ninja', { position: { x: 270, y: 20 }, velocity: { x: 0, y: 0 }, scale: { width: 28, height: 21 } },
+export const ninja = new Enemy('ninja', { position: { x: 270, y: 20 }, velocity: { x: 0, y: 0 }, scale: { width: 28, height: 21 } },
     {
         idle: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/ninja/idleRight.png' },
         idleRight: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/ninja/idleRight.png' },
@@ -41,9 +43,11 @@ const ninja = new Enemy('ninja', { position: { x: 270, y: 20 }, velocity: { x: 0
         fall: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/ninja/fall.png' },
         attackLeft: { frameRate: 2, frameBuffer: 14, loop: true, imageSrc: '../assets/sprites/ninja/attackLeft.png' },
         attackRight: { frameRate: 2, frameBuffer: 14, loop: true, imageSrc: '../assets/sprites/ninja/attackRight.png' },
+        hitLeft: { frameRate: 2, frameBuffer: 14, loop: true, imageSrc: '../assets/sprites/ninja/hitLeft.png' },
+        hitRight: { frameRate: 2, frameBuffer: 14, loop: true, imageSrc: '../assets/sprites/ninja/hitRight.png' },
     })
 
-const sumo = new Enemy('sumo', { position: { x: 230, y: 20 }, velocity: { x: 0, y: 0 }, scale: { width: 28, height: 21 } },
+export const sumo = new Enemy('sumo', { position: { x: 230, y: 20 }, velocity: { x: 0, y: 0 }, scale: { width: 28, height: 21 } },
     {
         idle: { frameRate: 2, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/sumo/idleRight.png' },
         idleRight: { frameRate: 2, frameBuffer: 60, loop: true, imageSrc: '../assets/sprites/sumo/idleRight.png' },
@@ -53,7 +57,18 @@ const sumo = new Enemy('sumo', { position: { x: 230, y: 20 }, velocity: { x: 0, 
         fall: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/sumo/fall.png' },
         attackLeft: { frameRate: 2, frameBuffer: 14, loop: true, imageSrc: '../assets/sprites/sumo/attackLeft.png' },
         attackRight: { frameRate: 2, frameBuffer: 14, loop: true, imageSrc: '../assets/sprites/sumo/attackRight.png' },
+        hitLeft: { frameRate: 2, frameBuffer: 14, loop: true, imageSrc: '../assets/sprites/sumo/hitLeft.png' },
+        hitRight: { frameRate: 2, frameBuffer: 14, loop: true, imageSrc: '../assets/sprites/sumo/hitRight.png' },
     })
+
+console.log(Math.abs(sumo.safeDistance - ninja.safeDistance))
+
+while (Math.abs(sumo.safeDistance - ninja.safeDistance) < 6) {
+    sumo.safeDistance = 15 + getRandomFloat(0, 15, 3)
+    ninja.safeDistance = 15 + getRandomFloat(0, 15, 3)
+}
+
+console.log(Math.abs(sumo.safeDistance - ninja.safeDistance))
 
 const scene = new Background({ position: { x: 0, y: 0 }, scale: { width: canvas.width, height: canvas.height } })
 
@@ -74,8 +89,8 @@ const update = () => {
     temp.doors.map(door => door.update())
     temp.waterfalls.map(water => water.update())
 
-    sumo.update()
     ninja.update()
+    sumo.update()
     player.update()
 
     config.dev.inDevelopmendMode ? drawColliders(config.dev.currentScene) : null
@@ -114,6 +129,9 @@ function resetScene() {
     temp.lanterns = []
     temp.doors = []
     temp.waterfalls = []
+    config.stats.score += 2000
+    config.stats.topScore = config.stats.score
+    updateUserInterface()
     loadScenePresets()
 }
 

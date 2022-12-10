@@ -30,7 +30,7 @@ export class Latnern extends Sprite {
         if (refinedOnCollison(this, player)) {
             this.collected = true
 
-            config.stats.score += 100
+            config.stats.score += 125
             config.stats.collectedLanterns += 1
             config.stats.topScore = config.stats.score
             updateUserInterface()

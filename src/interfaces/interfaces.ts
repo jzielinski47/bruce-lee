@@ -31,6 +31,8 @@ export interface Animations {
     lieRight?: Anim;
     attack2Left?: Anim;
     attack2Right?: Anim;
+    hitRight?: Anim;
+    hitLeft?: Anim;
 }
 
 export declare type ICooldown = { climb: number; jump: number; attack: number; };

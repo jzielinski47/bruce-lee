@@ -1,9 +1,10 @@
+import { ninja, sumo } from "..";
 import { ctx, canvas, config } from "../config";
 import { input, lastKey } from "../controls";
 import { Transform, Animations } from "../interfaces/interfaces";
 import { scenes } from "../scenes";
 import { updateUserInterface } from "../userinterface";
-import { onCollison, onCollisonBottom } from "../utils";
+import { onCollison, onCollisonBottom, refinedOnCollison, vectorDistance } from "../utils";
 import { Sprite } from "./Sprite";
 
 export class Player extends Sprite {
@@ -20,7 +21,7 @@ export class Player extends Sprite {
     sprite: HTMLImageElement;
     hitbox: Transform;
 
-    triggers: { onLadder: boolean; onWater: boolean; isCrouch: boolean; inAttack: boolean; };
+    triggers: { onLadder: boolean; onWater: boolean; isCrouch: boolean; inAttack: boolean; attackBoxDisplay: boolean; };
     cooldowns: { climb: number; jump: number; attack: number; }
     lastActions: { climb: number; jump: number; attack: number; }
     climbAnimVariant: number;
@@ -31,6 +32,7 @@ export class Player extends Sprite {
     date: Date;
     health: number;
     waterDirection: string;
+    attackBox: Transform;
 
     constructor(transform: Transform, animations: Animations) {
 
@@ -51,9 +53,9 @@ export class Player extends Sprite {
         this.sprite = new Image()
         this.sprite.src = '../assets/sprites/brucelee/brucelee-anim.png';
 
-        this.triggers = { onLadder: false, onWater: false, isCrouch: false, inAttack: false };
+        this.triggers = { onLadder: false, onWater: false, isCrouch: false, inAttack: false, attackBoxDisplay: false };
 
-        this.cooldowns = { climb: 150, jump: 500, attack: 500 }
+        this.cooldowns = { climb: 150, jump: 500, attack: 800 }
         this.lastActions = { climb: this.date.getTime(), jump: this.date.getTime(), attack: this.date.getTime() }
         this.climbAnimVariant = 1;
 
@@ -61,6 +63,10 @@ export class Player extends Sprite {
         this.updateLevel = false;
 
         this.health = 100;
+
+        this.attackBox = { position: this.position, scale: { width: 14, height: 21 } }
+
+
 
     }
 
@@ -95,12 +101,15 @@ export class Player extends Sprite {
         this.updateHitbox()
         this.platformCollisionDetection();
 
+        if (this.triggers.attackBoxDisplay) this.attackBoxCollisionDetection()
+
         this.updateHitbox()
         config.dev.inDevelopmendMode ? this.drawHitbox() : null
 
         if (!this.triggers.inAttack) this.velocity.x = 0
 
         this.applyControls()
+
 
     }
 
@@ -182,6 +191,9 @@ export class Player extends Sprite {
     drawHitbox = () => {
         ctx.fillStyle = 'rgba(255,0,0,0.5)'
         ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.scale.width, this.hitbox.scale.height)
+
+        ctx.fillStyle = 'rgba(255,255,0,0.5)'
+        if (this.triggers.attackBoxDisplay) ctx.fillRect(this.attackBox.position.x + (lastKey === 'a' ? 0 : 10), this.attackBox.position.y, this.attackBox.scale.width, this.attackBox.scale.height)
     }
 
     switchSprite = (sprite: string) => {
@@ -292,7 +304,7 @@ export class Player extends Sprite {
                     const offset = this.hitbox.position.y - this.position.y + this.hitbox.scale.height
                     this.position.y = platform.y - offset - 0.1
 
-                    console.log('player collides with ' + platform.name, 'bottom')
+                    config.dev.inColDetectionMode ? console.log(this.name + ' collides with ' + platform.name, 'bottom') : null
                 }
 
             }
@@ -312,7 +324,7 @@ export class Player extends Sprite {
     setDead() {
         this.levelToLoad = 9;
         this.updateLevel = true;
-        this.health = 100;
+        this.health = 99;
         console.log(this.levelToLoad);
         config.stats.lives--;
         updateUserInterface()
@@ -325,6 +337,8 @@ export class Player extends Sprite {
         if (!this.triggers.isCrouch && !this.triggers.onLadder && !(this.velocity.y < 0)) {
             if (this.date.getTime() - this.lastActions.attack < this.cooldowns.attack) return;
             this.triggers.inAttack = true;
+            this.triggers.attackBoxDisplay = true
+            setTimeout(() => this.triggers.attackBoxDisplay = false, 400)
             setTimeout(() => this.triggers.inAttack = false, this.velocity.x === 0 ? 150 : 400)
             this.lastActions.attack = this.date.getTime();
         }
@@ -352,6 +366,29 @@ export class Player extends Sprite {
             else if (input.d.pressed && lastKey === 'd' && this.triggers.onLadder) { this.velocity.x = config.physics.velocity * 0.7; }
             if (this.triggers.onLadder) this.switchSprite(this.climbAnimVariant === 1 ? 'climb2' : 'climb1');
 
+        }
+    }
+
+    attackBoxCollisionDetection() {
+        if (refinedOnCollison(this.attackBox, ninja)) {
+            ninja.health -= 33;
+            config.stats.score += 75;
+            ninja.velocity.x = 0;
+            ninja.triggers.shocked = true
+            setTimeout(() => ninja.triggers.shocked = false, 1000)
+            lastKey === 'a' ? ninja.velocity.x -= config.physics.velocity * 4 : ninja.velocity.x += config.physics.velocity * 4
+            ninja.switchSprite(lastKey === 'a' ? 'hitRight' : 'hitLeft')
+            this.triggers.attackBoxDisplay = false
+        }
+        if (refinedOnCollison(this.attackBox, sumo)) {
+            sumo.health -= 33;
+            config.stats.score += 75;
+            sumo.velocity.x = 0;
+            sumo.triggers.shocked = true
+            setTimeout(() => sumo.triggers.shocked = false, 1000)
+            lastKey === 'a' ? sumo.velocity.x -= config.physics.velocity * 4 : sumo.velocity.x += config.physics.velocity * 4
+            sumo.switchSprite(lastKey === 'a' ? 'hitRight' : 'hitLeft')
+            this.triggers.attackBoxDisplay = false
         }
     }
 

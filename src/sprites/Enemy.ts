@@ -2,7 +2,8 @@ import { player } from "..";
 import { canvas, config, ctx } from "../config";
 import { Animations, ICooldown, Transform } from "../interfaces/interfaces";
 import { scenes } from "../scenes";
-import { getRandomFloat, getRandomInt, onCollison, onCollisonBottom, vectorDistance } from "../utils";
+import { updateUserInterface } from "../userinterface";
+import { checkIfBetween, getRandomFloat, getRandomInt, onCollison, onCollisonBottom, vectorDistance } from "../utils";
 import { Sprite } from "./Sprite";
 
 export class Enemy extends Sprite {
@@ -15,7 +16,7 @@ export class Enemy extends Sprite {
     climbSpeed: number;
     sprite: HTMLImageElement;
     hitbox: Transform;
-    triggers: { onLadder: boolean; onWater: boolean; inAttack: boolean; };
+    triggers: { onLadder: boolean; onWater: boolean; inAttack: boolean; isDead: boolean; shocked: boolean; };
     cooldowns: ICooldown;
     lastActions: ICooldown;
     health: number;
@@ -26,6 +27,7 @@ export class Enemy extends Sprite {
     waterDirection: string;
     attackRange: number;
     heightDifference: number;
+    safeDistance: number;
 
     constructor(name: string, transform: Transform, animations: Animations) {
 
@@ -45,56 +47,61 @@ export class Enemy extends Sprite {
         this.sprite = new Image()
         this.sprite.src = '';
 
-        this.triggers = { onLadder: false, onWater: false, inAttack: false };
-        this.cooldowns = { climb: 150, jump: 500, attack: this.name === 'sumo' ? 1600 : 1200 }
+        this.triggers = { onLadder: false, onWater: false, inAttack: false, isDead: false, shocked: false };
+        this.cooldowns = { climb: 150, jump: 500, attack: this.name === 'sumo' ? 190 : 1200 }
         this.lastActions = { climb: this.date.getTime(), jump: this.date.getTime(), attack: this.date.getTime() }
 
-        this.health = 100;
+        this.health = this.name === 'sumo' ? 120 : 99;
 
         this.facingRight = false
         this.inAir = (this.velocity.y > config.physics.gravityScale + 0.1 || this.velocity.y < 0)
 
         this.onWaterSpeed = config.physics.onWaterSpeed;
 
-        this.attackRange = getRandomFloat(6, 8, 3)
-        this.heightDifference = 10
+        this.attackRange = this.name === 'sumo' ? 12 : 6
+        this.safeDistance = 22 + getRandomFloat(0, 10, 3)
+        this.heightDifference = 15
     }
 
     update() {
 
-        this.render()
+        if (!this.triggers.isDead) {
+            this.render()
 
-        this.position.x += this.velocity.x;
+            this.position.x += this.velocity.x;
 
-        this.updateHitbox()
-        this.facingRight = vectorDistance(this.hitbox, player).horizontal > 0
-        this.inAir = (this.velocity.y > config.physics.gravityScale + 0.1 || this.velocity.y < 0)
+            this.updateHitbox()
+            this.facingRight = vectorDistance(this.hitbox, player).horizontal > 0
+            this.inAir = (this.velocity.y > config.physics.gravityScale + 0.1 || this.velocity.y < 0)
 
-        this.triggers.onLadder = false;
-        this.triggers.onWater = false;
+            this.triggers.onLadder = false;
+            this.triggers.onWater = false;
 
-        this.updateHitbox()
-        this.triggerCollisionDetection()
+            this.updateHitbox()
+            this.triggerCollisionDetection()
 
-        this.updateHitbox()
-        this.trapCollisionDetection()
+            this.updateHitbox()
+            this.trapCollisionDetection()
 
-        this.updateHitbox()
-        this.horizontalCollisionDetection()
+            this.updateHitbox()
+            this.horizontalCollisionDetection()
 
-        if (this.triggers.onLadder && this.triggers.onWater) this.applyWaterMovement()
-        else if (this.triggers.onLadder) this.applyLadderMovement()
-        else this.applyGravity();
+            if (this.triggers.onLadder && this.triggers.onWater) this.applyWaterMovement()
+            else if (this.triggers.onLadder) this.applyLadderMovement()
+            else this.applyGravity();
 
-        this.updateHitbox()
-        this.verticalCollisionDetection();
+            this.updateHitbox()
+            this.verticalCollisionDetection();
 
-        this.updateHitbox()
-        config.dev.inDevelopmendMode ? this.drawHitbox() : null
+            this.updateHitbox()
+            config.dev.inDevelopmendMode ? this.drawHitbox() : null
 
-        if (!this.triggers.inAttack) this.velocity.x = 0
+            if (!this.triggers.inAttack) this.velocity.x = 0
 
-        this.applyAiControls()
+            this.applyAiControls()
+
+            if (this.health <= 0) this.destroy()
+        }
 
     }
 
@@ -272,53 +279,105 @@ export class Enemy extends Sprite {
 
         if (this.date.getTime() - this.lastActions.attack < this.cooldowns.attack) return;
 
+        this.triggers.inAttack = true;
         this.switchSprite(this.facingRight ? 'attackRight' : 'attackLeft')
 
-        this.triggers.inAttack = true;
-        setTimeout(() => this.triggers.inAttack = false, 400)
+        setTimeout(() => this.triggers.inAttack = false, this.name === 'sumo' ? 600 : 400)
         this.lastActions.attack = this.date.getTime();
     }
 
     applyAiControls() {
-
         this.updateHitbox()
 
-        if (this.inAir) this.switchSprite('fall')
-        else {
+        if (!this.triggers.shocked) {
+            if (this.inAir) this.switchSprite('fall')
+            else {
+                if (!this.triggers.inAttack) this.switchSprite(this.facingRight ? 'idleRight' : 'idleLeft')
 
-            if (!this.triggers.inAttack) this.switchSprite(this.facingRight ? 'idleRight' : 'idleLeft')
+                const onSameElevation: boolean = checkIfBetween(-this.heightDifference, this.heightDifference, vectorDistance(this.hitbox, player).vertical)
 
-            if (vectorDistance(this.hitbox, player).horizontal < -this.attackRange) {
-                // console.log(this.name, 'on-left')
-                this.velocity.x = -config.physics.velocity * 0.8;
-                this.switchSprite(this.velocity.x < 0 ? 'walkLeft' : 'idleLeft')
-            } else if (vectorDistance(this.hitbox, player).horizontal > this.attackRange) {
-                // console.log(this.name, 'on-right')
-                this.velocity.x = config.physics.velocity * 0.8;
-                this.switchSprite(this.velocity.x > 0 ? 'walkRight' : 'idleRight')
-            } else if (vectorDistance(this.hitbox, player).vertical > -this.heightDifference) {
-                this.attack()
+                if (vectorDistance(this.hitbox, player).horizontal < (onSameElevation ? -this.attackRange : -this.safeDistance)) {
+                    this.velocity.x = -config.physics.velocity * 0.8;
+                    this.switchSprite(this.velocity.x < 0 ? 'walkLeft' : 'idleLeft')
+                } else if (vectorDistance(this.hitbox, player).horizontal > (onSameElevation ? this.attackRange : this.safeDistance)) {
+                    this.velocity.x = config.physics.velocity * 0.8;
+                    this.switchSprite(this.velocity.x > 0 ? 'walkRight' : 'idleRight')
+                } else {
+                    switch (this.name) {
+                        case 'sumo':
+                            if (onSameElevation) {
+                                if (checkIfBetween(-6, 6, vectorDistance(this.hitbox, player).horizontal)) {
+                                    if (this.facingRight) this.velocity.x = -config.physics.velocity * 0.5;
+                                    else this.velocity.x = config.physics.velocity * 0.5;
+                                } else if (!checkIfBetween(-8, 8, vectorDistance(this.hitbox, player).horizontal)) {
+                                    this.attack()
+                                    if (this.facingRight) this.velocity.x = config.physics.velocity * 0.5;
+                                    else this.velocity.x = -config.physics.velocity * 0.5;
+                                }
+
+                            } else { }
+                            break;
+                        default: onSameElevation ? this.attack() : null; break;
+                    }
+                }
+
             }
-
-            // 
-            // if (player.position.x - this.distance > this.hitbox.position.x + this.hitbox.scale.width) {
-            //     this.facingRight = true
-            //     this.velocity.x = config.physics.velocity * 0.8;
-            //     this.switchSprite('walkRight')
-            // } else if (player.position.x + player.scale.width + this.distance < this.hitbox.position.x) {
-            //     this.facingRight = false
-            //     this.velocity.x = -config.physics.velocity * 0.8;
-            //     this.switchSprite('walkLeft')
-            // } else {
-
-            //     if (vectorDistance(this, player).horizontal >= 0 && vectorDistance(this, player).vertical < 10 && vectorDistance(this, player).vertical > -10) { this.attack() }
-            //     else if (vectorDistance(this, player).horizontal < 0 && vectorDistance(this, player).vertical < 10 && vectorDistance(this, player).vertical > -10) { this.attack() }
-            //     else if (vectorDistance(this, player).horizontal >= 0) this.switchSprite('idleLeft')
-            //     else this.switchSprite('idleRight')
-            // }
-
-
-
         }
+
+
+
+
+        // druga opcja
+
+        // if (!this.triggers.inAttack) this.switchSprite(this.facingRight ? 'idleRight' : 'idleLeft')
+        // if (vectorDistance(this.hitbox, player).vertical > -this.heightDifference && vectorDistance(this.hitbox, player).vertical < this.heightDifference) {
+        //     // if on estimated same level 
+
+        //     if (vectorDistance(this.hitbox, player).horizontal < -this.attackRange) {
+        //         this.velocity.x = -config.physics.velocity * 0.8;
+        //         this.switchSprite(this.velocity.x < 0 ? 'walkLeft' : 'idleLeft')
+        //     } else if (vectorDistance(this.hitbox, player).horizontal > this.attackRange) {
+        //         // console.log(this.name, 'on-right')
+        //         this.velocity.x = config.physics.velocity * 0.8;
+        //         this.switchSprite(this.velocity.x > 0 ? 'walkRight' : 'idleRight')
+        //     } else {
+
+        //         switch (this.name) {
+        //             case 'ninja': this.attack(); break;
+        //             case 'sumo':
+        //                 if (vectorDistance(this.hitbox, player).horizontal < -6) {
+        //                     this.velocity.x = -config.physics.velocity * 0.6; this.attack()
+        //                 } else if (vectorDistance(this.hitbox, player).horizontal > 6) {
+        //                     this.velocity.x = config.physics.velocity * 0.6; this.attack()
+        //                 } else {
+        //                     if (this.facingRight) this.velocity.x = -config.physics.velocity;
+        //                     else this.velocity.x = config.physics.velocity;
+        //                 }
+        //                 break;
+        //         }
+        //     }
+        // } else {
+
+        //     if (vectorDistance(this.hitbox, player).horizontal < -this.safeDistance) {
+        //         // console.log(this.name, 'on-left')
+        //         this.velocity.x = -config.physics.velocity * (this.name === 'sumo' ? 0.6 : 0.8);
+        //         this.switchSprite(this.velocity.x < 0 ? 'walkLeft' : 'idleLeft')
+        //     } else if (vectorDistance(this.hitbox, player).horizontal > this.safeDistance) {
+        //         // console.log(this.name, 'on-right')
+        //         this.velocity.x = config.physics.velocity * (this.name === 'sumo' ? 0.6 : 0.8);
+        //         this.switchSprite(this.velocity.x > 0 ? 'walkRight' : 'idleRight')
+        //     }
+
+        // }
+
+
     }
+
+    destroy = () => {
+        this.triggers.isDead = true
+        config.stats.score += this.name === 'sumo' ? 450 : 200
+        config.stats.topScore = config.stats.score
+        updateUserInterface()
+    }
+
 }
