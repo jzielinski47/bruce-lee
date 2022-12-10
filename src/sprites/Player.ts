@@ -2,6 +2,7 @@ import { ctx, canvas, config } from "../config";
 import { input, lastKey } from "../controls";
 import { Transform, Animations } from "../interfaces/interfaces";
 import { scenes } from "../scenes";
+import { updateUserInterface } from "../userinterface";
 import { onCollison, onCollisonBottom } from "../utils";
 import { Sprite } from "./Sprite";
 
@@ -313,15 +314,20 @@ export class Player extends Sprite {
         this.health = 100;
         console.log(this.levelToLoad);
         config.stats.lives--;
+        updateUserInterface()
     }
 
     attack() {
+
         this.date = new Date()
 
-        if (this.date.getTime() - this.lastActions.attack < this.cooldowns.attack) return;
-        this.triggers.inAttack = true;
-        setTimeout(() => this.triggers.inAttack = false, this.velocity.x === 0 ? 150 : 400)
-        this.lastActions.attack = this.date.getTime();
+        if (!this.triggers.isCrouch && !this.triggers.onLadder && !(this.velocity.y < 0)) {
+            if (this.date.getTime() - this.lastActions.attack < this.cooldowns.attack) return;
+            this.triggers.inAttack = true;
+            setTimeout(() => this.triggers.inAttack = false, this.velocity.x === 0 ? 150 : 400)
+            this.lastActions.attack = this.date.getTime();
+        }
+
     }
 
     applyControls() {

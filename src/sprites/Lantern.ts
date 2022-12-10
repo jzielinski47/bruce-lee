@@ -32,6 +32,7 @@ export class Latnern extends Sprite {
 
             config.stats.score += 100
             config.stats.collectedLanterns += 1
+            config.stats.topScore = config.stats.score
             updateUserInterface()
 
             if (this.door !== null) {
