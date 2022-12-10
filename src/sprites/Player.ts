@@ -21,7 +21,7 @@ export class Player extends Sprite {
     sprite: HTMLImageElement;
     hitbox: Transform;
 
-    triggers: { onLadder: boolean; onWater: boolean; isCrouch: boolean; inAttack: boolean; attackBoxDisplay: boolean; };
+    triggers: { onLadder: boolean; onWater: boolean; isCrouch: boolean; inAttack: boolean; attackBoxDisplay: boolean; shocked: boolean; };
     cooldowns: { climb: number; jump: number; attack: number; }
     lastActions: { climb: number; jump: number; attack: number; }
     climbAnimVariant: number;
@@ -53,7 +53,7 @@ export class Player extends Sprite {
         this.sprite = new Image()
         this.sprite.src = '../assets/sprites/brucelee/brucelee-anim.png';
 
-        this.triggers = { onLadder: false, onWater: false, isCrouch: false, inAttack: false, attackBoxDisplay: false };
+        this.triggers = { onLadder: false, onWater: false, isCrouch: false, inAttack: false, attackBoxDisplay: false, shocked: false };
 
         this.cooldowns = { climb: 150, jump: 500, attack: 800 }
         this.lastActions = { climb: this.date.getTime(), jump: this.date.getTime(), attack: this.date.getTime() }
@@ -78,9 +78,11 @@ export class Player extends Sprite {
         this.triggers.onLadder = false;
         this.triggers.onWater = false;
 
-        if (this.velocity.x === 0 && lastKey === 'd' && !this.triggers.inAttack) this.switchSprite('idleRight')
-        if (this.velocity.x === 0 && lastKey === 'a' && !this.triggers.inAttack) this.switchSprite('idleLeft')
-        if (this.velocity.x === 0 && lastKey === undefined && !this.triggers.inAttack) this.switchSprite('idleRight')
+        if (!this.triggers.shocked) {
+            if (this.velocity.x === 0 && lastKey === 'd' && !this.triggers.inAttack) this.switchSprite('idleRight')
+            if (this.velocity.x === 0 && lastKey === 'a' && !this.triggers.inAttack) this.switchSprite('idleLeft')
+            if (this.velocity.x === 0 && lastKey === undefined && !this.triggers.inAttack) this.switchSprite('idleRight')
+        }
 
         this.updateHitbox()
         this.triggerCollisionDetection()
@@ -108,7 +110,7 @@ export class Player extends Sprite {
 
         if (!this.triggers.inAttack) this.velocity.x = 0
 
-        this.applyControls()
+        if (!this.triggers.shocked) this.applyControls()
 
 
     }
@@ -370,26 +372,22 @@ export class Player extends Sprite {
     }
 
     attackBoxCollisionDetection() {
-        if (refinedOnCollison(this.attackBox, ninja)) {
-            ninja.health -= 33;
-            config.stats.score += 75;
-            ninja.velocity.x = 0;
-            ninja.triggers.shocked = true
-            setTimeout(() => ninja.triggers.shocked = false, 1000)
-            lastKey === 'a' ? ninja.velocity.x -= config.physics.velocity * 4 : ninja.velocity.x += config.physics.velocity * 4
-            ninja.switchSprite(lastKey === 'a' ? 'hitRight' : 'hitLeft')
-            this.triggers.attackBoxDisplay = false
-        }
-        if (refinedOnCollison(this.attackBox, sumo)) {
-            sumo.health -= 33;
-            config.stats.score += 75;
-            sumo.velocity.x = 0;
-            sumo.triggers.shocked = true
-            setTimeout(() => sumo.triggers.shocked = false, 1000)
-            lastKey === 'a' ? sumo.velocity.x -= config.physics.velocity * 4 : sumo.velocity.x += config.physics.velocity * 4
-            sumo.switchSprite(lastKey === 'a' ? 'hitRight' : 'hitLeft')
-            this.triggers.attackBoxDisplay = false
-        }
+        this.damage(ninja)
+        this.damage(sumo)
     }
 
+    damage(enemy) {
+        if (refinedOnCollison(this.attackBox, enemy)) {
+            if (!enemy.triggers.shocked) {
+                enemy.health -= 33;
+                config.stats.score += 75;
+                enemy.velocity.x = 0;
+                enemy.triggers.shocked = true
+                setTimeout(() => enemy.triggers.shocked = false, 1000)
+                lastKey === 'a' ? enemy.velocity.x -= config.physics.velocity * 4 : enemy.velocity.x += config.physics.velocity * 4
+                enemy.switchSprite(lastKey === 'a' ? 'hitRight' : 'hitLeft')
+                this.triggers.attackBoxDisplay = false
+            }
+        }
+    }
 }

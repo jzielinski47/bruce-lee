@@ -1,9 +1,9 @@
-import { player } from "..";
+import { ninja, player, sumo } from "..";
 import { canvas, config, ctx } from "../config";
 import { Animations, ICooldown, Transform } from "../interfaces/interfaces";
 import { scenes } from "../scenes";
 import { updateUserInterface } from "../userinterface";
-import { checkIfBetween, getRandomFloat, getRandomInt, onCollison, onCollisonBottom, vectorDistance } from "../utils";
+import { checkIfBetween, getRandomFloat, getRandomInt, onCollison, onCollisonBottom, refinedOnCollison, vectorDistance } from "../utils";
 import { Sprite } from "./Sprite";
 
 export class Enemy extends Sprite {
@@ -16,7 +16,7 @@ export class Enemy extends Sprite {
     climbSpeed: number;
     sprite: HTMLImageElement;
     hitbox: Transform;
-    triggers: { onLadder: boolean; onWater: boolean; inAttack: boolean; isDead: boolean; shocked: boolean; };
+    triggers: { onLadder: boolean; onWater: boolean; inAttack: boolean; isDead: boolean; shocked: boolean; attackBoxDisplay: boolean; isCrouch: boolean; };
     cooldowns: ICooldown;
     lastActions: ICooldown;
     health: number;
@@ -28,12 +28,13 @@ export class Enemy extends Sprite {
     attackRange: number;
     heightDifference: number;
     safeDistance: number;
+    attackBox: Transform;
 
     constructor(name: string, transform: Transform, animations: Animations) {
 
         super(transform, animations, 1)
 
-        this.name = name // ninja or sumo
+        this.name = name // enemy or sumo
         this.date = new Date()
 
         this.scale = transform.scale;
@@ -47,7 +48,7 @@ export class Enemy extends Sprite {
         this.sprite = new Image()
         this.sprite.src = '';
 
-        this.triggers = { onLadder: false, onWater: false, inAttack: false, isDead: false, shocked: false };
+        this.triggers = { onLadder: false, onWater: false, inAttack: false, isDead: false, shocked: false, attackBoxDisplay: false, isCrouch: false };
         this.cooldowns = { climb: 150, jump: 500, attack: this.name === 'sumo' ? 190 : 1200 }
         this.lastActions = { climb: this.date.getTime(), jump: this.date.getTime(), attack: this.date.getTime() }
 
@@ -61,6 +62,8 @@ export class Enemy extends Sprite {
         this.attackRange = this.name === 'sumo' ? 12 : 6
         this.safeDistance = 22 + getRandomFloat(0, 10, 3)
         this.heightDifference = 15
+
+        this.attackBox = { position: this.position, scale: { width: 14, height: 10 } }
     }
 
     update() {
@@ -97,6 +100,7 @@ export class Enemy extends Sprite {
             config.dev.inDevelopmendMode ? this.drawHitbox() : null
 
             if (!this.triggers.inAttack) this.velocity.x = 0
+            if (this.triggers.attackBoxDisplay) this.attackBoxCollisionDetection()
 
             this.applyAiControls()
 
@@ -264,6 +268,9 @@ export class Enemy extends Sprite {
     drawHitbox = () => {
         ctx.fillStyle = 'rgba(122,0,0,0.5)'
         ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.scale.width, this.hitbox.scale.height)
+
+        ctx.fillStyle = 'rgba(255,255,0,0.5)'
+        if (this.triggers.attackBoxDisplay) ctx.fillRect(this.attackBox.position.x + (this.facingRight ? 10 : -10), this.attackBox.position.y, this.attackBox.scale.width, this.attackBox.scale.height)
     }
 
     switchSprite = (sprite: string) => {
@@ -280,8 +287,9 @@ export class Enemy extends Sprite {
         if (this.date.getTime() - this.lastActions.attack < this.cooldowns.attack) return;
 
         this.triggers.inAttack = true;
+        this.triggers.attackBoxDisplay = true;
         this.switchSprite(this.facingRight ? 'attackRight' : 'attackLeft')
-
+        setTimeout(() => this.triggers.attackBoxDisplay = false, this.name === 'sumo' ? 600 : 400)
         setTimeout(() => this.triggers.inAttack = false, this.name === 'sumo' ? 600 : 400)
         this.lastActions.attack = this.date.getTime();
     }
@@ -324,53 +332,6 @@ export class Enemy extends Sprite {
             }
         }
 
-
-
-
-        // druga opcja
-
-        // if (!this.triggers.inAttack) this.switchSprite(this.facingRight ? 'idleRight' : 'idleLeft')
-        // if (vectorDistance(this.hitbox, player).vertical > -this.heightDifference && vectorDistance(this.hitbox, player).vertical < this.heightDifference) {
-        //     // if on estimated same level 
-
-        //     if (vectorDistance(this.hitbox, player).horizontal < -this.attackRange) {
-        //         this.velocity.x = -config.physics.velocity * 0.8;
-        //         this.switchSprite(this.velocity.x < 0 ? 'walkLeft' : 'idleLeft')
-        //     } else if (vectorDistance(this.hitbox, player).horizontal > this.attackRange) {
-        //         // console.log(this.name, 'on-right')
-        //         this.velocity.x = config.physics.velocity * 0.8;
-        //         this.switchSprite(this.velocity.x > 0 ? 'walkRight' : 'idleRight')
-        //     } else {
-
-        //         switch (this.name) {
-        //             case 'ninja': this.attack(); break;
-        //             case 'sumo':
-        //                 if (vectorDistance(this.hitbox, player).horizontal < -6) {
-        //                     this.velocity.x = -config.physics.velocity * 0.6; this.attack()
-        //                 } else if (vectorDistance(this.hitbox, player).horizontal > 6) {
-        //                     this.velocity.x = config.physics.velocity * 0.6; this.attack()
-        //                 } else {
-        //                     if (this.facingRight) this.velocity.x = -config.physics.velocity;
-        //                     else this.velocity.x = config.physics.velocity;
-        //                 }
-        //                 break;
-        //         }
-        //     }
-        // } else {
-
-        //     if (vectorDistance(this.hitbox, player).horizontal < -this.safeDistance) {
-        //         // console.log(this.name, 'on-left')
-        //         this.velocity.x = -config.physics.velocity * (this.name === 'sumo' ? 0.6 : 0.8);
-        //         this.switchSprite(this.velocity.x < 0 ? 'walkLeft' : 'idleLeft')
-        //     } else if (vectorDistance(this.hitbox, player).horizontal > this.safeDistance) {
-        //         // console.log(this.name, 'on-right')
-        //         this.velocity.x = config.physics.velocity * (this.name === 'sumo' ? 0.6 : 0.8);
-        //         this.switchSprite(this.velocity.x > 0 ? 'walkRight' : 'idleRight')
-        //     }
-
-        // }
-
-
     }
 
     destroy = () => {
@@ -378,6 +339,27 @@ export class Enemy extends Sprite {
         config.stats.score += this.name === 'sumo' ? 450 : 200
         config.stats.topScore = config.stats.score
         updateUserInterface()
+    }
+
+    attackBoxCollisionDetection() {
+        this.damage(player)
+        this.damage(this.name === 'sumo' ? ninja : sumo)
+    }
+
+
+    damage(enemy) {
+        if (refinedOnCollison(this.attackBox, enemy)) {
+            if (!enemy.triggers.isCrouch && !enemy.triggers.shocked) {
+                enemy.health -= 33;
+                // config.stats.score += 75;
+                enemy.velocity.x = 0;
+                !this.facingRight ? enemy.velocity.x -= config.physics.velocity * 4 : enemy.velocity.x += config.physics.velocity * 4
+                enemy.triggers.shocked = true
+                setTimeout(() => enemy.triggers.shocked = false, 1000)
+                enemy.switchSprite(this.facingRight ? 'hitRight' : 'hitLeft')
+                this.triggers.attackBoxDisplay = false
+            }
+        }
     }
 
 }

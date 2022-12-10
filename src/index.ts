@@ -29,8 +29,8 @@ export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0
         attackRight: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/attackRight.png' },
         attack2Left: { frameRate: 2, frameBuffer: 16, loop: true, imageSrc: '../assets/sprites/brucelee/attack2Left.png' },
         attack2Right: { frameRate: 2, frameBuffer: 16, loop: true, imageSrc: '../assets/sprites/brucelee/attack2Right.png' },
-        hitLeft: { frameRate: 2, frameBuffer: 14, loop: true, imageSrc: '../assets/sprites/player/hitLeft.png' },
-        hitRight: { frameRate: 2, frameBuffer: 14, loop: true, imageSrc: '../assets/sprites/player/hitRight.png' },
+        hitLeft: { frameRate: 2, frameBuffer: 14, loop: true, imageSrc: '../assets/sprites/brucelee/hitLeft.png' },
+        hitRight: { frameRate: 2, frameBuffer: 14, loop: true, imageSrc: '../assets/sprites/brucelee/hitRight.png' },
     })
 
 export const ninja = new Enemy('ninja', { position: { x: 270, y: 20 }, velocity: { x: 0, y: 0 }, scale: { width: 28, height: 21 } },
