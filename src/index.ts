@@ -4,7 +4,7 @@ import { drawColliders, scenes } from "./scenes"
 import { Background } from "./sprites/Background"
 import { Door } from "./sprites/Door"
 import { Latnern } from "./sprites/Lantern"
-import { Ninja } from "./sprites/Ninja"
+import { Enemy } from "./sprites/Enemy"
 import { Player } from "./sprites/Player"
 import { Prefab } from "./sprites/Prefab"
 import { updateUserInterface } from "./userinterface"
@@ -31,7 +31,7 @@ export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0
         attack2Right: { frameRate: 2, frameBuffer: 16, loop: true, imageSrc: '../assets/sprites/brucelee/attack2Right.png' },
     })
 
-const ninja = new Ninja('ninja', { position: { x: 270, y: 20 }, velocity: { x: 0, y: 0 }, scale: { width: 28, height: 21 } },
+const ninja = new Enemy('ninja', { position: { x: 270, y: 20 }, velocity: { x: 0, y: 0 }, scale: { width: 28, height: 21 } },
     {
         idle: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/ninja/idleRight.png' },
         idleRight: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/ninja/idleRight.png' },
@@ -43,7 +43,7 @@ const ninja = new Ninja('ninja', { position: { x: 270, y: 20 }, velocity: { x: 0
         attackRight: { frameRate: 2, frameBuffer: 14, loop: true, imageSrc: '../assets/sprites/ninja/attackRight.png' },
     })
 
-const sumo = new Ninja('sumo', { position: { x: 230, y: 20 }, velocity: { x: 0, y: 0 }, scale: { width: 28, height: 21 } },
+const sumo = new Enemy('sumo', { position: { x: 230, y: 20 }, velocity: { x: 0, y: 0 }, scale: { width: 28, height: 21 } },
     {
         idle: { frameRate: 2, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/sumo/idleRight.png' },
         idleRight: { frameRate: 2, frameBuffer: 60, loop: true, imageSrc: '../assets/sprites/sumo/idleRight.png' },
@@ -76,9 +76,9 @@ const update = () => {
         temp.doors.map(door => door.update())
         temp.waterfalls.map(water => water.update())
 
+        sumo.update()
         ninja.update()
         player.update()
-        sumo.update()
 
         if (!player.triggers.inAttack) player.velocity.x = 0
         if (!sumo.triggers.inAttack) sumo.velocity.x = 0

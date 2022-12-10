@@ -5,9 +5,10 @@ import { scenes } from "../scenes";
 import { onCollison, onCollisonBottom, vectorDistance } from "../utils";
 import { Sprite } from "./Sprite";
 
-export class Ninja extends Sprite {
+export class Enemy extends Sprite {
 
     name: string;
+    date: Date;
 
     scale: { width: number; height: number; };
     position: { x: number; y: number; };
@@ -20,17 +21,18 @@ export class Ninja extends Sprite {
 
     sprite: HTMLImageElement;
     hitbox: Transform;
+
     triggers: { onLadder: boolean; onWater: boolean; inAttack: boolean };
-    health: number;
-    date: Date;
-    actionCooldown: number;
-    lastAction: number;
-    facingRight: boolean;
-    inAir: boolean;
-    waterDirection: string;
-    distance: number;
     cooldowns: { climb: number; jump: number; attack: number; };
     lastActions: { climb: number; jump: number; attack: number; };
+
+    inAir: boolean;
+    facingRight: boolean;
+    waterDirection: string;
+
+    distance: number;
+    health: number;
+
 
     constructor(name: string, transform: Transform, animations: Animations) {
         super(transform, animations, 1)
@@ -53,16 +55,15 @@ export class Ninja extends Sprite {
         this.sprite = new Image()
         this.sprite.src = '';
 
+        this.date = new Date();
+
         this.triggers = { onLadder: false, onWater: false, inAttack: false };
         this.cooldowns = { climb: 150, jump: 500, attack: this.name === 'sumo' ? 1200 : 800 }
         this.lastActions = { climb: this.date.getTime(), jump: this.date.getTime(), attack: this.date.getTime() }
+
         this.health = 100;
+        this.facingRight = false;
 
-        this.date = new Date();
-        this.actionCooldown = 2000
-        this.lastAction
-
-        this.facingRight = false
         this.inAir = (this.velocity.y > config.physics.gravityScale + 0.1 || this.velocity.y < 0)
 
         this.distance = this.name === 'sumo' ? -6 : -4
