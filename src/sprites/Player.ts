@@ -1,5 +1,5 @@
 import { ctx, canvas, config } from "../config";
-import { lastKey } from "../controls";
+import { input, lastKey } from "../controls";
 import { Transform, Animations } from "../interfaces/interfaces";
 import { scenes } from "../scenes";
 import { onCollison, onCollisonBottom } from "../utils";
@@ -60,6 +60,7 @@ export class Player extends Sprite {
         this.updateLevel = false;
 
         this.health = 100;
+
     }
 
     update() {
@@ -95,6 +96,13 @@ export class Player extends Sprite {
         if (this.health <= 0) this.playerIsDead()
 
         // console.log('c', this.triggers.crouched)
+
+        this.updateHitbox()
+        config.dev.inDevelopmendMode ? this.drawHitbox() : null
+
+        if (!this.triggers.inAttack) this.velocity.x = 0
+
+        this.applyControls()
 
     }
 
@@ -321,5 +329,27 @@ export class Player extends Sprite {
         this.triggers.inAttack = true;
         setTimeout(() => this.triggers.inAttack = false, this.velocity.x === 0 ? 150 : 400)
         this.lastActions.attack = this.date.getTime();
+    }
+
+    applyControls() {
+        if (this.triggers.isCrouch && input.s.pressed && lastKey === 'd') this.switchSprite('lieRight')
+        else if (this.triggers.isCrouch && input.s.pressed && lastKey === 'a') this.switchSprite('lieLeft')
+        else if (this.triggers.inAttack) {
+            this.velocity.x === 0 ? this.switchSprite(lastKey === 'a' ? 'attackLeft' : 'attackRight') : this.switchSprite(lastKey === 'a' ? 'attack2Left' : 'attack2Right')
+        }
+        else {
+            if (input.a.pressed && lastKey === 'a') { this.velocity.x = -config.physics.velocity; this.switchSprite('walkLeft') }
+            else if (input.d.pressed && lastKey === 'd') { this.velocity.x = config.physics.velocity; this.switchSprite('walkRight') }
+
+            if (this.velocity.y < 0 && input.a.pressed && lastKey === 'a') { this.velocity.x = -config.physics.velocity * 0.8; this.switchSprite('jumpLeft') }
+            else if (this.velocity.y < 0 && input.d.pressed && lastKey === 'd') { this.velocity.x = config.physics.velocity * 0.8; this.switchSprite('jumpRight') }
+            else if (this.velocity.y < 0) { this.switchSprite('jump') }
+            else if (this.velocity.y > config.physics.gravityScale + 0.1) { this.switchSprite('fall') }
+
+            if (input.a.pressed && lastKey === 'a' && this.triggers.onLadder) { this.velocity.x = -config.physics.velocity * 0.7; }
+            else if (input.d.pressed && lastKey === 'd' && this.triggers.onLadder) { this.velocity.x = config.physics.velocity * 0.7; }
+            if (this.triggers.onLadder && this.climbAnimVariant === 1) { this.switchSprite('climb2'); }
+            else if (this.triggers.onLadder && this.climbAnimVariant === 2) { this.switchSprite('climb1'); }
+        }
     }
 }

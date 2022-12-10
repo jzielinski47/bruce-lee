@@ -88,6 +88,13 @@ export class Enemy extends Sprite {
         this.updateHitbox()
         this.verticalCollisionDetection();
 
+        this.updateHitbox()
+        config.dev.inDevelopmendMode ? this.drawHitbox() : null
+
+        if (!this.triggers.inAttack) this.velocity.x = 0
+
+        this.applyAiControls()
+
     }
 
     horizontalCollisionDetection = (arr = scenes[config.dev.currentScene].colliders) => {
@@ -269,5 +276,27 @@ export class Enemy extends Sprite {
         this.triggers.inAttack = true;
         setTimeout(() => this.triggers.inAttack = false, 400)
         this.lastActions.attack = this.date.getTime();
+    }
+
+    applyAiControls() {
+        if (this.inAir) this.switchSprite('fall');
+        else {
+
+            if (player.position.x - this.distance > this.hitbox.position.x + this.hitbox.scale.width) {
+                this.facingRight = true
+                this.velocity.x = config.physics.velocity * 0.8;
+                this.switchSprite('walkRight')
+            } else if (player.position.x + player.scale.width + this.distance < this.hitbox.position.x) {
+                this.facingRight = false
+                this.velocity.x = -config.physics.velocity * 0.8;
+                this.switchSprite('walkLeft')
+            } else {
+                if (vectorDistance(this, player).horizontal >= 0 && vectorDistance(this, player).vertical < 10 && vectorDistance(this, player).vertical > -10) { this.attack() }
+                else if (vectorDistance(this, player).horizontal < 0 && vectorDistance(this, player).vertical < 10 && vectorDistance(this, player).vertical > -10) { this.attack() }
+                else if (vectorDistance(this, player).horizontal >= 0) this.switchSprite('idleLeft')
+                else this.switchSprite('idleRight')
+            }
+
+        }
     }
 }

@@ -2,8 +2,10 @@ import { ctx } from "../config";
 import { Transform, Animations } from "../interfaces/interfaces";
 
 export class Sprite {
+
     position: { x: number; y: number }
     scale: { width: number; height: number }
+
     image: HTMLImageElement
     frameRate: number;
     currentFrame: number;
@@ -13,9 +15,12 @@ export class Sprite {
     loaded: boolean;
 
     constructor(transform: Transform, animations: Animations, frameRate: number = 1) {
+
+        this.loaded = false
+
         this.position = transform.position
         this.scale = transform.scale
-        this.loaded = false
+
         this.image = new Image()
         this.image.onload = () => {
             this.scale.width = this.image.width / frameRate
@@ -42,7 +47,6 @@ export class Sprite {
             }
         }
 
-
     }
 
     render() {
@@ -64,18 +68,9 @@ export class Sprite {
         // ctx.drawImage(this.image, this.position.x, this.position.y, this.scale.width, this.scale.height)
     }
 
-    update() {
-
-        this.render()
-
-    }
-
-    anim() {
+    update() { this.render() }
+    anim = () => {
         this.elapsedFrames++
-
-        if (this.elapsedFrames % this.frameBuffer === 0) {
-            (this.currentFrame < this.frameRate - 1) ? this.currentFrame++ : this.currentFrame = 0
-        }
-
+        if (this.elapsedFrames % this.frameBuffer === 0) this.currentFrame < this.frameRate - 1 ? this.currentFrame++ : this.currentFrame = 0
     }
 }
