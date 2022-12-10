@@ -1,4 +1,4 @@
-# Bruce Lee
+# Bruce Lee Atari 8 bit
 
 ![bruce-lee-cover](http://www.atarimania.com/8bit/screens/bruce_lee.gif)
 
