@@ -9,6 +9,7 @@ import { Player } from "./sprites/Player"
 import { Prefab } from "./sprites/Prefab"
 import { updateUserInterface } from "./userinterface"
 import { getRandomFloat, vectorDistance } from "./utils"
+import { Trap } from "./sprites/Trap"
 
 export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0, y: 0 }, scale: { width: 15, height: 22 } },
     {
@@ -72,7 +73,7 @@ console.log(Math.abs(sumo.safeDistance - ninja.safeDistance))
 
 const scene = new Background({ position: { x: 0, y: 0 }, scale: { width: canvas.width, height: canvas.height } })
 
-export const temp = { lanterns: [], doors: [], waterfalls: [] }
+export const temp = { lanterns: [], doors: [], waterfalls: [], traps: [] }
 
 const start = () => {
     updateUserInterface()
@@ -91,6 +92,7 @@ const update = () => {
     temp.lanterns.map(lantern => lantern.update())
     temp.doors.map(door => door.update())
     temp.waterfalls.map(water => water.update())
+    temp.traps.map(trap => trap.update())
 
     ninja.update()
     sumo.update()
@@ -120,6 +122,14 @@ export function loadScenePresets() {
             const waterObject = new Prefab({ position: { x: trigger.x, y: trigger.y }, scale: { width: trigger.width, height: trigger.height } },
                 { idle: { frameRate: 9, frameBuffer: 10, loop: true, imageSrc: '../assets/sprites/water/water-' + trigger.model + '-' + trigger.dir + '.png' } })
             temp.waterfalls.push(waterObject)
+        }
+    })
+
+    scenes[config.dev.currentScene].traps.map(trap => {
+        if (trap.mode === 'trap') {
+            const trapObject = new Trap({ position: { x: trap.x, y: trap.y }, scale: { width: trap.width, height: trap.height } },
+                { idle: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/trap/model_1.png' } })
+            temp.traps.push(trapObject)
         }
     })
 

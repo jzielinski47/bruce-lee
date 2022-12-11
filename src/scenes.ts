@@ -202,8 +202,8 @@ export const scenes = [
             { id: 0, name: 'lantern', x: 88, y: 38, width: 6, height: 10, collected: false, door: 4 },
             { id: 1, name: 'lantern', x: 226, y: 38, width: 6, height: 10, collected: false, door: 5 },
         ], triggers: [
-            { id: 0, name: 'ladder', x: 56, y: 40, width: 16, height: 110 - 28, mode: 'ladder' },
-            { id: 1, name: 'ladder', x: 248, y: 40, width: 16, height: 110 - 28, mode: 'ladder' },
+            { id: 0, name: 'ladder', x: 56, y: 16, width: 16, height: 110, mode: 'ladder' },
+            { id: 1, name: 'ladder', x: 248, y: 16, width: 16, height: 110, mode: 'ladder' },
             { id: 2, name: 'loader', dir: 'custom', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 3, custom: { x: 0.1, y: 140 } },
             { id: 3, name: 'water', x: 144, y: 1, width: 32, height: 160, mode: 'water', dir: 'up', model: 1 },
             { id: 4, name: 'door', x: 88, y: 108 + 1, width: 32, height: 4, mode: 'door', opened: false, model: 2, keyOpened: true },
@@ -289,10 +289,10 @@ export const drawColliders = (num) => {
         }
     })
 
-    scenes[num].traps.map(trap => {
-        ctx.fillStyle = 'rgba(221,225,28,0.5)'
-        ctx.fillRect(trap.x, trap.y, trap.width, trap.height)
-    })
+    // scenes[num].traps.map(trap => {
+    //     ctx.fillStyle = 'rgba(221,225,28,0.5)'
+    //     ctx.fillRect(trap.x, trap.y, trap.width, trap.height)
+    // })
 
     if (scenes[num].platforms) {
         scenes[num].platforms.map(platform => {
