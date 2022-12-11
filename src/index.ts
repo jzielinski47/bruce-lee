@@ -137,7 +137,6 @@ function resetScene() {
     ninja.destroy()
     sumo.destroy()
 
-
     updateUserInterface()
     loadScenePresets()
 }

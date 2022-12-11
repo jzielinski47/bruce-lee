@@ -342,7 +342,7 @@ export class Enemy extends Sprite {
         config.stats.topScore = config.stats.score
         updateUserInterface()
 
-        setTimeout(() => this.revive(), this.name === 'sumo' ? 15000 : 8000)
+        setTimeout(() => this.revive(), this.name === 'sumo' ? 1000 : 2000)
 
     }
 
@@ -375,7 +375,9 @@ export class Enemy extends Sprite {
     revive() {
         this.triggers.isDead = false
         this.health = this.name === 'sumo' ? 120 : 99;
-        this.position = { x: 230, y: 150 }
+
+        const random = scenes[config.dev.currentScene].entrances[Math.floor(Math.random() * scenes[config.dev.currentScene].entrances.length)];
+        this.position = { x: random.x, y: random.y }
     }
 
 }

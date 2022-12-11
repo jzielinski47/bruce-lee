@@ -31,7 +31,11 @@ export const scenes = [
             { id: 1, name: 'platform', x: 104, y: 70 + 1, width: 24, height: 2 },
             { id: 2, name: 'platform', x: 184, y: 70 + 1, width: 16, height: 2 },
             { id: 3, name: 'platform', x: 136, y: 76 + 1, width: 40, height: 2 },
+        ], entrances: [
+            { id: 0, name: 'entrance', x: 298, y: 48 },
+            { id: 1, name: 'entrance', x: 298, y: 92 }
         ]
+
 
     },
     {
@@ -69,6 +73,10 @@ export const scenes = [
             { id: 1, name: 'platform', x: 120, y: 70 + 1, width: 24, height: 2 },
             { id: 2, name: 'platform', x: 176, y: 70 + 1, width: 24, height: 2 },
             { id: 3, name: 'platform', x: 154, y: 110 + 1, width: 12, height: 2 },
+        ], entrances: [
+            { id: 0, name: 'entrance', x: 8, y: 48 },
+            { id: 1, name: 'entrance', x: 294, y: 48 },
+            { id: 2, name: 'entrance', x: 8, y: 92 },
         ]
     },
     {
@@ -108,6 +116,8 @@ export const scenes = [
         ], traps: [], platforms: [
             { id: 0, name: 'platform', x: 136, y: 74 + 1, width: 24, height: 2 },
             { id: 1, name: 'platform', x: 80, y: 74 + 1, width: 24, height: 2 },
+        ], entrances: [
+            { id: 0, name: 'entrance', x: 8, y: 48 },
         ]
     },
     {
@@ -158,7 +168,10 @@ export const scenes = [
         ], traps: [
             { id: 0, name: 'trap', x: 8, y: 58, width: 24, height: 6, mode: 'trap' },
             { id: 1, name: 'trap', x: 216, y: 122, width: 24, height: 6, mode: 'trap' },
-        ], platforms: []
+        ], platforms: [],
+        entrances: [
+            { id: 0, name: 'entrance', x: 64, y: -10 },
+        ]
     },
     {
         id: 4, sprite: '../assets/map/level_4.png', colliders: [
@@ -206,7 +219,11 @@ export const scenes = [
             { id: 5, name: 'trap', x: 138 + 2, y: 64, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
             { id: 6, name: 'trap', x: 178 + 2, y: 64, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
             { id: 7, name: 'trap', x: 186 + 2, y: 80, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
-        ], platforms: []
+        ], platforms: [
+
+        ], entrances: [
+            { id: 0, name: 'entrance', x: 286, y: 56 },
+        ]
     },
     {
         id: 5, sprite: '../assets/map/level_5.png', colliders: [
@@ -230,6 +247,8 @@ export const scenes = [
         ], traps: [], platforms: [
             { id: 0, name: 'platform', x: 16, y: 150 + 1, width: 16, height: 2 },
             { id: 2, name: 'platform', x: 8, y: 156, width: 32, height: 2 },
+        ], entrances: [
+            { id: 0, name: 'entrance', x: 32, y: -10 },
         ]
     },
     {
