@@ -116,6 +116,8 @@ export class Player extends Sprite {
 
         if (this.health <= 0) this.setDead()
 
+        console.log(this.health)
+
     }
 
     private horizontalCollisionDetection = (arr = scenes[config.dev.currentScene].colliders) => {
