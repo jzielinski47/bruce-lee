@@ -11,8 +11,9 @@ export class Trap extends Sprite {
     triggers: { active: boolean; };
     hitbox: { position: { x: number; y: number; }; scale: { width: number; height: number; }; };
     start: { position: { x: number; y: number; }; scale: { width: number; height: number; }; };
+    dmg: number;
 
-    constructor(transform: Transform, animations: Animations) {
+    constructor(transform: Transform, animations: Animations, damage: number) {
         super(transform, animations, animations.idle.frameRate)
 
         this.start = { position: transform.position, scale: transform.scale }
@@ -26,6 +27,7 @@ export class Trap extends Sprite {
         this.lastActions = { activation: this.date.getTime() }
 
         this.hitbox = { position: this.position, scale: this.scale }
+        this.dmg = damage
     }
 
     update = () => {
@@ -38,7 +40,7 @@ export class Trap extends Sprite {
 
         this.triggers.active ? this.position.x += 2 : this.position.x = this.start.position.x - this.start.scale.width;
         // console.log(this.triggers.active)
-        // this.checkForHitboxCollision()
+        this.triggers.active ? this.checkForHitboxCollision() : null
 
     }
 
@@ -61,16 +63,15 @@ export class Trap extends Sprite {
     }
 
     checkForHitboxCollision() {
-
+        this.damage(player)
     }
 
     damage(enemy) {
         if (refinedOnCollison(this.hitbox, enemy.hitbox)) {
-            if (!enemy.triggers.isCrouch && !enemy.triggers.shocked) {
-                enemy.health -= 200;
-                enemy.velocity.y -= 1
-                enemy.triggers.shocked = true
-                setTimeout(() => enemy.triggers.shocked = false, 1000)
+            if (enemy) {
+                console.error('enemy ', enemy.health)
+                enemy.health -= this.dmg;
+                console.error('enemy ', enemy.health)
                 this.triggers.active = false
             }
         }

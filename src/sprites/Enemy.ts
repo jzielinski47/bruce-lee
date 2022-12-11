@@ -342,10 +342,11 @@ export class Enemy extends Sprite {
 
     destroy = () => {
         this.triggers.isDead = true
-        config.stats.score += this.name === 'sumo' ? 450 : 200
-        config.stats.topScore = config.stats.score
-        updateUserInterface()
-
+        if (this.health <= 0) {
+            config.stats.score += this.name === 'sumo' ? 450 : 200
+            config.stats.topScore = config.stats.score
+            updateUserInterface()
+        }
         setTimeout(() => this.revive(), this.name === 'sumo' ? 8000 : 5000)
 
     }
@@ -380,9 +381,11 @@ export class Enemy extends Sprite {
         this.triggers.isDead = false
         this.health = this.name === 'sumo' ? 120 : 99;
 
-        if (scenes[config.dev.currentScene].entrances && scenes[config.dev.currentScene].entrances.length > 0) {
-            const random = scenes[config.dev.currentScene].entrances[Math.floor(Math.random() * scenes[config.dev.currentScene].entrances.length)];
-            this.position = { x: random.x, y: random.y }
+        if (scenes[config.dev.currentScene].entrances) {
+            if (scenes[config.dev.currentScene].entrances.length > 0) {
+                const random = scenes[config.dev.currentScene].entrances[Math.floor(Math.random() * scenes[config.dev.currentScene].entrances.length)];
+                this.position = { x: random.x, y: random.y }
+            }
         } else {
             this.destroy()
         }

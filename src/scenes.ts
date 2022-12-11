@@ -34,7 +34,7 @@ export const scenes = [
         ], entrances: [
             { id: 0, name: 'entrance', x: 298, y: 48 },
             { id: 1, name: 'entrance', x: 298, y: 92 }
-        ]
+        ], defaultPlayerPosition: { x: 30, y: 150 }
 
 
     },
@@ -166,12 +166,13 @@ export const scenes = [
             { id: 2, name: 'door', x: 0, y: 128, width: 8, height: 44, mode: 'door', opened: false, model: 1, keyOpened: true },
             { id: 3, name: 'water', x: 272, y: 16, width: 24, height: 160, mode: 'water', dir: 'up', model: 0 },
         ], traps: [
-            { id: 0, name: 'trap', x: 8, y: 58, width: 24, height: 6, mode: 'trap' },
-            { id: 1, name: 'trap', x: 216, y: 122, width: 24, height: 6, mode: 'trap' },
+            { id: 0, name: 'trap', x: 8, y: 58, width: 24, height: 6, mode: 'trap', dmg: 200 },
+            { id: 0, name: 'trap', x: 8, y: 78, width: 24, height: 6, mode: 'trap', dmg: 200 },
+            { id: 1, name: 'trap', x: 216, y: 122, width: 24, height: 6, mode: 'trap', dmg: 200 },
         ], platforms: [],
         entrances: [
             { id: 0, name: 'entrance', x: 64, y: -10 },
-        ], defaultPlayerPosition: { x: 30, y: 150 }
+        ], defaultPlayerPosition: { x: 60, y: -10 }
     },
     {
         id: 4, sprite: '../assets/map/level_4.png', colliders: [

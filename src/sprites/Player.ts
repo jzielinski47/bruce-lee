@@ -10,8 +10,8 @@ import { Sprite } from "./Sprite";
 export class Player extends Sprite {
     name: string;
     scale: { width: number; height: number; };
-    position: { x: number; y: number; };
-    velocity: { x: number; y: number; };
+    public position: { x: number; y: number; };
+    public velocity: { x: number; y: number; };
 
     jumpHeight: number;
     climbSpeed: number;
@@ -294,7 +294,7 @@ export class Player extends Sprite {
         if (scenes[config.dev.currentScene].traps) {
             scenes[config.dev.currentScene].traps.map(trap => {
                 if (onCollison(this.hitbox, trap)) {
-                    this.health -= trap.dmg;
+                    if (trap.name === 'spike') this.health -= trap.dmg;
                 }
             })
         }

@@ -10,7 +10,7 @@ import { updateUserInterface } from "./userinterface"
 import { getRandomFloat, vectorDistance } from "./utils"
 import { Trap } from "./sprites/Trap"
 
-export const player = new Player({ position: { x: 30, y: 150 }, velocity: { x: 0, y: 0 }, scale: { width: 15, height: 22 } },
+export const player = new Player({ position: scenes[config.dev.currentScene].defaultPlayerPosition, velocity: { x: 0, y: 0 }, scale: { width: 15, height: 22 } },
     {
         idle: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/idleRight.png' },
         idleRight: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/brucelee/idleRight.png' },
@@ -83,20 +83,25 @@ const update = () => {
     window.requestAnimationFrame(update)
 
     if (player.updateLevel) resetScene()
+
     scene.update()
 
-    temp.lanterns.map(lantern => lantern.update())
-    temp.doors.map(door => door.update())
-    temp.waterfalls.map(water => water.update())
-    temp.traps.map(trap => trap.update())
+    if (!config.dev.paused) {
+        temp.lanterns.map(lantern => lantern.update())
+        temp.doors.map(door => door.update())
+        temp.waterfalls.map(water => water.update())
+        temp.traps.map(trap => trap.update())
 
-    ninja.update()
-    sumo.update()
-    player.update()
+        ninja.update()
+        sumo.update()
+        player.update()
 
-    config.dev.inDevelopmendMode ? drawColliders(config.dev.currentScene) : null
+        config.dev.inDevelopmendMode ? drawColliders(config.dev.currentScene) : null
+    } else {
+        setTimeout(() => openLastLoadedScene(), 3000)
+    }
 
-    config.dev.paused ? setTimeout(() => player.revive(), 3000) : null
+    // console.warn(config.dev.currentScene, config.dev.lastPossibleScene)
 }
 
 export function loadScenePresets() {
@@ -125,7 +130,7 @@ export function loadScenePresets() {
     scenes[config.dev.currentScene].traps.map(trap => {
         if (trap.mode === 'trap') {
             const trapObject = new Trap({ position: { x: trap.x, y: trap.y }, scale: { width: trap.width, height: trap.height } },
-                { idle: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/trap/model_1.png' } })
+                { idle: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/trap/model_1.png' } }, trap.dmg)
             temp.traps.push(trapObject)
         }
     })
@@ -133,7 +138,7 @@ export function loadScenePresets() {
 }
 
 function resetScene() {
-    config.dev.lastPossibleScene = config.dev.currentScene !== 9 ? config.dev.currentScene : null
+    player.levelToLoad !== 9 ? config.dev.lastPossibleScene = player.levelToLoad : null
     config.dev.currentScene = player.levelToLoad;
     config.stats.visited.push(config.dev.currentScene)
     console.warn('scene change');
@@ -152,6 +157,20 @@ function resetScene() {
 }
 
 const openLastLoadedScene = () => {
+    config.dev.paused = false
+    config.dev.currentScene = config.dev.lastPossibleScene
+    player.updateLevel = false;
+    console.log('player is about to be revived');
+    player.revive()
+    temp.lanterns = []
+    temp.doors = []
+    temp.waterfalls = []
+    temp.traps = []
+    ninja.destroy()
+    sumo.destroy()
+
+    updateUserInterface()
+    loadScenePresets()
 
 }
 
