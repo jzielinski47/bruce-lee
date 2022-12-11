@@ -77,7 +77,7 @@ export const scenes = [
             { id: 0, name: 'entrance', x: 8, y: 48 },
             { id: 1, name: 'entrance', x: 294, y: 48 },
             { id: 2, name: 'entrance', x: 8, y: 92 },
-        ], defaultPlayerPosition: { x: 30, y: 150 }
+        ], defaultPlayerPosition: { x: 8, y: 96 }
     },
     {
         id: 2, sprite: '../assets/map/level_2.png', colliders: [
@@ -118,7 +118,7 @@ export const scenes = [
             { id: 1, name: 'platform', x: 80, y: 74 + 1, width: 24, height: 2 },
         ], entrances: [
             { id: 0, name: 'entrance', x: 8, y: 48 },
-        ], defaultPlayerPosition: { x: 30, y: 150 }
+        ], defaultPlayerPosition: { x: 8, y: 48 }
     },
     {
         id: 3, sprite: '../assets/map/level_3.png', colliders: [
@@ -167,7 +167,6 @@ export const scenes = [
             { id: 3, name: 'water', x: 272, y: 16, width: 24, height: 160, mode: 'water', dir: 'up', model: 0 },
         ], traps: [
             { id: 0, name: 'trap', x: 8, y: 58, width: 24, height: 6, mode: 'trap', dmg: 200 },
-            { id: 0, name: 'trap', x: 8, y: 78, width: 24, height: 6, mode: 'trap', dmg: 200 },
             { id: 1, name: 'trap', x: 216, y: 122, width: 24, height: 6, mode: 'trap', dmg: 200 },
         ], platforms: [],
         entrances: [
@@ -220,16 +219,18 @@ export const scenes = [
             { id: 5, name: 'trap', x: 138 + 2, y: 64, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
             { id: 6, name: 'trap', x: 178 + 2, y: 64, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
             { id: 7, name: 'trap', x: 186 + 2, y: 80, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
+            { id: 8, name: 'trap', x: 8, y: 154, width: 24, height: 6, mode: 'trap', dmg: 200 },
+            { id: 9, name: 'trap', x: 88, y: 84, width: 24, height: 6, mode: 'trap', dmg: 200 },
         ], platforms: [
 
         ], entrances: [
             { id: 0, name: 'entrance', x: 286, y: 56 },
-        ], defaultPlayerPosition: { x: 30, y: 150 }
+        ], defaultPlayerPosition: { x: 286, y: 56 }
     },
     {
         id: 5, sprite: '../assets/map/level_5.png', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
-        ], lanterns: [], triggers: [], traps: [], platforms: []
+        ], lanterns: [], triggers: [], traps: [], platforms: [], defaultPlayerPosition: { x: 286, y: 56 }
     },
     {
         id: 6, sprite: '../assets/map/level_6.png', colliders: [
@@ -264,6 +265,11 @@ export const scenes = [
     },
     {
         id: 9, sprite: '../assets/map/dead.png', colliders: [
+            { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
+        ], lanterns: [], triggers: [], traps: [], platforms: [], defaultPlayerPosition: { x: 30, y: 150 }
+    },
+    {
+        id: 10, sprite: '../assets/start-screen.png', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
         ], lanterns: [], triggers: [], traps: [], platforms: [], defaultPlayerPosition: { x: 30, y: 150 }
     },

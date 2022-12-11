@@ -98,7 +98,7 @@ const update = () => {
 
         config.dev.inDevelopmendMode ? drawColliders(config.dev.currentScene) : null
     } else {
-        setTimeout(() => openLastLoadedScene(), 3000)
+        config.stats.lives > 0 ? setTimeout(() => openLastLoadedScene(), 3000) : loadStartScreen()
     }
 
     // console.warn(config.dev.currentScene, config.dev.lastPossibleScene)
@@ -171,8 +171,12 @@ const openLastLoadedScene = () => {
 
     updateUserInterface()
     loadScenePresets()
-
 }
+
+const loadStartScreen = () => {
+    
+}
+
 
 start()
 
