@@ -99,6 +99,9 @@ export class Enemy extends Sprite {
             this.verticalCollisionDetection();
 
             this.updateHitbox()
+            this.platformCollisionDetection();
+
+            this.updateHitbox()
             config.dev.inDevelopmendMode ? this.drawHitbox() : null
 
             if (!this.triggers.inAttack) this.velocity.x = 0
@@ -189,7 +192,7 @@ export class Enemy extends Sprite {
                             switch (trigger.dir) {
                                 case 'right': this.position.x = 0.1; this.position.y -= this.gravity / 2; break;
                                 case 'left': this.position.x = canvas.width - this.scale.width - 0.1; this.position.y -= this.gravity / 2; break;
-                                case 'down': this.position.x = (trigger.hatch.x + (trigger.hatch.width / 2) - (this.scale.width / 2)); this.position.y = 0;
+                                case 'down': this.position.x = getRandomInt(canvas.width); this.position.y = 0; break;
                                 case 'up': break;
                                 case 'custom': this.position.x = trigger.custom.x; this.position.y = trigger.custom.y; break;
                             }
@@ -342,7 +345,7 @@ export class Enemy extends Sprite {
         config.stats.topScore = config.stats.score
         updateUserInterface()
 
-        setTimeout(() => this.revive(), this.name === 'sumo' ? 1000 : 2000)
+        setTimeout(() => this.revive(), this.name === 'sumo' ? 8000 : 5000)
 
     }
 
@@ -359,10 +362,10 @@ export class Enemy extends Sprite {
     damage(enemy) {
         if (refinedOnCollison(this.attackBox, enemy.hitbox)) {
             if (!enemy.triggers.isCrouch && !enemy.triggers.shocked) {
-                enemy.health -= 5;
+                enemy.health -= 20;
                 // config.stats.score += 75;
-                enemy.velocity.x = 0;
-                !this.facingRight ? enemy.velocity.x -= config.physics.velocity * 1.2 : enemy.velocity.x += config.physics.velocity * 1.2
+                // enemy.velocity.x = 0;
+                !this.facingRight ? enemy.velocity.x = -config.physics.velocity * 1.2 : enemy.velocity.x = config.physics.velocity * 1.2
                 enemy.velocity.y -= 1
                 enemy.triggers.shocked = true
                 setTimeout(() => enemy.triggers.shocked = false, 1000)

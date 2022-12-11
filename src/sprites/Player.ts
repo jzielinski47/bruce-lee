@@ -62,7 +62,7 @@ export class Player extends Sprite {
         this.levelToLoad = config.dev.currentScene;
         this.updateLevel = false;
 
-        this.health = 100;
+        this.health = 120;
 
         this.attackBox = { position: { x: this.position.x + (lastKey === 'a' ? 0 : 10), y: this.position.y }, scale: { width: 14, height: 21 } }
 
@@ -70,7 +70,7 @@ export class Player extends Sprite {
 
     }
 
-    update() {
+    public update() {
 
         this.render()
 
@@ -114,12 +114,11 @@ export class Player extends Sprite {
 
         if (!this.triggers.shocked) this.applyControls()
 
-        if (this.health <= 0) { config.stats.lives--; updateUserInterface(); this.health = 100 }
-
+        if (this.health <= 0) this.setDead()
 
     }
 
-    horizontalCollisionDetection = (arr = scenes[config.dev.currentScene].colliders) => {
+    private horizontalCollisionDetection = (arr = scenes[config.dev.currentScene].colliders) => {
         arr.map(collider => {
             if (onCollison(this.hitbox, collider)) {
                 if (this.velocity.x > 0) {
@@ -139,7 +138,7 @@ export class Player extends Sprite {
         })
     }
 
-    verticalCollisionDetection = (arr = scenes[config.dev.currentScene].colliders) => {
+    private verticalCollisionDetection = (arr = scenes[config.dev.currentScene].colliders) => {
         arr.map(collider => {
             if (!this.updateLevel) {
                 if (onCollison(this.hitbox, collider)) {
@@ -167,19 +166,19 @@ export class Player extends Sprite {
 
     }
 
-    applyGravity = () => {
+    private applyGravity = () => {
         this.position.y += this.velocity.y;
         this.velocity.y += this.gravity;
     }
 
-    applyLadderMovement = () => {
+    private applyLadderMovement = () => {
         this.position.y += this.velocity.y;
         this.updateHitbox()
         this.verticalCollisionDetection()
         this.velocity.y = 0
     }
 
-    applyWaterMovement = () => {
+    private applyWaterMovement = () => {
         this.position.y += this.velocity.y;
         this.updateHitbox()
         this.verticalCollisionDetection()
@@ -187,14 +186,14 @@ export class Player extends Sprite {
 
     }
 
-    updateHitbox = () => {
+    public updateHitbox = () => {
         this.hitbox = {
             position: this.triggers.isCrouch ? { x: this.position.x + 2, y: this.position.y + 17 } : { x: this.position.x + 1, y: this.position.y },
             scale: this.triggers.isCrouch ? { width: 30, height: 3 } : { width: 16, height: 21 }
         }
     }
 
-    drawHitbox = () => {
+    public drawHitbox = () => {
         ctx.fillStyle = 'rgba(255,0,0,0.5)'
         ctx.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.scale.width, this.hitbox.scale.height)
 
@@ -327,15 +326,6 @@ export class Player extends Sprite {
         }
     }
 
-    setDead() {
-        this.levelToLoad = 9;
-        this.updateLevel = true;
-        this.health = 99;
-        console.log(this.levelToLoad);
-        config.stats.lives--;
-        updateUserInterface()
-    }
-
     attack() {
 
         this.date = new Date()
@@ -385,13 +375,31 @@ export class Player extends Sprite {
             if (!enemy.triggers.shocked) {
                 enemy.health -= 33;
                 config.stats.score += 75;
-                enemy.velocity.x = 0;
+                // enemy.velocity.x = 0;
                 enemy.triggers.shocked = true
                 setTimeout(() => enemy.triggers.shocked = false, 1000)
-                lastKey === 'a' ? enemy.velocity.x -= config.physics.velocity * 4 : enemy.velocity.x += config.physics.velocity * 4
+                lastKey === 'a' ? enemy.velocity.x = -config.physics.velocity * 4 : enemy.velocity.x = config.physics.velocity * 4
                 enemy.switchSprite(lastKey === 'a' ? 'hitRight' : 'hitLeft')
                 this.triggers.attackBoxDisplay = false
             }
         }
     }
+
+    setDead() {
+
+        config.stats.lives--;
+        updateUserInterface();
+
+        // this.levelToLoad = 9;
+        // this.updateLevel = true;
+
+        //    this.health = 120
+
+    }
+
+    revive() {
+
+    }
+
+
 }
