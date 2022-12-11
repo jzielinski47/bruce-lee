@@ -1,5 +1,4 @@
 import { canvas, config } from "./config"
-import { input, lastKey } from "./controls"
 import { drawColliders, scenes } from "./scenes"
 import { Background } from "./sprites/Background"
 import { Door } from "./sprites/Door"
@@ -138,11 +137,11 @@ export function loadScenePresets() {
 function resetScene() {
     config.dev.currentScene = player.levelToLoad;
     console.warn('change');
+    config.stats.score += 2000
     player.updateLevel = false;
     temp.lanterns = []
     temp.doors = []
     temp.waterfalls = []
-    config.stats.score += 2000
     config.stats.topScore = config.stats.score
     ninja.destroy()
     sumo.destroy()

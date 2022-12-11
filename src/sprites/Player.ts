@@ -392,8 +392,8 @@ export class Player extends Sprite {
         config.stats.lives--;
         updateUserInterface();
 
-        // this.levelToLoad = 9;
-        // this.updateLevel = true;
+        this.levelToLoad = 9;
+        this.updateLevel = true;
 
         //    this.health = 120
 
