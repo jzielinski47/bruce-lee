@@ -394,13 +394,14 @@ export class Player extends Sprite {
 
         this.levelToLoad = 9;
         this.updateLevel = true;
-
-        //    this.health = 120
+        config.dev.paused = true;
+        updateUserInterface()
 
     }
 
     revive() {
-
+        this.health = 120;
+        this.position = scenes[config.dev.currentScene].defaultPlayerPosition
     }
 
 

@@ -13,5 +13,7 @@ export const updateUserInterface = () => {
         div.innerHTML = i.toString().toUpperCase();
         ui.append(div)
     })
+
+    ui.style.display = config.dev.paused ? 'none' : 'flex'
 }
 

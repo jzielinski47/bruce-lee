@@ -61,17 +61,12 @@ export const sumo = new Enemy('sumo', { position: { x: 230, y: 20 }, velocity: {
         hitRight: { frameRate: 2, frameBuffer: 14, loop: true, imageSrc: '../assets/sprites/sumo/hitRight.png' },
     })
 
-console.log(Math.abs(sumo.safeDistance - ninja.safeDistance))
-
 while (Math.abs(sumo.safeDistance - ninja.safeDistance) < 6) {
     sumo.safeDistance = 15 + getRandomFloat(0, 15, 3)
     ninja.safeDistance = 15 + getRandomFloat(0, 15, 3)
 }
 
-console.log(Math.abs(sumo.safeDistance - ninja.safeDistance))
-
 const scene = new Background({ position: { x: 0, y: 0 }, scale: { width: canvas.width, height: canvas.height } })
-
 export const temp = { lanterns: [], doors: [], waterfalls: [], traps: [] }
 
 const start = () => {
@@ -80,6 +75,8 @@ const start = () => {
 
     ninja.destroy()
     sumo.destroy()
+
+    update()
 }
 
 const update = () => {
@@ -99,6 +96,7 @@ const update = () => {
 
     config.dev.inDevelopmendMode ? drawColliders(config.dev.currentScene) : null
 
+    config.dev.paused ? setTimeout(() => player.revive(), 3000) : null
 }
 
 export function loadScenePresets() {
@@ -135,13 +133,16 @@ export function loadScenePresets() {
 }
 
 function resetScene() {
+    config.dev.lastPossibleScene = config.dev.currentScene !== 9 ? config.dev.currentScene : null
     config.dev.currentScene = player.levelToLoad;
-    console.warn('change');
-    config.stats.score += 2000
+    config.stats.visited.push(config.dev.currentScene)
+    console.warn('scene change');
+    config.stats.score += !config.stats.visited.includes(config.dev.currentScene) ? 2000 : 0
     player.updateLevel = false;
     temp.lanterns = []
     temp.doors = []
     temp.waterfalls = []
+    temp.traps = []
     config.stats.topScore = config.stats.score
     ninja.destroy()
     sumo.destroy()
@@ -150,5 +151,9 @@ function resetScene() {
     loadScenePresets()
 }
 
+const openLastLoadedScene = () => {
+
+}
+
 start()
-update()
+

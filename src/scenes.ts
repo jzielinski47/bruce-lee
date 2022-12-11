@@ -77,7 +77,7 @@ export const scenes = [
             { id: 0, name: 'entrance', x: 8, y: 48 },
             { id: 1, name: 'entrance', x: 294, y: 48 },
             { id: 2, name: 'entrance', x: 8, y: 92 },
-        ]
+        ], defaultPlayerPosition: { x: 30, y: 150 }
     },
     {
         id: 2, sprite: '../assets/map/level_2.png', colliders: [
@@ -118,7 +118,7 @@ export const scenes = [
             { id: 1, name: 'platform', x: 80, y: 74 + 1, width: 24, height: 2 },
         ], entrances: [
             { id: 0, name: 'entrance', x: 8, y: 48 },
-        ]
+        ], defaultPlayerPosition: { x: 30, y: 150 }
     },
     {
         id: 3, sprite: '../assets/map/level_3.png', colliders: [
@@ -171,7 +171,7 @@ export const scenes = [
         ], platforms: [],
         entrances: [
             { id: 0, name: 'entrance', x: 64, y: -10 },
-        ]
+        ], defaultPlayerPosition: { x: 30, y: 150 }
     },
     {
         id: 4, sprite: '../assets/map/level_4.png', colliders: [
@@ -223,7 +223,7 @@ export const scenes = [
 
         ], entrances: [
             { id: 0, name: 'entrance', x: 286, y: 56 },
-        ]
+        ], defaultPlayerPosition: { x: 30, y: 150 }
     },
     {
         id: 5, sprite: '../assets/map/level_5.png', colliders: [
@@ -249,22 +249,22 @@ export const scenes = [
             { id: 2, name: 'platform', x: 8, y: 156, width: 32, height: 2 },
         ], entrances: [
             { id: 0, name: 'entrance', x: 32, y: -10 },
-        ]
+        ], defaultPlayerPosition: { x: 30, y: 150 }
     },
     {
         id: 7, sprite: '../assets/map/level_7.png', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
-        ], lanterns: [], triggers: [], traps: [], platforms: []
+        ], lanterns: [], triggers: [], traps: [], platforms: [], defaultPlayerPosition: { x: 30, y: 150 }
     },
     {
         id: 8, sprite: '../assets/map/level_8.png', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
-        ], lanterns: [], triggers: [], traps: [], platforms: []
+        ], lanterns: [], triggers: [], traps: [], platforms: [], defaultPlayerPosition: { x: 30, y: 150 }
     },
     {
         id: 9, sprite: '../assets/map/dead.png', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
-        ], lanterns: [], triggers: [], traps: [], platforms: []
+        ], lanterns: [], triggers: [], traps: [], platforms: [], defaultPlayerPosition: { x: 30, y: 150 }
     },
 
 ]
