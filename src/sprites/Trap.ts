@@ -12,8 +12,9 @@ export class Trap extends Sprite {
     hitbox: { position: { x: number; y: number; }; scale: { width: number; height: number; }; };
     start: { position: { x: number; y: number; }; scale: { width: number; height: number; }; };
     dmg: number;
+    timeout: number;
 
-    constructor(transform: Transform, animations: Animations, damage: number) {
+    constructor(transform: Transform, animations: Animations, damage: number, timeout: number = 240) {
         super(transform, animations, animations.idle.frameRate)
 
         this.start = { position: transform.position, scale: transform.scale }
@@ -25,6 +26,8 @@ export class Trap extends Sprite {
         this.triggers = { active: false }
         this.cooldowns = { activation: 1700 }
         this.lastActions = { activation: this.date.getTime() }
+
+        this.timeout = timeout
 
         this.hitbox = { position: this.position, scale: this.scale }
         this.dmg = damage
@@ -50,7 +53,7 @@ export class Trap extends Sprite {
         if (this.date.getTime() - this.lastActions.activation < this.cooldowns.activation) return;
         this.triggers.active = true
         this.lastActions.activation = this.date.getTime()
-        setTimeout(() => this.triggers.active = false, 240)
+        setTimeout(() => this.triggers.active = false, this.timeout)
     }
 
     public updateHitbox() {

@@ -166,8 +166,8 @@ export const scenes = [
             { id: 2, name: 'door', x: 0, y: 128, width: 8, height: 44, mode: 'door', opened: false, model: 1, keyOpened: true },
             { id: 3, name: 'water', x: 272, y: 16, width: 24, height: 160, mode: 'water', dir: 'up', model: 0 },
         ], traps: [
-            { id: 0, name: 'trap', x: 8, y: 58, width: 24, height: 6, mode: 'trap', dmg: 200, model: 1 },
-            { id: 1, name: 'trap', x: 216, y: 122, width: 24, height: 6, mode: 'trap', dmg: 200, model: 1 },
+            { id: 0, name: 'trap', x: 8, y: 58, width: 24, height: 6, mode: 'trap', dmg: 200, model: 1, timeout: 240 },
+            { id: 1, name: 'trap', x: 216, y: 122, width: 24, height: 6, mode: 'trap', dmg: 200, model: 1, timeout: 240 },
         ], platforms: [],
         entrances: [
             { id: 0, name: 'entrance', x: 64, y: -10 },
@@ -209,19 +209,18 @@ export const scenes = [
             { id: 4, name: 'door', x: 88, y: 108 + 1, width: 32, height: 4, mode: 'door', opened: false, model: 2, keyOpened: true },
             { id: 5, name: 'door', x: 200, y: 108 + 1, width: 32, height: 4, mode: 'door', opened: false, model: 3, keyOpened: true },
             { id: 6, name: 'loader', dir: 'down', x: 0, y: canvas.height + 20, width: canvas.width, height: 20, mode: 'loader', level: 6, hatch: { x: 28, y: 0, width: 36, heigth: 6 } },
-
         ], traps: [
-            { id: 0, name: 'trap', x: 130 + 2, y: 0, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
-            { id: 1, name: 'trap', x: 138 + 2, y: 0, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
-            { id: 2, name: 'trap', x: 178 + 2, y: 0, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
-            { id: 3, name: 'trap', x: 186 + 2, y: 0, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
-            { id: 4, name: 'trap', x: 130 + 2, y: 80, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
-            { id: 5, name: 'trap', x: 138 + 2, y: 64, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
-            { id: 6, name: 'trap', x: 178 + 2, y: 64, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
-            { id: 7, name: 'trap', x: 186 + 2, y: 80, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
-            { id: 8, name: 'trap', x: 8, y: 154, width: 24, height: 6, mode: 'trap', dmg: 200, model: 2 },
-            { id: 9, name: 'trap', x: 90, y: 84, width: 24, height: 6, mode: 'trap', dmg: 200, model: 2 },
-            { id: 9, name: 'trap', x: 204, y: 84, width: 24, height: 6, mode: 'trap', dmg: 200, model: 2 },
+            { id: 0, name: 'trap', x: 130 + 2, y: 0, width: 6 - 4, height: 16, mode: 'spike', dmg: 100, timeout: 240 },
+            { id: 1, name: 'trap', x: 138 + 2, y: 0, width: 6 - 4, height: 16, mode: 'spike', dmg: 100, timeout: 240 },
+            { id: 2, name: 'trap', x: 178 + 2, y: 0, width: 6 - 4, height: 16, mode: 'spike', dmg: 100, timeout: 240 },
+            { id: 3, name: 'trap', x: 186 + 2, y: 0, width: 6 - 4, height: 16, mode: 'spike', dmg: 100, timeout: 240 },
+            { id: 4, name: 'trap', x: 130 + 2, y: 80, width: 6 - 4, height: 16, mode: 'spike', dmg: 100, timeout: 240 },
+            { id: 5, name: 'trap', x: 138 + 2, y: 64, width: 6 - 4, height: 16, mode: 'spike', dmg: 100, timeout: 240 },
+            { id: 6, name: 'trap', x: 178 + 2, y: 64, width: 6 - 4, height: 16, mode: 'spike', dmg: 100, timeout: 240 },
+            { id: 7, name: 'trap', x: 186 + 2, y: 80, width: 6 - 4, height: 16, mode: 'spike', dmg: 100, timeout: 240 },
+            { id: 8, name: 'trap', x: 8, y: 154, width: 24, height: 6, mode: 'trap', dmg: 200, model: 2, timeout: 240 },
+            { id: 9, name: 'trap', x: 90, y: 84, width: 24, height: 6, mode: 'trap', dmg: 200, model: 2, timeout: 240 },
+            { id: 9, name: 'trap', x: 204, y: 84, width: 24, height: 6, mode: 'trap', dmg: 200, model: 2, timeout: 240 },
         ], platforms: [
 
         ], entrances: [
@@ -262,7 +261,7 @@ export const scenes = [
             { id: 9, name: 'lantern', x: 202, y: 54, width: 6, height: 10, collected: false, door: null },
             { id: 10, name: 'lantern', x: 208, y: 54, width: 6, height: 10, collected: false, door: null },
         ], triggers: [
-            { id: 1, name: 'loader', dir: 'right', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 7 },
+            { id: 1, name: 'loader', dir: 'custom', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 7, custom: { x: 8, y: 20 } },
             { id: 2, name: 'door', x: 304, y: 40, width: 8, height: 54, mode: 'door', opened: false, model: 4, keyOpened: true },
             { id: 3, name: 'door', x: 264, y: 0, width: 8, height: 54, mode: 'door', opened: false, model: 4, keyOpened: true },
         ], traps: [], platforms: [
@@ -274,8 +273,45 @@ export const scenes = [
     },
     {
         id: 7, sprite: '../assets/map/level_7.png', colliders: [
-            { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
-        ], lanterns: [], triggers: [], traps: [], platforms: [], defaultPlayerPosition: { x: 30, y: 150 }
+            { id: 0, name: 'ceiling', x: 0, y: 0, width: 120, height: 4 },
+            { id: 0, name: 'ceiling', x: 202, y: 0, width: 120, height: 4 },
+            { id: 1, name: 'fence', x: 0, y: 46, width: 16, height: 80 },
+            { id: 1, name: 'fence', x: 272, y: 46, width: 8, height: 68 },
+            { id: 2, name: 'fence', x: 112, y: 62, width: 8, height: 62 },
+            { id: 3, name: 'fence', x: 200, y: 62, width: 8, height: 62 },
+            { id: 4, name: 'fence', x: 104, y: 0, width: 8, height: 72 },
+            { id: 5, name: 'platform', x: 44, y: 168, width: 24, height: 6 },
+            { id: 6, name: 'platform', x: 0, y: 168, width: 8, height: 6 },
+            { id: 7, name: 'platform', x: 92, y: 168, width: 40, height: 6 },
+            { id: 8, name: 'platform', x: 92, y: 120, width: 32, height: 6 },
+            { id: 9, name: 'platform', x: 196, y: 120, width: 32, height: 6 },
+            { id: 10, name: 'platform', x: 188, y: 168, width: 40, height: 6 },
+            { id: 12, name: 'platform', x: 252, y: 168, width: 24, height: 6 },
+            { id: 13, name: 'platform', x: 304, y: 46, width: 16, height: 82 },
+            { id: 14, name: 'platform', x: 312, y: 168, width: 8, height: 6 },
+            { id: 15, name: 'fence', x: 304, y: 128, width: 8, height: 48 },
+            { id: 15, name: 'fence', x: 208, y: 0, width: 8, height: 80 },
+            { id: 16, name: 'door', x: 8, y: 128, width: 8, height: 54 },
+            { id: 17, name: 'fence', x: 40, y: 46, width: 8, height: 68 },
+            { id: 17, name: 'fence', x: 304, y: 0, width: 8, height: 48 },
+        ], lanterns: [], triggers: [
+            { id: 0, name: 'loader', dir: 'custom', x: 0, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 6, custom: { x: canvas.width - 8, y: 64 } },
+            { id: 0, name: 'loader', dir: 'custom', x: 0, y: canvas.height, width: canvas.width, height: 0, mode: 'loader', level: 11, custom: { x: canvas.width / 2, y: 0 } },
+            { id: 1, name: 'water', x: 16, y: 46, width: 24, height: 130, mode: 'water', dir: 'up', model: 3 },
+            { id: 2, name: 'water', x: 136, y: 1, width: 24, height: 159, mode: 'water', dir: 'up', model: 3 },
+            { id: 3, name: 'water', x: 136 + 24 + 1, y: 1, width: 24, height: 159, mode: 'water', dir: 'up', model: 3 },
+            { id: 4, name: 'water', x: 280, y: 46, width: 24, height: 130, mode: 'water', dir: 'up', model: 3 },
+        ], traps: [
+            { id: 0, name: 'trap', x: 48, y: 62, width: 24, height: 6, mode: 'trap', dmg: 200, model: 0, timeout: 480 },
+            { id: 0, name: 'trap', x: 216, y: 62, width: 24, height: 6, mode: 'trap', dmg: 200, model: 0, timeout: 480 },
+        ], platforms: [
+            { id: 0, name: 'platform', x: 0, y: 44 + 1, width: 48, height: 2 },
+            { id: 1, name: 'platform', x: 48, y: 76 + 1, width: 8, height: 4 },
+            { id: 1, name: 'platform', x: 264, y: 76 + 1, width: 8, height: 4 },
+            { id: 2, name: 'platform', x: 112, y: 60, width: 24, height: 4 },
+            { id: 3, name: 'platform', x: 186, y: 60, width: 22, height: 4 },
+            { id: 4, name: 'platform', x: 272, y: 44 + 1, width: 48, height: 2 },
+        ], defaultPlayerPosition: { x: 8, y: 20 }
     },
     {
         id: 8, sprite: '../assets/map/level_8.png', colliders: [
@@ -290,6 +326,13 @@ export const scenes = [
     {
         id: 10, sprite: '../assets/start-screen.png', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
+        ], lanterns: [], triggers: [], traps: [], platforms: [], defaultPlayerPosition: { x: 30, y: 150 }
+    },
+    {
+        id: 11, sprite: '../assets/map/boss.png', colliders: [
+            { id: 0, name: 'floor', x: 0, y: canvas.height - 2, width: canvas.width, height: 8 },
+            { id: 1, name: 'fence', x: 0, y: 0, width: 0, height: canvas.height },
+            { id: 2, name: 'fence', x: canvas.width, y: 0, width: 0, height: canvas.height },
         ], lanterns: [], triggers: [], traps: [], platforms: [], defaultPlayerPosition: { x: 30, y: 150 }
     },
 
