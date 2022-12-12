@@ -103,8 +103,6 @@ const update = () => {
         }
     } else { loadStartScreen() }
 
-
-
 }
 
 export function loadScenePresets() {
@@ -133,7 +131,7 @@ export function loadScenePresets() {
     scenes[config.dev.currentScene].traps.map(trap => {
         if (trap.mode === 'trap') {
             const trapObject = new Trap({ position: { x: trap.x, y: trap.y }, scale: { width: trap.width, height: trap.height } },
-                { idle: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/trap/model_1.png' } }, trap.dmg)
+                { idle: { frameRate: 1, frameBuffer: 2, loop: true, imageSrc: '../assets/sprites/trap/model_' + trap.model + '.png' } }, trap.dmg)
             temp.traps.push(trapObject)
         }
     })

@@ -23,7 +23,7 @@ export class Trap extends Sprite {
 
         this.date = new Date()
         this.triggers = { active: false }
-        this.cooldowns = { activation: 2000 }
+        this.cooldowns = { activation: 1700 }
         this.lastActions = { activation: this.date.getTime() }
 
         this.hitbox = { position: this.position, scale: this.scale }
@@ -50,7 +50,7 @@ export class Trap extends Sprite {
         if (this.date.getTime() - this.lastActions.activation < this.cooldowns.activation) return;
         this.triggers.active = true
         this.lastActions.activation = this.date.getTime()
-        setTimeout(() => this.triggers.active = false, 200)
+        setTimeout(() => this.triggers.active = false, 240)
     }
 
     public updateHitbox() {

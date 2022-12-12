@@ -166,12 +166,12 @@ export const scenes = [
             { id: 2, name: 'door', x: 0, y: 128, width: 8, height: 44, mode: 'door', opened: false, model: 1, keyOpened: true },
             { id: 3, name: 'water', x: 272, y: 16, width: 24, height: 160, mode: 'water', dir: 'up', model: 0 },
         ], traps: [
-            { id: 0, name: 'trap', x: 8, y: 58, width: 24, height: 6, mode: 'trap', dmg: 200 },
-            { id: 1, name: 'trap', x: 216, y: 122, width: 24, height: 6, mode: 'trap', dmg: 200 },
+            { id: 0, name: 'trap', x: 8, y: 58, width: 24, height: 6, mode: 'trap', dmg: 200, model: 1 },
+            { id: 1, name: 'trap', x: 216, y: 122, width: 24, height: 6, mode: 'trap', dmg: 200, model: 1 },
         ], platforms: [],
         entrances: [
             { id: 0, name: 'entrance', x: 64, y: -10 },
-        ], defaultPlayerPosition: { x: 60, y: -10 }
+        ], defaultPlayerPosition: { x: 64, y: -10 }
     },
     {
         id: 4, sprite: '../assets/map/level_4.png', colliders: [
@@ -219,8 +219,9 @@ export const scenes = [
             { id: 5, name: 'trap', x: 138 + 2, y: 64, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
             { id: 6, name: 'trap', x: 178 + 2, y: 64, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
             { id: 7, name: 'trap', x: 186 + 2, y: 80, width: 6 - 4, height: 16, mode: 'spike', dmg: 100 },
-            { id: 8, name: 'trap', x: 8, y: 154, width: 24, height: 6, mode: 'trap', dmg: 200 },
-            { id: 9, name: 'trap', x: 88, y: 84, width: 24, height: 6, mode: 'trap', dmg: 200 },
+            { id: 8, name: 'trap', x: 8, y: 154, width: 24, height: 6, mode: 'trap', dmg: 200, model: 2 },
+            { id: 9, name: 'trap', x: 90, y: 84, width: 24, height: 6, mode: 'trap', dmg: 200, model: 2 },
+            { id: 9, name: 'trap', x: 204, y: 84, width: 24, height: 6, mode: 'trap', dmg: 200, model: 2 },
         ], platforms: [
 
         ], entrances: [
@@ -238,20 +239,38 @@ export const scenes = [
             { id: 1, name: 'fence', x: 0, y: 0, width: 8, height: 54 },
             { id: 2, name: 'fence', x: 8, y: 0, width: 8, height: 96 },
             { id: 3, name: 'fence', x: 0, y: 96, width: 320, height: 16 },
-            { id: 4, name: 'platform', x: 0, y: 90, width: 320, height: 6 },
-            { id: 5, name: 'platform', x: 0, y: 158, width: 320, height: 6 },
-            { id: 7, name: 'platform', x: 288, y: 156, width: 32, height: 2 },
-            { id: 7, name: 'platform', x: 16, y: 42 + 1, width: 248, height: 6 },
-            { id: 3, name: 'fence', x: 0, y: 96, width: 8, height: 70 },
-            { id: 7, name: 'ceiling', x: 64, y: 0, width: 200, height: 6 },
-        ], lanterns: [], triggers: [
+            { id: 4, name: 'fence', x: 304, y: 0, width: 8, height: 40 },
+            { id: 5, name: 'fence', x: 312, y: 0, width: 8, height: 54 },
+            { id: 6, name: 'platform', x: 0, y: 90, width: 320, height: 6 },
+            { id: 7, name: 'platform', x: 0, y: 158, width: 320, height: 6 },
+            { id: 8, name: 'platform', x: 288, y: 156, width: 32, height: 2 },
+            { id: 9, name: 'platform', x: 16, y: 42 + 1, width: 248, height: 6 },
+            { id: 10, name: 'fence', x: 0, y: 96, width: 8, height: 70 },
+            { id: 11, name: 'ceiling', x: 64, y: 0, width: 200, height: 6 },
+            { id: 12, name: 'ceiling', x: 16, y: 0, width: 10, height: 6 },
+            { id: 13, name: 'ceiling', x: 272, y: 0, width: 48, height: 6 },
+        ], lanterns: [
+            { id: 0, name: 'lantern', x: 24, y: 6, width: 6, height: 10, collected: false, door: null },
+            { id: 1, name: 'lantern', x: 98, y: 6, width: 6, height: 10, collected: false, door: null },
+            { id: 2, name: 'lantern', x: 104, y: 6, width: 6, height: 10, collected: false, door: null },
+            { id: 3, name: 'lantern', x: 202, y: 6, width: 6, height: 10, collected: false, door: null },
+            { id: 4, name: 'lantern', x: 208, y: 6, width: 6, height: 10, collected: false, door: 3 }, // opens door (up)
+            { id: 5, name: 'lantern', x: 42, y: 54, width: 6, height: 10, collected: false, door: 2 }, // opens door (bottom)
+            { id: 6, name: 'lantern', x: 48, y: 54, width: 6, height: 10, collected: false, door: null },
+            { id: 7, name: 'lantern', x: 98, y: 54, width: 6, height: 10, collected: false, door: null },
+            { id: 8, name: 'lantern', x: 104, y: 54, width: 6, height: 10, collected: false, door: null },
+            { id: 9, name: 'lantern', x: 202, y: 54, width: 6, height: 10, collected: false, door: null },
+            { id: 10, name: 'lantern', x: 208, y: 54, width: 6, height: 10, collected: false, door: null },
+        ], triggers: [
             { id: 1, name: 'loader', dir: 'right', x: canvas.width, y: 0, width: 0, height: canvas.height, mode: 'loader', level: 7 },
+            { id: 2, name: 'door', x: 304, y: 40, width: 8, height: 54, mode: 'door', opened: false, model: 4, keyOpened: true },
+            { id: 3, name: 'door', x: 264, y: 0, width: 8, height: 54, mode: 'door', opened: false, model: 4, keyOpened: true },
         ], traps: [], platforms: [
             { id: 0, name: 'platform', x: 16, y: 150 + 1, width: 16, height: 2 },
             { id: 2, name: 'platform', x: 8, y: 156, width: 32, height: 2 },
         ], entrances: [
             { id: 0, name: 'entrance', x: 32, y: -10 },
-        ], defaultPlayerPosition: { x: 30, y: 150 }
+        ], defaultPlayerPosition: { x: 32, y: -10 }
     },
     {
         id: 7, sprite: '../assets/map/level_7.png', colliders: [
