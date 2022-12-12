@@ -14,6 +14,10 @@ export const updateUserInterface = () => {
         ui.append(div)
     })
 
-    ui.style.display = config.dev.paused ? 'none' : 'flex'
+    ui.style.display = (config.dev.paused || !config.dev.launched) ? 'none' : 'flex'
+    document.querySelector('#hint').innerHTML = !config.dev.launched ? 'Press spacebar to start' : ''   
+
 }
+
+
 

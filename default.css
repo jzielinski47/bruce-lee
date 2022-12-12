@@ -35,10 +35,6 @@ body {
     /* height: 90v; */
 }
 
-#canvas {
-    /* height: 80vh; */
-}
-
 #ui {
     display: flex;
     flex-direction: row;
@@ -54,4 +50,8 @@ body {
 
     justify-content: center;
     align-items: center;
+}
+
+p {
+    color: white;
 }

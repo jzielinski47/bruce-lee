@@ -86,22 +86,25 @@ const update = () => {
 
     scene.update()
 
-    if (!config.dev.paused) {
-        temp.lanterns.map(lantern => lantern.update())
-        temp.doors.map(door => door.update())
-        temp.waterfalls.map(water => water.update())
-        temp.traps.map(trap => trap.update())
+    if (config.dev.launched) {
+        if (!config.dev.paused) {
+            temp.lanterns.map(lantern => lantern.update())
+            temp.doors.map(door => door.update())
+            temp.waterfalls.map(water => water.update())
+            temp.traps.map(trap => trap.update())
 
-        ninja.update()
-        sumo.update()
-        player.update()
+            ninja.update()
+            sumo.update()
+            player.update()
 
-        config.dev.inDevelopmendMode ? drawColliders(config.dev.currentScene) : null
-    } else {
-        config.stats.lives > 0 ? setTimeout(() => openLastLoadedScene(), 3000) : loadStartScreen()
-    }
+            config.dev.inDevelopmendMode ? drawColliders(config.dev.currentScene) : null
+        } else {
+            config.stats.lives > 0 ? setTimeout(() => openLastLoadedScene(), 3000) : loadStartScreen()
+        }
+    } else { loadStartScreen() }
 
-    // console.warn(config.dev.currentScene, config.dev.lastPossibleScene)
+
+
 }
 
 export function loadScenePresets() {
@@ -173,9 +176,11 @@ const openLastLoadedScene = () => {
     loadScenePresets()
 }
 
-const loadStartScreen = () => {
-    
-}
+const loadStartScreen = () => { config.dev.currentScene = 10; updateUserInterface() }
+
+
+// !config.dev.launched ? window.onclick = () => (document.querySelector('#soundtrack') as HTMLAudioElement).play()
+// : (document.querySelector('#soundtrack') as HTMLAudioElement).pause()
 
 
 start()

@@ -1,5 +1,6 @@
 import { player } from ".";
 import { config } from "./config";
+import { updateUserInterface } from "./userinterface";
 
 export const input = {
     a: { pressed: false },
@@ -17,7 +18,19 @@ window.onkeydown = (e: KeyboardEvent) => {
         case "w": case "ArrowUp": input.w.pressed = true; player.jump(); break;
         case "s": case "ArrowDown": input.s.pressed = true; player.down(); break;
         case "f": player.attack(); break;
+        case " ": case "Spacebar": if (!config.dev.launched) {
+            setTimeout(() => {
+                config.dev.currentScene = 0;
+                config.dev.launched = true;
+                config.dev.paused = false;
+                updateUserInterface()
+            }, 100);
+        } break;
     }
+
+    // key combinations
+    e.ctrlKey && e.key === 'q' ? config.dev.inDevelopmendMode = !config.dev.inDevelopmendMode : null
+
 }
 
 window.onkeyup = (e: KeyboardEvent) => {
