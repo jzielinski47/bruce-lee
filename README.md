@@ -1,4 +1,4 @@
-# Bruce Lee Atari 8 bit | Typescript
+# Bruce Lee Atari 8 bit rework in Typescript
 
 ![bruce-lee-cover](http://www.atarimania.com/8bit/screens/bruce_lee.gif)
 
