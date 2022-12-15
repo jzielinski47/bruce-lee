@@ -5,7 +5,7 @@ This is my typescript rework of an old-school platformer game. **Bruce Lee** was
 ![bruce-lee-cover](https://i.imgur.com/MmzTukm.png)
 
 ### Controls
-```json
+```c#
 W, ArrowUp - Jump/Climb Up
 S, ArrowDown - Crouch/Climb Down
 A, ArrowLeft - Move Left
