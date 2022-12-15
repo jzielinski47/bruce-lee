@@ -5,9 +5,11 @@ This is my typescript rework of an old-school platformer game. **Bruce Lee** was
 ![bruce-lee-cover](https://i.imgur.com/MmzTukm.png)
 
 ### Controls
+```js
 W, ArrowUp - Jump/Climb Up
 S, ArrowDown - Crouch/Climb Down
 A, ArrowLeft - Move Left
 D, ArrowRight - Move Right
 F - Hit (Fight 1)
 Move & F - Kick (Fight 2)
+```
