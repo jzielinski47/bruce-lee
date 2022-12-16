@@ -6,10 +6,10 @@ This is my typescript rework of an old-school platformer game. **Bruce Lee** was
 
 ### Controls
 ```c#
-W, ArrowUp - Jump/Climb Up
-S, ArrowDown - Crouch/Climb Down
-A, ArrowLeft - Move Left
-D, ArrowRight - Move Right
+W, ArrowUp - Jump / (Climb Up)
+S, ArrowDown - Crouch / (Climb Down)
+A, ArrowLeft - Move Left / (Climb Left)
+D, ArrowRight - Move Right / (Climb Right)
 F - Hit (Fight 1)
 Move & F - Kick (Fight 2)
 ```
