@@ -22,6 +22,6 @@ config: 'a file responsible for pre-loading the necessary settings and game conf
 index: 'main file responsible for game render on canvas',
 scenes: 'a file responsible for holding all the scene data (such as colliders, triggers, traps, locations)',
 controls: 'a file responsible for handling the user input',
-userinterface: a file responsible for displaying the user interface at the top,
-utils: all additional functions and features,
+userinterface: 'a file responsible for displaying the user interface at the top',
+utils: 'all additional functions and features',
 ```
