@@ -24,3 +24,7 @@ controls: 'a file responsible for handling the user input',
 userinterface: 'a file responsible for displaying the user interface at the top',
 utils: 'all additional functions and features',
 ```
+### Developer Options
+
+The game implements some developer-only options. To toggle the collision detection display press `Ctrl + Q`; 
+However, there is a couple of additional dev-only-features (such as logging all the collisions in the console) that can be toggled in config file before the game initializes.
