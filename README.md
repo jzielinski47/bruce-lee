@@ -13,3 +13,6 @@ D, ArrowRight - Move Right
 F - Hit (Fight 1)
 Move & F - Kick (Fight 2)
 ```
+### Project structure
+The project was fully written in typescript. All the source files are located in `/src` directory.
+`config` file is responsible for pre-loading all the necessary settings and game configuration.
