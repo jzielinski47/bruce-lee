@@ -16,9 +16,12 @@ Move & F - Kick (Fight 2)
 ### Project structure
 The project was fully written in typescript. All the source files are located in `/src` directory.
 
-Structure:
-```ts
+Main structure:
+```json
 config: a file responsible for pre-loading the necessary settings and game configuration,
 index: main file responsible for game render on canvas,
 scenes: a file responsible for holding all the scene data (such as colliders, triggers, traps, locations),
+controls: a file responsible for handling the user input,
+userinterface: a file responsible for displaying the user interface at the top,
+utils: all additional functions and features,
 ```
