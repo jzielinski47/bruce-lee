@@ -16,7 +16,7 @@ Move & F - Kick (Fight 2)
 ### Project structure
 The project was fully written in typescript and compiled with webpack. All the source files are located in `/src` directory.
 
-Main structure:
+####Main structure:
 ```ts
 config: 'a file responsible for pre-loading the necessary settings and game configuration',
 index: 'main file responsible for game render on canvas',
