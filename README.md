@@ -4,6 +4,10 @@ This is my typescript rework of an old-school platformer game. **Bruce Lee** was
 
 ![bruce-lee-cover](https://i.imgur.com/MmzTukm.png)
 
+### Instalation
+
+To install the game, download the project and run it with live-server. I will consider hosting it as soon as I get rid of the image bug.
+
 ### Controls
 ```c#
 W, ArrowUp - Jump / (Climb Up)
