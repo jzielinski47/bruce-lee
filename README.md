@@ -14,7 +14,7 @@ F - Hit (Fight 1)
 Move & F - Kick (Fight 2)
 ```
 ### Project structure
-The project was fully written in typescript. All the source files are located in `/src` directory.
+The project was fully written in typescript and compiled with webpack. All the source files are located in `/src` directory.
 
 Main structure:
 ```ts
