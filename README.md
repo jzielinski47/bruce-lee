@@ -28,6 +28,22 @@ controls: 'a file responsible for handling the user input',
 userinterface: 'a file responsible for displaying the user interface at the top',
 utils: 'all additional functions and features',
 ```
+**Interfaces**
+```ts
+interafces: 'a file responsible for storing all the typescript types and interfaces'
+```
+**Sprites**
+```ts
+Background: 'scene background class',
+Door: 'door class',
+Enemy: 'enemy class (simple ai)',
+Lantern: 'lantern class',
+Player: 'player class',
+Prefab: 'every other object in the scene class',
+Sprite: 'class responsible for animations and rendering sprites on canvas in specific order',
+Trap: 'trap class'
+```
+
 ### Developer Options
 
 The game implements some developer-only options. To toggle the collision detection display press `Ctrl + Q`; 
