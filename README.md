@@ -6,7 +6,9 @@ This is my typescript rework of an old-school platformer game. **Bruce Lee** was
 
 ### Instalation
 
-To install the game, download the project and run it with live-server. I will consider hosting it as soon as I get rid of the image bug.
+To install the game, download the project and run it with live-server. I will consider hosting it as soon as I fix the image bug. 
+
+Update: the game is hosted at http://brucelee.ct8.pl/ however something is wrong with render.
 
 ### Controls
 ```c#
