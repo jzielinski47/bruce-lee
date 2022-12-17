@@ -50,3 +50,7 @@ Trap: 'trap class'
 
 The game implements some developer-only options. To toggle the collision detection display press `Ctrl + Q`; 
 However, there is a couple of additional dev-only-features (such as logging all the collisions in the console) that can be toggled in config file before the game initializes.
+
+### Specification
+![chrome](https://raw.githubusercontent.com/github/explore/002d791bc68a86506b1bb7a3332bb6ba8e1d1891/topics/chrome/chrome.png) Google Chrome (works)
+
