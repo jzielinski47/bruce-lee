@@ -30,6 +30,7 @@ controls: 'a file responsible for handling the user input',
 userinterface: 'a file responsible for displaying the user interface at the top',
 utils: 'all additional functions and features',
 ```
+
 **Interfaces**
 ```ts
 interafces: 'a file responsible for storing all the typescript types and interfaces'
@@ -54,3 +55,5 @@ However, there is a couple of additional dev-only-features (such as logging all 
 ### Specification
 work on Google Chrome Developer Edition
 
+### Behind the project
+The project was fully scripted by me from sratch. The game engine and all the mechanincs. 
