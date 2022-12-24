@@ -8,7 +8,7 @@ This is my typescript rework of an old-school platformer game. **Bruce Lee** was
 
 To install the game, download the project and run it with live-server. I will consider hosting it as soon as I fix the image bug. 
 
-Update: the game is hosted at http://brucelee.ct8.pl/ however something is wrong with render.
+Update: the game is hosted at http://brucelee.ct8.pl/ however something is wrong with prefab render (on new scene).
 
 ### Controls
 ```c#
@@ -53,7 +53,6 @@ The game implements some developer-only options. To toggle the collision detecti
 However, there is a couple of additional dev-only-features (such as logging all the collisions in the console) that can be toggled in config file before the game initializes.
 
 ### Specification
-work on Google Chrome Developer Edition
 
-### Behind the project
-The project was fully scripted by me from sratch. The game engine and all the mechanincs. 
+Google Chrome Developer Edition +
+Firefox Developer Edition +
