@@ -11,6 +11,8 @@ To install the game, download the project and run it with live-server. I will co
 Update: the game is hosted at http://brucelee.ct8.pl/ however something is wrong with prefab render (on new scene).
 Render Bug not working in the US. 
 
+Issue: level renders in a correct way but the lanterns, traps and other prefabs do not.
+
 ### Controls
 ```c#
 W, ArrowUp - Jump / (Climb Up)
