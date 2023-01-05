@@ -6,12 +6,8 @@ This is my typescript rework of an old-school platformer game. **Bruce Lee** was
 
 ### Instalation
 
-To install the game, download the project and run it with live-server. I will consider hosting it as soon as I fix the image bug. 
-
-Update: the game is hosted at http://brucelee.ct8.pl/ however something is wrong with prefab render (on new scene).
-Render Bug not working in the US. 
-
-Issue: level renders in a correct way but the lanterns, traps and other prefabs do not.
+To install the game, download the project, open it with visual studio code and run with live-server for now. 
+BugFix: TBA
 
 ### Controls
 ```c#
