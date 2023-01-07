@@ -6,8 +6,12 @@ This is my typescript rework of an old-school platformer game. **Bruce Lee** was
 
 ### Instalation
 
-To install the game, download the project, open it with visual studio code and run with live-server for now. 
-BugFix: TBA
+1. Download the project.
+2. Unzip the downloaded file.
+3. Open Visual Studio Code and select the “Live Server” extension from the Extensions tab.
+4. With the Live Server extension enabled, open the unzipped game folder.
+5. Right click on the game’s main file and select “Open with Live Server”.
+6. The game will be automatically launched in a browser window.
 
 ### Controls
 ```c#
