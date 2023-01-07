@@ -60,3 +60,10 @@ However, there is a couple of additional dev-only-features (such as logging all 
 Google Chrome Developer Edition +
 Firefox Developer Edition +
 ```
+### Minimum PC requirements: 
+- CPU: Intel Core i3 or equivalent
+- RAM: 4 GB
+- Graphics card: Dedicated GPU with at least 2 GB of VRAM
+- Hard drive space: 10 GB
+- Operating system: Windows 7 or higher, macOS 10.13 or higher, or Linux
+
