@@ -28,8 +28,7 @@ export class Sprite {
             this.loaded = true
         }
 
-        this.animations = animations
-        this.loaded ? this.image.src = this.animations.idle.imageSrc : null
+        this.image.src = animations.idle.imageSrc;
 
         // animation
         this.animations = animations

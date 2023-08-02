@@ -51,7 +51,7 @@ export class Player extends Sprite {
         this.onWaterSpeed = config.physics.onWaterSpeed;
 
         this.sprite = new Image()
-        this.sprite.src = './assets/sprites/brucelee/brucelee-anim.png';
+        this.sprite.src = '../assets/sprites/brucelee/brucelee-anim.png';
 
         this.triggers = { onLadder: false, onWater: false, isCrouch: false, inAttack: false, attackBoxDisplay: false, shocked: false };
 

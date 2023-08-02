@@ -11,7 +11,7 @@ export class Latnern extends Sprite {
     id: number; collected: boolean; door: number;
 
     constructor(transform: Transform, { id, door }) {
-        super(transform, { idle: { frameRate: 3, frameBuffer: 30, loop: true, imageSrc: './assets/sprites/lantern/lantern.png' } }, 3)
+        super(transform, { idle: { frameRate: 3, frameBuffer: 30, loop: true, imageSrc: '../assets/sprites/lantern/lantern.png' } }, 3)
 
         this.id = id;
         this.door = door
