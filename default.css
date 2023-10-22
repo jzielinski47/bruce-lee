@@ -29,8 +29,6 @@ body {
     display: flex;
     flex-direction: column;
     gap: 2px;
-    width: 60%;
-    height: auto;
 
     /* height: 90v; */
 }
