@@ -10,6 +10,7 @@ export const config = {
 
 while (config.dev.inDevelopmendMode) {
     config.physics.velocity = 0.6;
+    console.log('vel: ', config.physics.velocity)
 }
 
 canvas.width = config.canvas.width;
