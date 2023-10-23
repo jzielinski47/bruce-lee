@@ -15,6 +15,11 @@ This is my typescript rework of an old-school platformer game. **Bruce Lee** was
 5. Right click on the game’s main file and select “Open with Live Server”.
 6. The game will be automatically launched in a browser window.
 
+OR
+
+1. Open https://bruceleegame.netlify.app/
+2. The game will be automatically launched in a browser window.
+
 ### Controls
 ```c#
 W, ArrowUp - Jump / (Climb Up)
