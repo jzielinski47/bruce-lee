@@ -2,7 +2,7 @@ import { canvas, ctx } from "./config"
 
 export const scenes = [
     {
-        id: 0, sprite: '../assets/map/level_0.png', colliders: [
+        id: 0, sprite: '../assets/map/level_0.jpg', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 6 + 1, width: canvas.width, height: 6 },
             { id: 1, name: 'fence', x: 0, y: canvas.height - 68, width: 8, height: 68 },
             { id: 2, name: 'fence', x: canvas.width - 8, y: canvas.height - 42, width: 8, height: 36 },
@@ -39,7 +39,7 @@ export const scenes = [
 
     },
     {
-        id: 1, sprite: '../assets/map/level_1.png', defaults: [30, 150], colliders: [
+        id: 1, sprite: '../assets/map/level_1.jpg', defaults: [30, 150], colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 6 + 1, width: 150, height: 6 },
             { id: 1, name: 'floor', x: 170, y: canvas.height - 6 + 1, width: canvas.width - 170, height: 6 },
             { id: 2, name: 'fence', x: 0, y: canvas.height - 42, width: 8, height: 36 },
@@ -80,7 +80,7 @@ export const scenes = [
         ], defaultPlayerPosition: { x: 8, y: 96 }
     },
     {
-        id: 2, sprite: '../assets/map/level_2.png', colliders: [
+        id: 2, sprite: '../assets/map/level_2.jpg', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 6 + 1, width: canvas.width, height: 6 },
             { id: 1, name: 'fence', x: 0, y: canvas.height - 42, width: 8, height: 36 },
             { id: 2, name: 'fence', x: 0, y: 86, width: 8, height: 36 },
@@ -121,7 +121,7 @@ export const scenes = [
         ], defaultPlayerPosition: { x: 8, y: 48 }
     },
     {
-        id: 3, sprite: '../assets/map/level_3.png', colliders: [
+        id: 3, sprite: '../assets/map/level_3.jpg', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 8 + 1, width: canvas.width, height: 8 },
             { id: 1, name: 'platform', x: 0, y: 8 + 1, width: 52, height: 6 },
             { id: 2, name: 'platform', x: 92, y: 8 + 1, width: 176, height: 6 },
@@ -174,7 +174,7 @@ export const scenes = [
         ], defaultPlayerPosition: { x: 64, y: -10 }
     },
     {
-        id: 4, sprite: '../assets/map/level_4.png', colliders: [
+        id: 4, sprite: '../assets/map/level_4.jpg', colliders: [
             { id: 0, name: 'floor', x: 48, y: canvas.height - 22 + 1, width: 96, height: 4 },
             { id: 0, name: 'floor', x: 176, y: canvas.height - 22 + 1, width: 144, height: 4 },
             { id: 0, name: 'fence', x: 176, y: canvas.height - 18, width: 144, height: 18 },
@@ -228,12 +228,12 @@ export const scenes = [
         ], defaultPlayerPosition: { x: 286, y: 56 }
     },
     {
-        id: 5, sprite: '../assets/map/level_5.png', colliders: [
+        id: 5, sprite: '../assets/map/level_5.jpg', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
         ], lanterns: [], triggers: [], traps: [], platforms: [], defaultPlayerPosition: { x: 286, y: 56 }
     },
     {
-        id: 6, sprite: '../assets/map/level_6.png', colliders: [
+        id: 6, sprite: '../assets/map/level_6.jpg', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 16, width: canvas.width, height: 16 },
             { id: 1, name: 'fence', x: 0, y: 0, width: 8, height: 54 },
             { id: 2, name: 'fence', x: 8, y: 0, width: 8, height: 96 },
@@ -272,7 +272,7 @@ export const scenes = [
         ], defaultPlayerPosition: { x: 32, y: -10 }
     },
     {
-        id: 7, sprite: '../assets/map/level_7.png', colliders: [
+        id: 7, sprite: '../assets/map/level_7.jpg', colliders: [
             { id: 0, name: 'ceiling', x: 0, y: 0, width: 120, height: 4 },
             { id: 0, name: 'ceiling', x: 202, y: 0, width: 120, height: 4 },
             { id: 1, name: 'fence', x: 0, y: 46, width: 16, height: 80 },
@@ -314,22 +314,22 @@ export const scenes = [
         ], defaultPlayerPosition: { x: 8, y: 20 }
     },
     {
-        id: 8, sprite: '../assets/map/level_8.png', colliders: [
+        id: 8, sprite: '../assets/map/level_8.jpg', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
         ], lanterns: [], triggers: [], traps: [], platforms: [], defaultPlayerPosition: { x: 30, y: 150 }
     },
     {
-        id: 9, sprite: '../assets/map/dead.png', colliders: [
+        id: 9, sprite: '../assets/map/dead.jpg', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
         ], lanterns: [], triggers: [], traps: [], platforms: [], defaultPlayerPosition: { x: 30, y: 150 }
     },
     {
-        id: 10, sprite: '../assets/start-screen.png', colliders: [
+        id: 10, sprite: '../assets/start-screen.jpg', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 8, width: canvas.width, height: 8 },
         ], lanterns: [], triggers: [], traps: [], platforms: [], defaultPlayerPosition: { x: 30, y: 150 }
     },
     {
-        id: 11, sprite: '../assets/map/boss.png', colliders: [
+        id: 11, sprite: '../assets/map/boss.jpg', colliders: [
             { id: 0, name: 'floor', x: 0, y: canvas.height - 2, width: canvas.width, height: 8 },
             { id: 1, name: 'fence', x: 0, y: 0, width: 0, height: canvas.height },
             { id: 2, name: 'fence', x: canvas.width, y: 0, width: 0, height: canvas.height },

@@ -30,6 +30,7 @@ body {
     flex-direction: column;
     gap: 2px;
 
+    width: 60%;
 
     /* height: 90v; */
 }

@@ -4,7 +4,7 @@ This is my typescript rework of an old-school platformer game. **Bruce Lee** was
 
 ![image](https://github.com/jzielinski47/bruce-lee/assets/63867153/029830b0-f1eb-4742-b0bb-8cf498fee47b)
 
-![bruce-lee-cover](https://i.imgur.com/MmzTukm.png)
+![bruce-lee-cover](https://i.imgur.com/MmzTukm.jpg)
 
 ### Instalation
 
