@@ -8,6 +8,10 @@ export const config = {
     stats: { score: 0, topScore: 0, lives: 5, collectedLanterns: 0, visited: [0] },
 }
 
+while (config.dev.inDevelopmendMode) {
+    config.physics.velocity = 0.6;
+}
+
 canvas.width = config.canvas.width;
 canvas.height = config.canvas.height;
 
