@@ -20,8 +20,6 @@ OR
 5. Right click on the game’s main file and select “Open with Live Server”.
 6. The game will be automatically launched in a browser window.
 
-
-
 ### Controls
 ```c#
 W, ArrowUp - Jump / (Climb Up)
@@ -66,6 +64,8 @@ However, there is a couple of additional dev-only-features (such as logging all 
 
 ### Supported Browsers
 ```js
+Google Chrome
+Firefox
 Google Chrome Developer Edition +
 Firefox Developer Edition +
 ```
