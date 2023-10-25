@@ -8,6 +8,11 @@ This is my typescript rework of an old-school platformer game. **Bruce Lee** was
 
 ### Instalation
 
+1. Open https://bruceleegame.netlify.app/ with any supported browser
+2. The game will be automatically launched in a browser window.
+
+OR
+
 1. Download the project.
 2. Unzip the downloaded file.
 3. Open Visual Studio Code and select the “Live Server” extension from the Extensions tab.
@@ -15,10 +20,7 @@ This is my typescript rework of an old-school platformer game. **Bruce Lee** was
 5. Right click on the game’s main file and select “Open with Live Server”.
 6. The game will be automatically launched in a browser window.
 
-OR
 
-1. Open https://bruceleegame.netlify.app/
-2. The game will be automatically launched in a browser window.
 
 ### Controls
 ```c#
@@ -62,7 +64,7 @@ Trap: 'trap class'
 The game implements some developer-only options. To toggle the collision detection display press `Ctrl + Q`; 
 However, there is a couple of additional dev-only-features (such as logging all the collisions in the console) that can be toggled in config file before the game initializes.
 
-### Specification
+### Supported Browsers
 ```js
 Google Chrome Developer Edition +
 Firefox Developer Edition +
@@ -71,6 +73,6 @@ Firefox Developer Edition +
 - CPU: Intel Core i3 or equivalent
 - RAM: 4 GB
 - Graphics card: Dedicated GPU with at least 2 GB of VRAM
-- Hard drive space: 10 GB
+- Hard drive space: 5 GB
 - Operating system: Windows 7 or higher, macOS 10.13 or higher, or Linux
 
